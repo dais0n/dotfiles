@@ -1,0 +1,38 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'Shougo/unite.vim'
+
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+
+[[plugins]]
+repo = 'Shougo/vimproc.vim'
+build = 'make'
+
+[[plugins]]
+repo = 'Shougo/unite-outline'
+depends = ['unite']
+
+# colorscheme 
+[[plugins]]
+repo = 'nanotech/jellybeans.vim'
+
+# quick 
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+
+# syntacs
+[[plugins]]
+repo = 'scrooloose/syntastic'
+
+# accelerate j k
+[[plugins]]
+repo = 'rhysd/accelerated-jk'
+
+[[plugins]]
+repo = 'soramugi/auto-ctags.vim'
+
+[[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
