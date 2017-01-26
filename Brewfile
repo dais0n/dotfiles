@@ -1,3 +1,5 @@
+cask_args appdir: '/Applications'
+
 tap 'caskroom/cask'
 tap 'homebrew/bundle'
 tap 'caskroom/fonts'
@@ -45,5 +47,5 @@ cask 'sequel-pro'
 cask 'clipmenu'
 
 mas 'LINE', id: 539883307
-mas 'Be Focused' id: 973134470
-mas 'Xcode' id: 497799835
+mas 'Be Focused', id: 973134470
+mas 'Xcode', id: 497799835
