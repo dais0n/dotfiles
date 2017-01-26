@@ -275,7 +275,8 @@ set wrapscan
 inoremap <C-j> <Esc>
 noremap <C-j> <ESC>
 vnoremap <C-j> <ESC>
-
+nnoremap ; :
+nnoremap : ;
 " select endline by vv 
 vnoremap v $h
 " color
