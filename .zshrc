@@ -135,7 +135,7 @@ export NVM_DIR="${HOME}/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # go path
-export GOPATH="${HOME}/.gopath"
+export GOPATH="${HOME}/go"
 if [ -e "${GOPATH}" ]; then
     export PATH=${GOPATH}/bin:$PATH
 fi
