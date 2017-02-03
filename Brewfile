@@ -30,6 +30,7 @@ brew 'vim', args: ['with-lua']
 brew 'zsh'
 brew 'awscli'
 brew 'wget'
+brew 'yarn'
 
 cask 'docker'
 cask 'dropbox'
