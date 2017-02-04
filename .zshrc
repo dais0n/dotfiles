@@ -131,9 +131,10 @@ export TEXPATH="/Library/TeX/texbin"
 if [ -e "${TEXPATH}" ]; then
     export PATH=${TEXPATH}/bin:$PATH
 fi
-export NVM_DIR="${HOME}/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
+export NODE_BREW_DIR="${HOME}/.nodebrew/current/bin"
+if [ -e "${NODE_BREW_DIR}" ]; then
+    export PATH=${NODE_BREW_DIR}:$PATH
+fi
 # go path
 export GOPATH="${HOME}/go"
 if [ -e "${GOPATH}" ]; then
