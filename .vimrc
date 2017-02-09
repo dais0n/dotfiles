@@ -215,6 +215,10 @@ let g:go_fmt_command = "goimports"
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
+" js settings
+au BufRead,BufNewFile *.jsx set filetype=javascript.jsx
+let g:jsx_ext_required = 0
+
 "-----------------
 " general
 "----------------- 
@@ -239,6 +243,7 @@ augroup fileTypeIndent
     autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
     autocmd BufNewFile,BufRead *.rb setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufNewFile,BufRead *.sh setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.js setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 set backspace=indent,eol,start
 set whichwrap=b,s,h,l,<,>,[,],~

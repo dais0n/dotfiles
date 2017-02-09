@@ -14,3 +14,11 @@ on_i = 1
 [[plugins]]
 repo = 'fatih/vim-go'
 on_ft = 'go'
+
+[[plugins]]
+repo = 'pangloss/vim-javascript'
+on_ft = 'js'
+
+[[plugins]]
+repo = 'mxw/vim-jsx'
+on_ft = 'js'
