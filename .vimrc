@@ -70,13 +70,16 @@ let g:jellybeans_overrides = {
 \    'background': { 'ctermbg': 'none', '256ctermbg': 'none' },
 \}
 
+" nerdtree
+nnoremap <silent> <C-n> :NERDTreeToggle<CR>
+
 " Unite.vim
 " start in insertmode
 let g:unite_enable_start_insert=1
 " activate history yank
 let g:unite_source_history_yank_enable =1
 "unite prefix key
-nmap U [unite]
+nmap <Space> [unite]
 
 " current directory
 nnoremap <silent> [unite]a :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
