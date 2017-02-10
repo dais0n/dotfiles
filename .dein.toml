@@ -34,5 +34,11 @@ repo = 'rhysd/accelerated-jk'
 [[plugins]]
 repo = 'soramugi/auto-ctags.vim'
 
+# indent
 [[plugins]]
 repo = 'nathanaelkane/vim-indent-guides'
+
+# memo
+[[plugins]]
+repo = 'glidenote/memolist.vim'
+

@@ -219,6 +219,15 @@ let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 au BufRead,BufNewFile *.jsx set filetype=javascript.jsx
 let g:jsx_ext_required = 0
 
+" memo settings
+map <Leader>mn  :MemoNew<CR>
+map <Leader>ml  :MemoList<CR>
+map <Leader>mg  :MemoGrep<CR>
+let g:memolist_path = "$HOME/Dropbox/memo"
+let g:memolist_memo_suffix = "md"
+let g:memolist_unite = 1
+let g:memolist_unite_source = "file_rec"
+
 "-----------------
 " general
 "----------------- 
