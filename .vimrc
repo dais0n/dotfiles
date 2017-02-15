@@ -72,6 +72,8 @@ let g:jellybeans_overrides = {
 
 " nerdtree
 nnoremap <silent> <C-n> :NERDTreeToggle<CR>
+let NERDTreeShowHidden = 1 " show hidden files in default
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'node_modules', 'bower_components']
 
 " Unite.vim
 " start in insertmode
@@ -220,7 +222,7 @@ let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
 " js settings
 au BufRead,BufNewFile *.jsx set filetype=javascript.jsx
-let g:jsx_ext_required = 0
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
 " memo settings
 map <Leader>mn  :MemoNew<CR>
