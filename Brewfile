@@ -35,7 +35,6 @@ cask 'dropbox'
 cask 'vagrant'
 cask 'virtualbox'
 cask 'appcleaner'
-cask 'vivaldi-snapshot'
 cask 'google-chrome-canary'
 cask 'sublime-text'
 cask 'caffeine'
@@ -43,7 +42,7 @@ cask 'dash'
 cask 'karabiner-elements'
 cask 'font-source-code-pro'
 cask 'sequel-pro'
-cask 'clipmenu'
+cask 'clipy'
 
 mas 'LINE', id: 539883307
 mas 'Be Focused', id: 973134470
