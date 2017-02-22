@@ -90,7 +90,7 @@ setopt inc_append_history
 # ssh
 # --------------
 # .ssh  for .ssh/ssh-configs/*/config
-#alias ssh='cat ~/.ssh/ssh-configs/_config.global ~/.ssh/ssh-configs/*/config > ~/.ssh/config; ssh'
+alias ssh='cat ~/.ssh/ssh-configs/_config.global ~/.ssh/ssh-configs/*/config > ~/.ssh/config; ssh'
 #chmod 700 ~/.ssh/config
 
 # --------------
