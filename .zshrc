@@ -1,9 +1,9 @@
 # --------------
 # general
-# --------------
-#locale
+# -------------- 
+# locale
 export LANG='ja_JP.UTF-8'
-export LC_ALL='ja_JP.UTF-8'
+export LC_ALL='ja_JP.UTF-8' 
 #prompt
 autoload -U promptinit
 autoload -U colors && colors
@@ -104,8 +104,10 @@ alias mkdir='mkdir -p'
 alias sudo='sudo '
 alias vi='vim'
 alias rmi='rm -i' 
-# ▼ global alias
+alias ghd='cd $(ghq list --full-path | fzf)'
+alias gd='cd $GOPATH/src/github.com/daison8383'
 
+# ▼ global alias
 alias -g G='| grep'
 alias -g L='| less'
 
@@ -116,8 +118,6 @@ elif which xsel >/dev/null 2>&1 ; then
     # Linux
     alias -g C='| xsel --input --clipboard'
 fi
-
-alias gd='cd $GOPATH/src/github.com/daison8383'
 
 # --------------
 # other
