@@ -105,7 +105,7 @@ alias mkdir='mkdir -p'
 alias vi='vim'
 alias rmi='rm -i' 
 alias ghd='cd $(ghq list --full-path | fzf)'
-alias gd='cd $GOPATH/src/github.com/daison8383'
+alias gd='cd $GOPATH/src/github.com/dais0n'
 alias godoc='godoc $(ghq list | fzf) | less'
 
 # ▼ global alias
