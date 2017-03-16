@@ -237,6 +237,9 @@ let g:memolist_unite_source = "file_rec"
 "
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
+" fugitive settings
+set statusline+=%{exists('g:loaded_fugitive')?fugitive#statusline():''}
+
 "-----------------
 " general
 "----------------- 

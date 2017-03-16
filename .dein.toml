@@ -18,6 +18,9 @@ build = 'make'
 repo = 'Shougo/unite-outline'
 depends = ['unite']
 
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
 # colorscheme 
 [[plugins]]
 repo = 'nanotech/jellybeans.vim'
