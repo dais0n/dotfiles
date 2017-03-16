@@ -29,6 +29,8 @@ brew 'zsh'
 brew 'awscli'
 brew 'wget'
 brew 'yarn'
+brew 'watch'
+brew 'ffmpeg'
 
 cask 'docker'
 cask 'dropbox'
