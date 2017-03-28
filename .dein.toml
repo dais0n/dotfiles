@@ -21,6 +21,9 @@ depends = ['unite']
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 
+[[plugins]]
+repo = 'tpope/vim-surround'
+
 # colorscheme 
 [[plugins]]
 repo = 'nanotech/jellybeans.vim'
