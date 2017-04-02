@@ -29,6 +29,7 @@ set statusline+=[LOW=%l/%L]
 set laststatus=2 
 " Always display the tabline, even if there is only one tab
 set showtabline=2
+set completeopt=menuone
 
 "----------------
 " dein
