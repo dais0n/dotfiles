@@ -269,7 +269,6 @@ augroup fileTypeIndent
 augroup END
 set backspace=indent,eol,start
 set whichwrap=b,s,h,l,<,>,[,],~
-set cursorline
 set showmatch
 " complete commands
 set wildmenu
