@@ -55,8 +55,9 @@ if ! zplug check --verbose; then
 fi
 zplug load --verbose
 # plugin settings
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -f -g ""'
-export FZF_DEFAULT_OPTS='--height 40% --reverse' 
+#export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -f -g ""'
+#export FZF_DEFAULT_OPTS='--height 40% --reverse' 
+zstyle ":anyframe:selector:" use peco
 bindkey '^Z' anyframe-widget-cdr
 bindkey '^R' anyframe-widget-put-history
 # --------------
@@ -104,11 +105,10 @@ alias mv='mv -i'
 alias mkdir='mkdir -p'
 #alias sudo='sudo '
 alias vi='vim'
-alias vif='vim $(fzf)'
 alias rmi='rm -i' 
-alias ghd='cd $(ghq list --full-path | fzf)'
+alias ghd='cd $(ghq list --full-path | peco)'
 alias gd='cd $GOPATH/src/github.com/dais0n'
-alias godoc='godoc $(ghq list | fzf) | less'
+#alias godoc='godoc $(ghq list | peco) | less'
 
 # ▼ global alias
 alias -g G='| grep'
