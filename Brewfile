@@ -28,9 +28,9 @@ brew 'vim', args: ['with-lua']
 brew 'zsh'
 brew 'awscli'
 brew 'wget'
-brew 'yarn'
 brew 'watch'
 brew 'ffmpeg'
+brew 'global'
 
 cask 'docker'
 cask 'dropbox'
@@ -41,11 +41,9 @@ cask 'google-chrome'
 cask 'sublime-text'
 cask 'caffeine'
 cask 'dash'
-cask 'karabiner-elements'
 cask 'font-source-code-pro'
 cask 'sequel-pro'
 cask 'clipy'
 
 mas 'LINE', id: 539883307
-mas 'Be Focused', id: 973134470
 mas 'Xcode', id: 497799835
