@@ -51,3 +51,7 @@ repo = 'nathanaelkane/vim-indent-guides'
 [[plugins]]
 repo = 'glidenote/memolist.vim'
 
+# browser
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+

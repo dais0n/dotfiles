@@ -241,6 +241,10 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " fugitive settings
 set statusline+=%{exists('g:loaded_fugitive')?fugitive#statusline():''}
 
+"open browser settings
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)
+
 "-----------------
 " general
 "----------------- 
