@@ -14,7 +14,7 @@ zstyle ':vcs_info:*' formats '(%s)-[%b]'
 zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
 _vcs_precmd () { vcs_info }
 autoload -Uz add-zsh-hook
-add-zsh-hook precmd _vcs_precmd 
+add-zsh-hook precmd _vcs_precmd
 # prompt colors(black, red, green, yellow, blue, magenda, cyan, white)
 PROMPT='%{${fg[yellow]}%}%~%{${reset_color}%}
 %{${fg[green]}%}[%m@%n]%{${reset_color}%}%{${fg[blue]}%}$vcs_info_msg_0_%{${reset_color}%}$ '
@@ -60,6 +60,7 @@ zplug load --verbose
 zstyle ":anyframe:selector:" use peco
 bindkey '^Z' anyframe-widget-cdr
 bindkey '^R' anyframe-widget-put-history
+bindkey '^Y' vi-forward-word
 # --------------
 # completion
 # --------------
