@@ -5,13 +5,6 @@ tap 'homebrew/bundle'
 tap 'caskroom/fonts'
 tap 'simeji/jid' # json inc search
 
-brew 'mas'
-brew 'cask'
-brew 'ctags'
-brew 'openssl'
-brew 'curl', args: ['with-openssl']
-brew 'git'
-brew 'gnu-sed'
 brew 'go'
 brew 'htop-osx'
 brew 'perl'
