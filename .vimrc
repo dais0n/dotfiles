@@ -46,6 +46,7 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll|png)$',
   \ 'link': '',
   \ }
+let g:ctrlp_cmd = 'CtrlPMRU' " mru first
 " nerdtree
 map <C-n> :NERDTreeToggle<CR>
 nnoremap <silent> <C-n> :NERDTreeToggle<CR>
@@ -123,7 +124,6 @@ highlight Normal ctermbg=none
 
 " auto parentheses
 inoremap {<Enter> {}<Left><CR><ESC><S-o>
-filetype plugin indent on
 inoremap [<Enter> []<Left><CR><ESC><S-o>
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
 

@@ -1,13 +1,10 @@
 # --------------
 # general
 # -------------- 
-# locale
 export LANG='ja_JP.UTF-8'
 export LC_ALL='ja_JP.UTF-8' 
-#prompt
 autoload -U promptinit
-autoload -U colors && colors
-# vcs
+autoload -U colors && colors # prompt(black, red, green, yellow, blue, magenda, cyan, white)
 setopt prompt_subst
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' formats '(%s)-[%b]'
@@ -15,63 +12,32 @@ zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
 _vcs_precmd () { vcs_info }
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _vcs_precmd
-# prompt colors(black, red, green, yellow, blue, magenda, cyan, white)
 PROMPT='%{${fg[yellow]}%}%~%{${reset_color}%}
-%{${fg[green]}%}[%m@%n]%{${reset_color}%}%{${fg[blue]}%}$vcs_info_msg_0_%{${reset_color}%}$ '
-# path
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-# less env
+%{${fg[green]}%}[%m@%n]%{${reset_color}%}%{${fg[blue]}%}$vcs_info_msg_0_%{${reset_color}%}$ ' 
+export WORDCHARS='*?_.[]~-=&;!#$%^(){}<>' # delimitor
 export LESS='-i -M -R'
-# cdr
-setopt pushd_ignore_dups
-setopt AUTO_PUSHD
-DIRSTACKSIZE=100
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
-add-zsh-hook chpwd chpwd_recent_dirs
-# emacs keybind
 bindkey -e
-# autocd
+DIRSTACKSIZE=100
 setopt auto_cd
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt noautoremoveslash
+setopt nolistbeep
+setopt globdots # dotfile effective
+bindkey "^[u" undo
+bindkey "^[r" redo
 
-# --------------
-# plugin
-# --------------
-if [ ! -e "${HOME}/.zplug/init.zsh" ]; then
-  curl -sL zplug.sh/installer | zsh
-fi
-source ${HOME}/.zplug/init.zsh
-# install plugins
-zplug 'zsh-users/zsh-completions'
-zplug 'zsh-users/zsh-syntax-highlighting'
-zplug 'felixr/docker-zsh-completion'
-zplug 'zsh-users/zsh-autosuggestions'
-zplug "mollifier/anyframe"
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
-zplug load --verbose
-# plugin settings
-#export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -f -g ""'
-#export FZF_DEFAULT_OPTS='--height 40% --reverse' 
-zstyle ":anyframe:selector:" use peco
-bindkey '^Z' anyframe-widget-cdr
-bindkey '^R' anyframe-widget-put-history
-bindkey '^Y' vi-forward-word
 # --------------
 # completion
 # --------------
+zmodload zsh/complist
 autoload -Uz compinit && compinit
+setopt list_packed
 # sudo
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
     /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
-# docker
-zstyle ':completion:*:*:docker:*' option-stacking yes
-zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
 # --------------
 # history
@@ -80,14 +46,23 @@ HISTFILE=~/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
 setopt extended_history
-setopt hist_ignore_dups
+setopt share_history
 setopt hist_ignore_all_dups
 setopt hist_ignore_space
 setopt hist_verify
 setopt hist_reduce_blanks
 setopt hist_save_no_dups
+setopt hist_expire_dups_first
 setopt hist_expand
 setopt inc_append_history
+autoload history-search-end 
+
+zle -N history-beginning-search-backward-end history-search-end 
+zle -N history-beginning-search-forward-end history-search-end 
+bindkey "^P" history-beginning-search-backward-end # CTRL-P 
+bindkey "^N" history-beginning-search-forward-end # CTRL-N 
+bindkey "\\ep" history-beginning-search-backward-end # ESC-P 
+bindkey "\\en" history-beginning-search-forward-end # ESC-N 
 
 # --------------
 # ssh
@@ -99,33 +74,48 @@ alias ssh='cat ~/.ssh/ssh-configs/_config.global ~/.ssh/ssh-configs/*/config > ~
 # --------------
 # alias
 # --------------
-alias ls='ls -G'
-alias ll='ls -lah'
+alias du='du -h'
+alias df='df -h'
+alias ls='ls -F'
+alias ll='ls -lath'
 alias cp='cp -i'
 alias mv='mv -i'
 alias mkdir='mkdir -p'
-#alias sudo='sudo '
+alias g='git'
+alias u='cd ..'
+alias uu='cd ../..'
+alias uuu='cd ../../..'
+alias uuuu='cd ../../../..'
 alias vi='vim'
 alias rmi='rm -i' 
 alias ghd='cd $(ghq list --full-path | peco)'
-alias gd='cd $GOPATH/src/github.com/dais0n'
-#alias godoc='godoc $(ghq list | peco) | less'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gl='git log --graph --decorate --oneline' 
+alias gs='git status'
+alias gp='git pull --rebase'
 
-# ▼ global alias
-alias -g G='| grep'
-alias -g L='| less'
-
-if which pbcopy >/dev/null 2>&1 ; then 
-    # Mac  
-    alias -g C='| pbcopy'
-elif which xsel >/dev/null 2>&1 ; then 
-    # Linux
-    alias -g C='| xsel --input --clipboard'
-fi
+function extract() {
+  case $1 in
+    *.tar.gz|*.tgz) tar xzvf $1;;
+    *.tar.xz) tar Jxvf $1;;
+    *.zip) unzip $1;;
+    *.lzh) lha e $1;;
+    *.tar.bz2|*.tbz) tar xjvf $1;;
+    *.tar.Z) tar zxvf $1;;
+    *.gz) gzip -d $1;;
+    *.bz2) bzip2 -dc $1;;
+    *.Z) uncompress $1;;
+    *.tar) tar xvf $1;;
+    *.arj) unarj $1;;
+  esac
+}
+alias -s {gz,tgz,zip,lzh,bz2,tbz,Z,tar,arj,xz}=extract
 
 # --------------
-# other
+# path
 # --------------
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export PYENV_ROOT="${HOME}/.pyenv"
 if [ -d "${PYENV_ROOT}" ]; then
     export PATH=${PYENV_ROOT}/bin:$PATH
@@ -139,8 +129,47 @@ export NODE_BREW_DIR="${HOME}/.nodebrew/current/bin"
 if [ -e "${NODE_BREW_DIR}" ]; then
     export PATH=${NODE_BREW_DIR}:$PATH
 fi
-# go path
 export GOPATH="${HOME}/go"
 if [ -e "${GOPATH}" ]; then
     export PATH=${GOPATH}/bin:$PATH
 fi
+
+# --------------
+# peco
+# --------------
+function peco-select-history {
+    BUFFER=`history -n -r 1 | peco --query "$LBUFFER"`
+    CURSOR=$#BUFFER
+    zle reset-prompt
+}
+zle -N peco-select-history
+bindkey '^r' peco-select-history
+
+function peco-cd () {
+    local selected_dir=$(find ~/ -type d | peco)
+    if [ -n "$selected_dir" ]; then
+        BUFFER="cd ${selected_dir}"
+        zle accept-line
+    fi
+    zle clear-screen
+}
+zle -N peco-cd
+bindkey '^x^f' peco-cd
+
+function peco-cdr() {
+    local selected_dir=$(cdr -l | awk '{ print $2 }' | peco)
+    if [ -n "$selected_dir" ]; then
+        BUFFER="cd ${selected_dir}"
+        zle accept-line
+    fi
+    zle clear-screen
+}
+zle -N peco-cdr
+bindkey '^Z' peco-cdr
+
+# --------------
+# plugin
+# --------------
+# zsh-syntax-highlighting
+[ -f ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[ -f ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
