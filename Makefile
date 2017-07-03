@@ -5,6 +5,8 @@ UNAME 			  := ${shell uname}
 
 install: vim-init zsh-init
 	@$(foreach val, $(DOTFILES_FILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
+	source ~/.zshrc
+	vim +PlugInstall +qall
 vim-init:
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 zsh-init: peco-init

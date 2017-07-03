@@ -97,6 +97,7 @@ autocmd InsertEnter,InsertLeave * set cursorline! "  cursorline highlight only i
 set hlsearch
 set ruler
 set noswapfile
+set hidden
 set title
 set wildmenu wildmode=list:full
 set ignorecase
