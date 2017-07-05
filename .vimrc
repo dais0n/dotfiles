@@ -38,6 +38,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'glidenote/memolist.vim'
 Plug 'tyru/open-browser.vim' 
+Plug 'thinca/vim-quickrun'
 call plug#end()
 " ctrlp
 let g:ctrlp_show_hidden = 1
@@ -59,6 +60,11 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'tagbar', 'unite']
+" quick run
+let g:quickrun_config={'*': {'split': ''}}
+set splitbelow
+
+nnoremap <C-c> :<C-u>bw! \[quickrun\ output\]<CR>
 
 "-----------------
 " general
