@@ -27,7 +27,7 @@ set showtabline=2 " Always display the tabline, even if there is only one tab
 set completeopt=menuone
 "-----------------
 " plugin
-"----------------- 
+"-----------------
 call plug#begin('~/.vim/plugged')
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'altercation/vim-colors-solarized'
@@ -37,8 +37,9 @@ Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdcommenter'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'glidenote/memolist.vim'
-Plug 'tyru/open-browser.vim' 
+Plug 'tyru/open-browser.vim'
 Plug 'thinca/vim-quickrun'
+Plug 'ntpeters/vim-better-whitespace'
 call plug#end()
 " ctrlp
 let g:ctrlp_show_hidden = 1
@@ -68,7 +69,7 @@ nnoremap <C-c> :<C-u>bw! \[quickrun\ output\]<CR>
 
 "-----------------
 " general
-"----------------- 
+"-----------------
 syntax enable
 set encoding=utf-8
 set nobackup
@@ -133,19 +134,6 @@ highlight Normal ctermbg=none
 inoremap {<Enter> {}<Left><CR><ESC><S-o>
 inoremap [<Enter> []<Left><CR><ESC><S-o>
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
-
-" zenkaku space
-function! ZenkakuSpace()
-    highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
-endfunction
-if has('syntax')
-    augroup ZenkakuSpace
-        autocmd!
-        autocmd ColorScheme * call ZenkakuSpace()
-        autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
-    augroup END
-    call ZenkakuSpace()
-endif
 
 " binary settings
 augroup BinaryXXD
