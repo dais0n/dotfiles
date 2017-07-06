@@ -126,7 +126,10 @@ set wrapscan
 vnoremap v $h " select endline by vv
 " color
 set background=dark
-colorscheme solarized
+try
+    colorscheme solarized
+catch
+endtry
 set t_Co=256
 highlight Normal ctermbg=none
 

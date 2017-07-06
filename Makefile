@@ -1,12 +1,12 @@
 DOTFILES_EXCLUDES := .DS_Store .git .gitmodules .travis.yml
-DOTFILES_TARGET   := $(wildcard .??*)
+DOTFILES_TARGET   := $(wildcard .??*) .vim .zsh
 DOTFILES_FILES    := $(filter-out $(DOTFILES_EXCLUDES), $(DOTFILES_TARGET))
-UNAME 			  := ${shell uname}
+UNAME 	          := ${shell uname}
 
 install: vim-init zsh-init
 	@$(foreach val, $(DOTFILES_FILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
-	source ~/.zshrc
 	vim +PlugInstall +qall
+	zsh
 vim-init:
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 zsh-init: peco-init
@@ -21,3 +21,5 @@ ifeq ($(UNAME),Linux)
 	curl -L -O https://github.com/peco/peco/releases/download/v0.5.1/peco_linux_amd64.tar.gz
 	tar -zxvf peco_linux_amd64.tar.gz && sudo mv peco_linux_amd64/peco /usr/local/bin && rm -rf peco_linux_amd64 peco_linux_amd64.tar.gz
 endif
+clean:
+	@$(foreach val, $(DOTFILES_FILES), rm -rf $(HOME)/$(val);)
