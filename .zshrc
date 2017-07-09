@@ -76,7 +76,6 @@ alias ssh='cat ~/.ssh/ssh-configs/_config.global ~/.ssh/ssh-configs/*/config > ~
 # --------------
 alias du='du -h'
 alias df='df -h'
-alias ls='ls -F'
 alias ll='ls -lath'
 alias cp='cp -i'
 alias mv='mv -i'
@@ -87,13 +86,18 @@ alias uu='cd ../..'
 alias uuu='cd ../../..'
 alias uuuu='cd ../../../..'
 alias vi='vim'
-alias rmi='rm -i' 
+alias rmi='rm -i'
 alias ghd='cd $(ghq list --full-path | peco)'
 alias gd='git diff'
 alias gdc='git diff --cached'
-alias gl='git log --graph --decorate --oneline' 
+alias gl='git log --graph --decorate --oneline'
 alias gs='git status'
 alias gp='git pull --rebase'
+if [ "$(uname)" = 'Darwin' ]; then
+    alias ls='ls -G'
+else
+    alias ls='ls --color=auto'
+fi
 
 function extract() {
   case $1 in
