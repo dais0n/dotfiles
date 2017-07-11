@@ -1,6 +1,6 @@
 # dotfiles
 
 ## installation
-* git clone https://github.com/dais0n/dotfiles.git
-* cd dotfiles
-* make
+```
+bash -c "$(curl -L https://raw.githubusercontent.com/dais0n/dotfiles/master/rc/installer.sh)"
+```
