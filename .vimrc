@@ -115,6 +115,7 @@ nnoremap * *zz
 nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
+nnoremap <C-v> :set paste<CR>
 set number
 set history=700
 set showcmd
