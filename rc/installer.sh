@@ -1,5 +1,4 @@
 #!/bin/sh
-#curl -L https://github.com/dais0n/dotfiles/rc/installer.sh | bash
 
 REPO_URL="https://github.com/dais0n/dotfiles.git"
 DOTFILES_LOGO='
@@ -32,4 +31,3 @@ git clone ${REPO_URL}
 
 # make
 cd dotfiles && make
-
