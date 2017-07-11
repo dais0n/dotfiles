@@ -31,5 +31,5 @@ echo "$DOTFILES_LOGO"
 git clone ${REPO_URL}
 
 # make
-cd dotfiles && make
+cd dotfiles && make && zsh
 
