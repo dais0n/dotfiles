@@ -40,6 +40,8 @@ Plug 'glidenote/memolist.vim'
 Plug 'tyru/open-browser.vim'
 Plug 'thinca/vim-quickrun'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'kannokanno/previm'
+Plug 'majutsushi/tagbar'
 call plug#end()
 " ctrlp
 let g:ctrlp_show_hidden = 1
@@ -66,6 +68,10 @@ let g:quickrun_config={'*': {'split': ''}}
 set splitbelow
 
 nnoremap <C-c> :<C-u>bw! \[quickrun\ output\]<CR>
+" tagbar
+nmap <F8> :TagbarToggle<CR>
+" ctags
+nnoremap <C-]> g<C-]>
 
 "-----------------
 " general
@@ -116,6 +122,8 @@ nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
 nnoremap <C-v> :set paste<CR>
+autocmd InsertLeave * set nopaste
+nnoremap <F3> :noh<CR>
 set number
 set history=700
 set showcmd

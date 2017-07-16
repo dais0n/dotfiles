@@ -1,8 +1,8 @@
 # --------------
 # general
-# -------------- 
+# --------------
 export LANG='ja_JP.UTF-8'
-export LC_ALL='ja_JP.UTF-8' 
+export LC_ALL='ja_JP.UTF-8'
 autoload -U promptinit
 autoload -U colors && colors # prompt(black, red, green, yellow, blue, magenda, cyan, white)
 setopt prompt_subst
@@ -13,7 +13,7 @@ _vcs_precmd () { vcs_info }
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _vcs_precmd
 PROMPT='%{${fg[yellow]}%}%~%{${reset_color}%}
-%{${fg[green]}%}[%m@%n]%{${reset_color}%}%{${fg[blue]}%}$vcs_info_msg_0_%{${reset_color}%}$ ' 
+%{${fg[green]}%}[%m@%n]%{${reset_color}%}%{${fg[blue]}%}$vcs_info_msg_0_%{${reset_color}%}$ '
 export WORDCHARS='*?_.[]~-=&;!#$%^(){}<>' # delimitor
 export LESS='-i -M -R'
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
@@ -55,14 +55,14 @@ setopt hist_save_no_dups
 setopt hist_expire_dups_first
 setopt hist_expand
 setopt inc_append_history
-autoload history-search-end 
+autoload history-search-end
 
-zle -N history-beginning-search-backward-end history-search-end 
-zle -N history-beginning-search-forward-end history-search-end 
-bindkey "^P" history-beginning-search-backward-end # CTRL-P 
-bindkey "^N" history-beginning-search-forward-end # CTRL-N 
-bindkey "\\ep" history-beginning-search-backward-end # ESC-P 
-bindkey "\\en" history-beginning-search-forward-end # ESC-N 
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^P" history-beginning-search-backward-end # CTRL-P
+bindkey "^N" history-beginning-search-forward-end # CTRL-N
+bindkey "\\ep" history-beginning-search-backward-end # ESC-P
+bindkey "\\en" history-beginning-search-forward-end # ESC-N
 
 # --------------
 # ssh
