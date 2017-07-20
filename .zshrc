@@ -3,20 +3,6 @@
 # --------------
 export LANG='ja_JP.UTF-8'
 export LC_ALL='ja_JP.UTF-8'
-autoload -U promptinit
-autoload -U colors && colors # prompt(black, red, green, yellow, blue, magenda, cyan, white)
-setopt prompt_subst
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' formats '(%s)-[%b]'
-zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
-_vcs_precmd () { vcs_info }
-autoload -Uz add-zsh-hook
-add-zsh-hook precmd _vcs_precmd
-PROMPT='%{${fg[yellow]}%}%~%{${reset_color}%}
-%{${fg[green]}%}[%m@%n]%{${reset_color}%}%{${fg[blue]}%}$vcs_info_msg_0_%{${reset_color}%}$ '
-export WORDCHARS='*?_.[]~-=&;!#$%^(){}<>' # delimitor
-export LESS='-i -M -R'
-autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 bindkey -e
 DIRSTACKSIZE=100
 setopt auto_cd
@@ -27,6 +13,14 @@ setopt nolistbeep
 setopt globdots # dotfile effective
 bindkey "^[u" undo
 bindkey "^[r" redo
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
+
+# --------------
+# prompt
+# --------------
+autoload -U promptinit; promptinit
+prompt pure
 
 # --------------
 # completion
@@ -177,3 +171,4 @@ bindkey '^Z' peco-cdr
 # zsh-syntax-highlighting
 [ -f ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+

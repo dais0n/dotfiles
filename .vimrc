@@ -40,6 +40,7 @@ Plug 'glidenote/memolist.vim'
 Plug 'tyru/open-browser.vim'
 Plug 'thinca/vim-quickrun'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'jiangmiao/auto-pairs'
 Plug 'kannokanno/previm'
 Plug 'majutsushi/tagbar'
 call plug#end()
@@ -71,7 +72,7 @@ nnoremap <C-c> :<C-u>bw! \[quickrun\ output\]<CR>
 " tagbar
 nmap <F8> :TagbarToggle<CR>
 " ctags
-nnoremap <C-]> g<C-]>
+nnoremap <C-]> g<C-]>zz
 
 "-----------------
 " general
@@ -143,9 +144,9 @@ set t_Co=256
 highlight Normal ctermbg=none
 
 " auto parentheses
-inoremap {<Enter> {}<Left><CR><ESC><S-o>
-inoremap [<Enter> []<Left><CR><ESC><S-o>
-inoremap (<Enter> ()<Left><CR><ESC><S-o>
+"inoremap {<Enter> {}<Left><CR><ESC><S-o>
+"inoremap [<Enter> []<Left><CR><ESC><S-o>
+"inoremap (<Enter> ()<Left><CR><ESC><S-o>
 
 " binary settings
 augroup BinaryXXD
@@ -165,4 +166,3 @@ for k in split("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_",'\zs')
 endfor
 
 imap <expr> <TAB> pumvisible() ? "\<Down>" : "\<Tab>"
-
