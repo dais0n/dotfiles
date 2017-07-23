@@ -19,6 +19,7 @@ add-zsh-hook chpwd chpwd_recent_dirs
 # --------------
 # prompt
 # --------------
+fpath=( "$HOME/.zfunctions" $fpath )
 autoload -U promptinit; promptinit
 prompt pure
 

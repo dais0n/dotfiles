@@ -26,8 +26,9 @@ pure-init:
 	curl -L https://raw.githubusercontent.com/sindresorhus/pure/master/pure.zsh > $(HOME)/.zfunctions/prompt_pure_setup
 	curl -L https://raw.githubusercontent.com/sindresorhus/pure/master/async.zsh > $(HOME)/.zfunctions/async
 ctags-init:
-	curl -LO http://prdownloads.sourceforge.net/ctags/ctags-5.8.tar.gz
-	tar -zxvf ctags-5.6.tar.gz
-	cd ctags-5.6 && ./configure --prefix=/usr/local &&  make && sudo make install
+	curl -L -O http://prdownloads.sourceforge.net/ctags/ctags-5.8.tar.gz
+	tar -zxvf ctags-5.8.tar.gz
+	cd ctags-5.8 && ./configure --prefix=/usr/local &&  make && sudo make install
+	rm -rf ctags-5.8 ctags-5.8.tar.gz
 clean:
 	@$(foreach val, $(DOTFILES_FILES), rm -rf $(HOME)/$(val);)
