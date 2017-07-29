@@ -122,7 +122,7 @@ nnoremap * *zz
 nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
-nnoremap <C-v> :set paste<CR>
+nnoremap <C-c> :set paste<CR>
 autocmd InsertLeave * set nopaste
 nnoremap <F3> :noh<CR>
 set number

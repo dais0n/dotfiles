@@ -1,0 +1,6 @@
+tags
+vendor/bundle
+watchr_script
+.DS_Store
+*.pyc
+*.retry

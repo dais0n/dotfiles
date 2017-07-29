@@ -1,0 +1,31 @@
+[color]
+    ui = auto
+    status = always
+[include]
+    path = ~/.gitconfig.local
+[core]
+    excludesfile = ~/.gitignore
+    editor = vim
+[pull]
+    rebase = true
+
+[alias]
+    co = checkout
+    s = status --short --branch
+    b = branch -a
+    cm = commit -v
+    cma = commit -a -v
+    d = diff -C --stat -p
+    dc = diff --cached
+    br = branch
+    s = status --short --branch
+    rv = remote --verbose
+    l = log --graph --date=short --decorate=short --pretty=format:'%C(red)%h　%C(reset)-%C(yellow)%d %Creset%s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+    ll = log --graph --all --abbrev-commit --date=relative --pretty=format:'%C(red)%h　%C(reset)-%C(yellow)%d %Creset%s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+[push]
+    default = current
+[credential]
+    helper = store
+[user]
+    name = dais0n
+    email = t.omura8383@gmail.com
