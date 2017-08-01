@@ -32,3 +32,8 @@ ctags-init:
 	rm -rf ctags-5.8 ctags-5.8.tar.gz
 clean:
 	@$(foreach val, $(DOTFILES_FILES), rm -rf $(HOME)/$(val);)
+update:
+	@$(foreach val, $(DOTFILES_FILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
+	vim +PlugInstall +qall
+	zsh
+
