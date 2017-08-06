@@ -43,6 +43,7 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'jiangmiao/auto-pairs'
 Plug 'kannokanno/previm'
 Plug 'majutsushi/tagbar'
+Plug 'szw/vim-tags'
 call plug#end()
 " ctrlp
 let g:ctrlp_show_hidden = 1
@@ -73,6 +74,8 @@ nnoremap <C-c> :<C-u>bw! \[quickrun\ output\]<CR>
 nmap <F8> :TagbarToggle<CR>
 " ctags
 nnoremap <C-]> g<C-]>zz
+" vim tags
+let g:vim_tags_auto_generate = 1
 
 "-----------------
 " general
