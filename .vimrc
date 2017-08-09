@@ -44,6 +44,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'kannokanno/previm'
 Plug 'majutsushi/tagbar'
 Plug 'szw/vim-tags'
+Plug 'ajh17/VimCompletesMe'
 call plug#end()
 " ctrlp
 let g:ctrlp_show_hidden = 1
@@ -162,10 +163,3 @@ augroup BinaryXXD
   autocmd BufWritePost * set nomod | endif
 augroup END
 
-" complete
-set completeopt=menuone
-for k in split("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_",'\zs')
-  exec "imap " . k . " " . k . "<C-N><C-P>"
-endfor
-
-imap <expr> <TAB> pumvisible() ? "\<Down>" : "\<Tab>"
