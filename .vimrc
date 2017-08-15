@@ -3,7 +3,7 @@
 "----------------
 " reset augroup
 augroup MyAutoCmd
-  autocmd!
+ autocmd!
 augroup END
 
 "----------------
@@ -34,7 +34,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/syntastic'
-Plug 'scrooloose/nerdcommenter'
+Plug 'tomtom/tcomment_vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'glidenote/memolist.vim'
 Plug 'tyru/open-browser.vim'
@@ -44,7 +44,8 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'kannokanno/previm'
 Plug 'majutsushi/tagbar'
 Plug 'szw/vim-tags'
-Plug 'ajh17/VimCompletesMe'
+Plug 'ervandew/supertab'
+Plug 'easymotion/vim-easymotion'
 call plug#end()
 " ctrlp
 let g:ctrlp_show_hidden = 1
@@ -77,7 +78,8 @@ nmap <F8> :TagbarToggle<CR>
 nnoremap <C-]> g<C-]>zz
 " vim tags
 let g:vim_tags_auto_generate = 1
-
+" easy motion
+map <Leader> <Plug>(easymotion-prefix)
 "-----------------
 " general
 "-----------------
