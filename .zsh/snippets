@@ -1,0 +1,542 @@
+# nginx
+# alp
+# systemd
+w
+cd isucon5-qualify/
+cd u
+rm -rf /var/log/nginx/access.log
+sudo systemctl nginx restart
+ps aux | grep ngixn
+ps aux | grep nginx
+sudo systemctl nginx.service restart
+sudo systemctl restart nginx.ser
+[200~sudo systemctl restart isuxi.php~
+sudo systemctl restart isuxi.php~
+[200~sudo alp --max --tsv -r -f /var/log/nginx/access.log~
+sudo alp --max --tsv -r -f /var/log/nginx/access.log~
+cd ~/isucon5
+vi nginx.conf
+sudo vi nginx.conf
+vi /home/isucon/isucon5/conf/nginx.php.conf
+sudo rm -rf /var/log/nginx/access.log
+sudo systemctl restart nginx.service
+ks
+cd hp
+nvim index.php
+sudo ./reload.sh
+chmod u+x reload.sh
+sudo alp --max --tsv -r -f /var/log/nginx/access.log.1
+sudo alp --max --tsv -r -f /var/log/nginx/access.log.2
+ll/var/log/nginx/access.log*
+ll /var/log/nginx/access.log*
+cd nginx/
+sl -la
+zcat /var/log/nginx/access.log.5.gz
+sudo alp --cnt --tsv -r -f /var/log/nginx/access.log.1.g
+sudo alp --cnt --tsv -r -f /var/log/nginx/access.log.1.gz
+sudo alp --cnt --tsv -r -f /var/log/nginx/access.log.3.gz
+sudo zcat /var/log/nginx/access.log.3.gz | alp --cnt --tsv -r
+sudo zcat /var/log/nginx/access.log.3.gz | alp --cnt --tsv -r -f
+chmod u+x bensh.sh
+cd myq
+gzip -d /var/log/nginx/access.log.2.gz ~/
+sudo gzip -d /var/log/nginx/access.log.2.gz ~/
+sudo gzip -d /var/log/nginx/access.log.2.gz ~/a
+unlink my.cnf
+sudo unlink my.cnf
+ls /var/log/nginx/access.log.2
+ls -la /var/log/nginx/access.log.*
+cat /var/log/nginx/access.log.2
+sudo cat /var/log/nginx/access.log.2
+systemctl status mysql.service
+sudo alp --cn --tsv -r -f /var/log/nginx/access.log.2
+sudo alp --cnt --tsv -r -f /var/log/nginx/access.log.2
+gzip -d /var/log/nginx/access.log.5.gz
+sudo gzip -d /var/log/nginx/access.log.5.gz
+sudo gzip -d /var/log/nginx/access.log.1.gz
+journalctl -xe
+sudo alp --cnt --tsv -r -f /var/log/nginx/access.log.1
+vi my.cnf.fallback
+cp my.cnf /etc/mysql/my.conf
+sudo cp my.cnf /etc/mysql/my.conf
+sudo mv my.conf my.cnf
+ls /var/run/mysqld/mysqld.sock
+ps axu | grep mysql
+sudo ll /var/lib/mysql/
+cat /var/run/mysqld/
+cd mysqld/
+chmod mysql:mysql mysqld.sock
+sudo chown mysql:mysql mysqld.sock
+cat /var/log/nginx/access.log
+ls /var/log/mysql/
+sudo ls /var/log/mysql/
+sudo ls /var/log/mysql/error.log
+sudo tail /var/log/mysql/error.log
+sudo tail -f /var/log/mysql/error.log
+ls la
+sudo tail -100 /var/log/mysql/mysqld.log
+ls/var/lib/mysql/mysql.sock
+ls -la | grep my.cnf
+vim my.cnf
+cat my.cnf
+chmod 644 /etc/my.cnf
+sudo chmod 644 /etc/my.cnf
+cd mysql/ls
+cd mysql/
+rm -rf my.cnf
+sudo rm -rf my.cnf
+sudo chmod 644 debian.cnf
+cp my.cnf /etc/mysql
+sudo cp my.cnf /etc/mysql
+dpkg -l mysql
+dpkg -l mysqld
+dpkg -l mysql-server
+cd /var/run/mysqld/
+ls /var/log/nginx/access.log
+ls /var/log/nginx/
+ls /var/log/nginx/access.log.5
+ls -la /var/log/nginx/access.log.5
+ls -la /var/log/nginx/access.lo*
+sudo cd mysql
+sudo alp --cnt --tsv -r -f /var/log/nginx/access.log.5
+sudo cd mysql/
+sudo alp --cnt -r -f /var/log/nginx/access.log.5
+sudo alp --cnt -f /var/log/nginx/access.log.5
+service mysqld restart
+systemctl restart mysqld
+vim /var/log/kern.log
+sudo systemctl restart mysqld.service
+sudo cat /var/log/kern.log
+sudo less /var/log/kern.log
+ps aux | grep mysqld
+ll /etc/mysql/my.cnf
+sudo cat /var/log/mysql/mysql.log
+cd /var/log/
+ls /var/log/mysql/mysqld.log
+sudo ls /var/log/mysql/mysqld.log
+sudo cat /var/log/mysql/mysqld.log
+ps aux | grep msyql
+ll /var/lib/mysql/
+ll /etc/
+cd /var/lib/
+ll /etc/my
+cd mys
+ll /etc/mysql
+cd mysql
+ll /etc/my.cnf
+ls /home/tsuzuku/
+vim /var/lib/mysql
+ls /var/lib/mysql
+sudo ls /var/lib/mysql
+sudo ls -la/var/lib/mysql
+sudo ls -la /var/lib/mysql
+sudo ls -la /var/lib/
+sudo ls -la /var/lib
+ls /var/run/mysqld
+ls /var/run/mysqld/
+ln -s /var/lib/mysql/mysql.sock /tmp/mysql.sock
+sudo journalctl -xe
+ls /var/lib/mysql/
+hostanme
+sudo ls /var/lib/mysql/mysql
+sudo ls /var/lib/mysql/mysql.sock
+sudo ls -la /var/lib/mysql/mysql.sock
+vim /etc/my.cnf
+scd
+rm /etc/mysql/my.cnf
+sudo rm /etc/mysql/my.cnf
+mv /etc/my.cnf /etc/mysql/
+sudo mv /etc/my.cnf /etc/mysql/
+sudo less /var/log/syslog
+sudo tail -f /var/log/syslog
+ls /etc
+ls /etc/
+sudo vi /etc/mysql/my.cnf
+sudo reboot
+systemd stop mysqld
+cat u
+vim u
+cat u | grep mysql
+echo $MYSQL_HOME
+sudo touch /var/lib/mysql/mysql.sock
+sudo chmod mysql:mysql mysqld.sock
+sudo chmod mysql:mysql /var/lib/mysql/mysql.sock
+sudo chown mysql:mysql /var/lib/mysql/mysql.sock
+apt install list mysql-server-5.6
+sudo apt install list mysql-server-5.6
+sudo apt --reinstall install mysql-server-5.6
+ls /etc/mysql/
+ls /etc/mysql/mysql.cnf
+ls -la /etc/mysql/mysql.cnf
+ls -la /etc/my.conf
+cd /etc/mysql/
+cat debian.cnf
+sduo cat debian.cnf
+sudo cat debian.cnf
+cat my.cnf.fallback
+cd /etc/mysql/conf.d/
+mysql --help | grep my.cnf
+rpm -qa --last
+apt -h
+apt list
+apt list | grep mysql
+apt list | grep
+ls /home/
+ls /home/hhomma/
+chown 755 /etc/mysql/debian.cnf
+sudo chown 755 /etc/mysql/debian.cnf
+ll /home/ubut
+ll /home/ubuntu
+cd /home/ubuntu
+cd /hom/isucon
+ll /home/isucon
+ll /home/isucon/m
+ll /home/isucon/
+ll /etc/mysql/conf.d/mysqldump.cnf
+vim /etc/mysql/conf.d/mysqldump.cnf
+im /etc/mysql/conf.d/mysql.cnf
+vim /etc/mysql/conf.d/mysql.cnf
+cat mysql.cnf
+sudo mv /etc/mysql/conf.d/mysql.cnf /etc/mysql/conf.d/mysql.cnf.old
+mysql_config --socket
+mysql -u isucon -p --socket=/var/lib/mysqld.scok
+sudo ls /var/lib/mysql/my
+sudo ls /var/lib/mysql/
+mysql -u isucon -p --socket=/var/lib/mysql/mysql.scok
+cat /var/run/mysqld/mysqld.pid
+mysql -u isucon -p --socket=/var/lib/mysql/mysql.sock
+sudo cat /var/lib/mysql/mysql.sock
+ll /etc/mysql/conf.d/
+ps aux | grep isuxi
+sudo systemctl start isuxi.php
+ps aux | grep mysql
+vi /etc/nginx/nginx.conf
+vim /etc/nginx/conf.d/:q
+\n
+sudo systemctl restart nginx
+kill -9 386
+sudo kill -9 386
+ls /home/isucon/.local/php/
+ls /home/isucon/.local/php/etc/php-fpm.conf.default
+sudo vim /home/isucon/.local/php/etc/php-fpm.conf.default
+vi conf/php-fpm.conf.default
+cd cd
+vim webapp/php/index.php
+cd .local/
+sudo cat /var/run/mysqld/mysqld.pid
+sudo cat /var/lib/mysql/my
+sudo ls -la /var/lib/mysql/
+sudo touch /var/run/mysqld/mysqld.sock
+sudo tail -f /var/log/mysql/mysqld.log
+ps aux | grep isu
+sudo mysql -u isucon -p --socket=/var/lib/mysql/mysql.sock
+chown isucon:isucon /var/run/mysqld/mysqld.sock
+sudo chown isucon:isucon /var/run/mysqld/mysqld.sock
+sudo systemctl restart isuxi.php
+vim /etc/mysql/my.conf
+sudo tail -f /var/log/php
+sudo journalctl -f
+vim /etc/mysql/my.cnf
+sudo mv /etc/mysql/my.cnf /etc/mysql/my.cnf.old
+sudo vim /etc/mysql/my.cnf
+vi my.cnf
+cd mysql.conf.d/
+history
+netstat -ln | grep mysql
+netstat -ln |
+netstat -ln
+vim
+cd php
+vim ~/.vimrc
+vm index.php
+ctags
+\n
+]ls
+sudo alp --cnt -r -f /var/log/nginx/access.lo
+wget http://mysqltuner.pl/ -O mysqltuner.pl
+perl mysqltuner.pl --user isucon --pass isucon
+sudu -su
+sudu -su hhomma
+sudo ls
+sudo perl mysqltuner.pl --user isucon --pass isucon
+vi /etc/mysql/my.cnf
+cd /etc/mysql/mysql.conf.d/
+cp mysqld.cnf{,.`date "+%Y%m%d_%H%M%S"`}
+sudo cp mysqld.cnf{,.`date "+%Y%m%d_%H%M%S"`}
+vi mysqld.cnf
+sudo vi mysqld.cnf
+sudo systemctl status mysql.service
+sudo /etc/mysql/mysql.conf.d/mysqld.cnf
+vim ../conf/nginx.php.conf
+vim ../conf/
+vim php-fpm.conf
+cat /var/log/mysql/
+pt-query-digest --limit 10 /var/log/mysql/slow.log
+sudo alp --max --tsv -r -f /var/log/nginx/access.log
+sudo alp --cnt -r -f /var/log/nginx/access.log
+sudo alp --cnt --tsv -r -f /var/log/nginx/access.log
+alp --max --tsv -r -f /var/log/nginx/access.log
+alp --max --tsv -r -f /var/log/nginx/access.log --aggregates='/friends/*'
+alp --max --tsv -r -f /var/log/nginx/access.log --aggregates='/friends/* /profile/*'
+alp --max --tsv -r -f /var/log/nginx/access.log --aggregates='/friends/*, /profile/*'
+alp --max --tsv -r -f /var/log/nginx/access.log --aggregates='/friends/*, /profile/*, /diary/entries/*'
+alp --max --tsv -r -f /var/log/nginx/access.log --aggregates='/friends/*, /profile/*, /diary/entrie/*'
+alp --max --tsv -r -f /var/log/nginx/access.log --aggregates='/friends/*, /profile/*, /diary/entry/*'
+vi bensh.sh
+alp --max --tsv -r -f /var/log/nginx/access.log --aggregates='/friends/*, /profile/*, /diary/entry/*, /diary/entries/*, /diary/comment/*'
+vim error.php
+cd ..
+sudo journalctl -fe
+ctags .
+mkdir daison
+git clone https://bitbucket.org/kazuki229/isucon5
+g co -b daison
+lks
+git clone
+sudo systemctl stop mysql.service
+sudo systemctl stop isuxi.php
+sudo systemctl start mysql.service
+sudo mysql -u isucon -p
+mkdier /home/hhomma/.ssh
+mkdir /home/hhomma/.ssh
+ssh-keygen
+cd .ssh
+cat id_rsa.pub
+git clone https://honson01@bitbucket.org/kazuki229/isucon5.git
+cp isucon5 /home/hhomma/
+cp -r isucon5 /home/hhomma/
+sudo cp -r isucon5 /home/hhomma/
+cd /home/
+cd hhomma/
+sudo vim index.php
+cd /home/hhoma
+git diff
+sudo systemctl restart mysql.service
+cd /home/isucon/
+touch result.csv
+chmod 777 result.csv
+git checkout -b 'title-body'
+sudo git checkout -b 'title-body'
+git add php/index.php
+sudo git add php/index.php
+sudo git add php/templates/index.php
+vi /tmp/file.csv
+ll /var/www/html/index.html
+vim /var/www/html/index.html
+git add index.php
+cd in
+vim i8n
+vim index.php
+git log
+git branch
+sudo git add index.php
+git status
+git commit -m 'body-title分離'
+sudo git commit -m 'body-title分離'
+git st
+git push origin title-body
+c
+git branc
+vi result.csv
+cd /tmp/
+cat file.csv
+cd /home/hhomma
+mkdir cp
+ll
+sudo -su hhomma
+who
+zsh
+cp index.php db_migrate.php
+vi php/
+php -i | grep pdo
+free
+fg
+sudo apt-get install php-mysql
+phpphp --ri pdo
+sudo apt-get install php5-mysql\n
+sudo apt-get install php5-cli
+sudo apt-get install php7.0-mysql\n
+sudo apt-get install php5-mysql
+sudo apt-cache search php5
+sudo apt-get install hp5.6-mysq
+php --ri pdo
+vi db_migrate.php
+php db_migrate.php
+top
+cd daq
+ls /home/hhomma/cp/isucon5/php/template
+ls /home/isucon/webapp/php/templates/
+ls /home/isucon/webapp/php/template/d
+cd static/
+unlink /home/isucon/webapp/php/template
+ll /home/isucon/webapp/php/templates
+vim /home/isucon/webapp/php/templates/index.php
+ll /home/isucon/webapp/php/templates/index.php
+jls
+unlink /home/isucon/webapp/php/templates
+unlink /home/isucon/isucon5/php/templates
+php -v
+unlink /home/isucon/isucon5/php/templates/
+unlink /home/isucon/webapp/php/index.php
+:q
+ll /home/isucon/webapp/php/
+ll /home/isucon/webapp/php
+unlink /home/isucon/webapp/php/templates/
+unlink /home/isucon/webapp/php/templates/templates
+ll /home/isucon/webapp/php/templates/
+cd s
+cd p
+cd /home/hhomma/
+cd cp/
+grep -r entry-title ./*
+cu
+cd ph
+cd /home/hhomma/cp/isucon5/php
+cd iscu
+sudo rm -rf /var/log/mysql/slow.log
+./bench.sh
+sudo pt-query-digest --limit 10 /var/log/mysql/slow.log
+sudo wc -l /var/log/mysql/slow.log
+vi /etc/my.cnf
+sudo cat /var/log/mysql/slow.log
+sudo mysqld --verbose --help > /dev/null
+sl
+show engines;
+;s
+vi /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf
+lvi
+cd isucon5/
+g co php/index.php
+g co master
+vi
+sudo /home/tsuzuku/isucon5/php/index.php
+sudo vi /home/tsuzuku/isucon5/php/index.php
+vi php.ini
+cd templates/
+vi entries.php
+vi templates/
+cd webapp/php/
+less /var/log/nginx/access.log
+l
+vi php/index.php
+cd isucon5n
+su hhomma
+vi .git/config
+rm -rf .gi
+rm -rf .git
+sudo rm -rf .git
+git add README.md\ngit commit -m "first commit"\ngit remote add origin https://github.com/dais0n/isucon5-practice.git\ngit push -u origin master
+hostname
+rm -rf .git/
+ifconfig
+git init
+git add .
+git commit -m "first commit"
+git remote add origin https://github.com/dais0n/isucon5-practice.git
+git push -u origin master
+cd daison/
+cd si
+sudo apt install tmux
+rm -rf isucon5/
+git clone https://github.com/dais0n/isucon5-practice.git
+which tmux
+tmux
+cd perl/
+tmux new -s isu
+tmux ls
+cat tail -f /var/log/nginx/error.log
+d
+find fpm /home/isucon/.local/php/li
+find fpm /home/isucon/.local/php/*
+find php-fpm /home/isucon/.local/php/
+tail /home/isucon/.local/php/var/log/php-fpm.log
+sudo tail /home/isucon/.local/php/var/log/php-fpm.log
+sudo cat /home/isucon/.local/php/var/log/php-fpm.log
+sudo tail -f /home/isucon/.local/php/var/log/php-fpm.log
+sudo less /var/log/nginx/error.log
+sudo tail -f /var/log/nginx/access.log
+vim /home/isucon/webapp/php/index.php
+sudo ovi index.php
+sudo vi index.php
+vim /home/tsuzuku/isucon5/php/index.php
+unlink index.php
+vi make_symlink.sh
+./make_symlink.sh
+cd ~/webapp/php
+vi index.php
+cd ~/isucon5/script
+./bensh.sh
+redis-cli
+cd webapp/
+cd /etc/
+vim redis/redis.conf
+sudo vim redis/redis.conf
+sudp vi php-fpm.conf
+php-fpm.co
+vi nginx.php.conf
+sudo vi php-fpm.conf
+:
+g co nginx.php.conf
+g co php-fpm.conf
+cd isucon5
+cd script/
+touch lotate.sh
+chmod a+x lotate.sh
+vi lotate.sh
+sudo tail -f /var/log/nginx/error.log
+less /var/log/nginx/error.log
+pwd
+vi reload.sh
+mv lotate.sh rotate.sh
+./lotate.sh
+./reload.sh
+cat rotate.sh
+g d
+g reset
+g co make_symlink.sh
+g add .
+g cm
+g push
+nginx -t -c /path/to/nginx.conf
+sudo nginx -t -c /path/to/nginx.conf
+sudo nginx -t -c /etc/nginx/nginx.conf
+ps aux | grep php
+cd php/ls
+cd php/
+u
+cd conf/
+vi php-fpm.conf.default
+vi php-fpm.conf
+ps auxf
+cd /etc/systemd/system/
+systemctl list-dependencies multi-user.target
+sudo systemctl list-dependencies multi-user.target
+ystemctl list-unit-files -t service
+systemctl list-unit-files -t service
+systemctl enabled isuxi.php.service
+systemctl enable isuxi.php.service
+sudo systemctl enable isuxi.php.service
+sudo systemctl disable isuxi.ruby.service
+cat isuxi.php.service
+cd /home/isucon/.local/php/sbin/
+ls p-la
+cd /home/isucon/webapp/php/
+mysql -u isucon -p
+sudo systemctl list-unit-files -t service
+cd /etc/systemd/system
+cat redis.service
+cd /usr/lib/systemd/system
+sudo cat /usr/lib/systemd/system/nginx.service
+sudo cat /usr/lib/systemd/system/
+s
+cd dot
+cd
+ls -la
+cd /home/isucon/webapp/dotfiles/
+g pull
+g s
+mkdir .zsh
+cd .zsh/
+vi snippets
+ls]
