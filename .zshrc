@@ -15,6 +15,7 @@ bindkey "^[u" undo
 bindkey "^[r" redo
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
+export WORDCHARS='*?_.[]~-=&;!#$%^(){}<>' # delimitor
 
 # --------------
 # prompt
@@ -33,6 +34,7 @@ setopt list_packed
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
     /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
+zstyle ':completion:*:default' menu select=1
 
 # --------------
 # history
@@ -63,7 +65,7 @@ bindkey "\\en" history-beginning-search-forward-end # ESC-N
 # ssh
 # --------------
 # .ssh  for .ssh/ssh-configs/*/config
-alias ssh='cat ~/.ssh/ssh-configs/_config.global ~/.ssh/ssh-configs/*/config > ~/.ssh/config; ssh'
+#alias ssh='cat ~/.ssh/ssh-configs/_config.global ~/.ssh/ssh-configs/*/config > ~/.ssh/config; ssh'
 #chmod 700 ~/.ssh/config
 
 # --------------
@@ -71,9 +73,11 @@ alias ssh='cat ~/.ssh/ssh-configs/_config.global ~/.ssh/ssh-configs/*/config > ~
 # --------------
 alias du='du -h'
 alias df='df -h'
-alias ll='ls -lath'
+alias ls='ls -F'
+alias ll='ls -ltr'
 alias cp='cp -i'
 alias mv='mv -i'
+alias h='hostname'
 alias mkdir='mkdir -p'
 alias g='git'
 alias u='cd ..'
@@ -83,11 +87,8 @@ alias uuuu='cd ../../../..'
 alias vi='vim'
 alias rmi='rm -i'
 alias ghd='cd $(ghq list --full-path | peco)'
-alias gd='git diff'
-alias gdc='git diff --cached'
-alias gl='git log --graph --decorate --oneline'
-alias gs='git status'
-alias gp='git pull --rebase'
+alias memo=peco-memo-dir-open
+alias grep='grep --color'
 if [ "$(uname)" = 'Darwin' ]; then
     alias ls='ls -G'
 else
@@ -144,17 +145,6 @@ function peco-select-history {
 zle -N peco-select-history
 bindkey '^r' peco-select-history
 
-function peco-cd () {
-    local selected_dir=$(find ~/ -type d | peco)
-    if [ -n "$selected_dir" ]; then
-        BUFFER="cd ${selected_dir}"
-        zle accept-line
-    fi
-    zle clear-screen
-}
-zle -N peco-cd
-bindkey '^x^f' peco-cd
-
 function peco-cdr() {
     local selected_dir=$(cdr -l | awk '{ print $2 }' | peco)
     if [ -n "$selected_dir" ]; then
@@ -166,10 +156,21 @@ function peco-cdr() {
 zle -N peco-cdr
 bindkey '^Z' peco-cdr
 
+function peco-memo-dir-open () {
+    find ~/Documents/memo -type f | sort -r | peco | xargs sh -c 'vim "$0" < /dev/tty'
+}
+zle -N peco-memo-dir-open
+
+function peco-snippets() {
+    BUFFER=$(grep -v "^#" ~/.zsh/snippets | peco --query "$LBUFFER")
+    zle reset-prompt
+}
+zle -N peco-snippets
+bindkey '^T' peco-snippets
+
 # --------------
 # plugin
 # --------------
 # zsh-syntax-highlighting
 [ -f ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
