@@ -46,6 +46,9 @@ Plug 'majutsushi/tagbar'
 Plug 'szw/vim-tags'
 Plug 'ervandew/supertab'
 Plug 'easymotion/vim-easymotion'
+Plug 'kshenoy/vim-signature'
+Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
 call plug#end()
 " ctrlp
 let g:ctrlp_show_hidden = 1
@@ -80,6 +83,18 @@ nnoremap <C-]> g<C-]>zz
 let g:vim_tags_auto_generate = 1
 " easy motion
 map <Leader> <Plug>(easymotion-prefix)
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-x>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 "-----------------
 " general
 "-----------------

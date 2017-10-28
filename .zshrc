@@ -89,6 +89,11 @@ alias rmi='rm -i'
 alias ghd='cd $(ghq list --full-path | peco)'
 alias memo=peco-memo-dir-open
 alias grep='grep --color'
+alias dstat-full='dstat -Tclmdrn'
+alias dstat-mem='dstat -Tclm'
+alias dstat-cpu='dstat -Tclr'
+alias dstat-net='dstat -Tclnd'
+alias dstat-disk='dstat -Tcldr'
 if [ "$(uname)" = 'Darwin' ]; then
     alias ls='ls -G'
 else
