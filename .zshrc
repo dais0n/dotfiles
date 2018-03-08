@@ -20,7 +20,7 @@ export WORDCHARS='*?_.[]~-=&;!#$%^(){}<>' # delimitor
 # --------------
 # prompt
 # --------------
-fpath=( "$HOME/.zfunctions" $fpath )
+fpath=( "$HOME/.zfunctions" "$HOME/.zsh/completion" $fpath )
 autoload -U promptinit; promptinit
 prompt pure
 
@@ -35,6 +35,8 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
     /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 zstyle ':completion:*:default' menu select=1
+zstyle ':completion:*:*:docker:*' option-stacking yes
+zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
 # --------------
 # history
@@ -179,3 +181,6 @@ bindkey '^T' peco-snippets
 # zsh-syntax-highlighting
 [ -f ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# added by travis gem
+[ -f /Users/daison/.travis/travis.sh ] && source /Users/daison/.travis/travis.sh

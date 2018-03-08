@@ -49,6 +49,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'kshenoy/vim-signature'
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
+Plug 'fatih/vim-go'
 call plug#end()
 " ctrlp
 let g:ctrlp_show_hidden = 1
@@ -64,6 +65,14 @@ nnoremap <silent> <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden = 0 " show hidden files in default
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'node_modules', 'bower_components']
 " vim-surround
+" syntastic
+let g:syntastic_check_on_save=1
+let g:syntastic_auto_loc_list=1
+let g:syntastic_loc_list_height=6
+let g:syntastic_javascript_checkers = ['eslint']
+set statusline+=%#warningmsg# "エラーメッセージの書式
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 " indent_guides
 filetype plugin indent on
 let g:indent_guides_enable_on_vim_startup = 1
@@ -95,6 +104,11 @@ let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+let g:go_fmt_command = "goimports"
+" lightline vim
+set laststatus=2
+
 "-----------------
 " general
 "-----------------
