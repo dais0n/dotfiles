@@ -40,7 +40,6 @@ ifeq ($(UNAME),Darwin)
 endif
 ifeq ($(UNAME),Linux)
 	wget https://github.com/motemen/ghq/releases/download/v0.7.4/ghq_linux_amd64.zip
-	sudo yum -y install unzip
 	unzip ghq_linux_amd64.zip -d ghq_linux_amd64 && sudo mv ghq_linux_amd64/ghq /usr/local/bin && rm -rf ghq_linux_amd64*
 endif
 clean:
