@@ -50,8 +50,7 @@ Plug 'szw/vim-tags'
 Plug 'ervandew/supertab'
 Plug 'easymotion/vim-easymotion'
 Plug 'kshenoy/vim-signature'
-Plug 'honza/vim-snippets'
-Plug 'SirVer/ultisnips'
+Plug 'fatih/vim-go'
 call plug#end()
 " ctrlp
 let g:ctrlp_show_hidden = 1
@@ -107,6 +106,7 @@ let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:go_fmt_command = "goimports"
 
 " lightline vim
 set laststatus=2
