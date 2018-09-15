@@ -141,6 +141,17 @@ if [ -e "${GOPATH}" ]; then
     export PATH=${GOPATH}/bin:$PATH
 fi
 
+export SNAP_PATH="/snap"
+if [ -e "${SNAP_PATH}" ]; then
+    export PATH=${SNAP_PATH}/bin:$PATH
+fi
+
+export ANDROID_HOME="${HOME}/Android/Sdk"
+if [ -e "${ANDROID_HOME}" ]; then
+    export PATH=$PATH:$ANDROID_HOME/tools
+    export PATH=$PATH:$ANDROID_HOME/platform-tools
+fi
+
 # --------------
 # peco
 # --------------
@@ -164,7 +175,7 @@ zle -N peco-cdr
 bindkey '^Z' peco-cdr
 
 function peco-memo-dir-open () {
-    find ~/Documents/memo -type f | sort -r | peco | xargs sh -c 'vim "$0" < /dev/tty'
+    find ~/memo -type f | sort -r | peco | xargs sh -c 'vim "$0" < /dev/tty'
 }
 zle -N peco-memo-dir-open
 
@@ -184,3 +195,10 @@ bindkey '^T' peco-snippets
 
 # added by travis gem
 [ -f /Users/daison/.travis/travis.sh ] && source /Users/daison/.travis/travis.sh
+source <(kubectl completion zsh)
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/dais0n/google-cloud-sdk/path.zsh.inc' ]; then source '/home/dais0n/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/dais0n/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/dais0n/google-cloud-sdk/completion.zsh.inc'; fi

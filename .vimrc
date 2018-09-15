@@ -9,6 +9,7 @@ augroup END
 "----------------
 " statusline
 "----------------
+set encoding=UTF-8
 set statusline=%F  " filename
 set statusline+=%m " check mode change
 set statusline+=%r " check readonly
@@ -32,6 +33,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'scrooloose/nerdtree'
+Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/syntastic'
 Plug 'tomtom/tcomment_vim'
@@ -49,7 +52,6 @@ Plug 'easymotion/vim-easymotion'
 Plug 'kshenoy/vim-signature'
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
-Plug 'fatih/vim-go'
 call plug#end()
 " ctrlp
 let g:ctrlp_show_hidden = 1
@@ -64,6 +66,7 @@ map <C-n> :NERDTreeToggle<CR>
 nnoremap <silent> <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden = 0 " show hidden files in default
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'node_modules', 'bower_components']
+let g:NERDTreeLimitedSyntax = 1
 " vim-surround
 " syntastic
 let g:syntastic_check_on_save=1
@@ -105,7 +108,6 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-let g:go_fmt_command = "goimports"
 " lightline vim
 set laststatus=2
 
@@ -126,6 +128,7 @@ set softtabstop=4
 set autoindent
 set smartindent
 set shiftwidth=4
+set clipboard=unnamedplus
 filetype plugin indent on
 augroup fileTypeIndent
     autocmd!
@@ -135,6 +138,7 @@ augroup fileTypeIndent
     autocmd BufNewFile,BufRead *.js setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufNewFile,BufRead *.html setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufNewFile,BufRead *.vue setf js setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.yaml setlocal ts=2 sts=2 sw=2 shiftwidth=2
 augroup END
 set backspace=indent,eol,start
 set whichwrap=b,s,h,l,<,>,[,],~
@@ -163,7 +167,6 @@ nnoremap <F3> :noh<CR>
 set number
 set history=700
 set showcmd
-set clipboard=unnamed
 set lazyredraw
 set ttyfast
 set showbreak=↪
