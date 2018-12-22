@@ -1,67 +1,40 @@
-# systemd
-systemctl restart
-systemctl status
-systemctl list-unit-files -t service
-systemctl enable isuxi.php.service
-systemctl disable isuxi.ruby.service
-# journalctl
-journalctl -xe
-# nginx
-# alp
-alp --max --tsv -r -f /var/log/nginx/access.log
-alp --cnt --tsv -r -f /var/log/nginx/access.log
-alp --max --tsv -r -f /var/log/nginx/access.log --aggregates='/friends/*, /profile/*, /diary/entry/*'
-# mysql
-mysql -u isucon -p --socket=/var/lib/mysql/mysql.sock
-wget http://mysqltuner.pl/ -O mysqltuner.pl
-mysqld --verbose --help > /dev/null
-# other
-perl mysqltuner.pl --user isucon --pass isucon
-pt-query-digest --limit 10 /var/log/mysql/slow.log
-sudo nginx -t -c /etc/nginx/nginx.conf
-cp hoge.cnf{,.`date "+%Y%m%d_%H%M%S"`}
-
-
-# delete backup files which are made 15 days ago
-find . -mtime +15 -name "*.tar.gz" | xargs rm
-# search .txt file in hoge
-find . -type f -name "\*.txt" | xargs grep "hoge"
-# search and replace
-find -name "*.php" | xargs sed -i "s///g"
-# find hoge
-find ./ -type f -print | xargs grep 'hoge'
-# file diff
-diff -u /etc/ssh/sshd-config /etc/ssh/sshd-config.org
-# find files which is 1 GB or more
-find / -size +1G -ls
-# folder size
-du -sh dir
-# find and remove
-find . -name "\*.txt" | xargs rm
-# tmpwatch
-tmpwatch -m 960 /var/tmp/guile
-# change extention
-for nm in *.xlsm; do mv -f "$nm" "${nm%.xlsm}.xls"; done
-# jsonapi post
+# mac
+dscacheutil -flushcache # delete dns cache
+# git
+git commit --amend
+git branch -D # delete local branch
+git push --delete origin branch_name # delete remote branch
+git show-branch | grep '*' | grep -v "$(git rev-parse --abbrev-ref HEAD)" | head -1 | awk -F'[]~^[]' '{print $2}' # check parent branch
+git log --oneline | peco | cut -d" " -f1 | xargs git show # git show
+git submodule update -i # git submodule
+# curl
 curl -H "Content-Type: application/json" -X POST -d '{"username":"xyz","password":"xyz"}' http://localhost:3000/v1/login
-# grep with filename and number
-grep -nH ${PATTERN} ${FILES}
-# connection
-watch 'netstat -an | grep ESTABLISHED | grep :80 | wc -l'
-# export environment variable list
-export -p
-# cpu infomation
-cat /proc/cpuinfo | grep processor
-# mem info
-cat /proc/meminfo
-# find big folder
-sudo /usr/bin/du -g -x -d 5 / | awk '$1 >= 5{print}'
-#portscan
-sudo lsof -i -P | grep "LISTEN"
-sudo lsof -i -n -P
-# exclude .gitignore
-git config --global core.excludesfile ~/.gitignore
-# commit
-git filter-branch --commit-filter ' GIT_AUTHOR_NAME="dais0n" GIT_AUTHOR_EMAIL="t.omura8383@gmail.com" GIT_COMMITTER_NAME="dais0n" GIT_COMMITTER_EMAIL="t.omura8383@gmail.com" git commit-tree "$@" ' HEAD
-
-
+# kubernetes
+kubectl config set-context $(kubectl config current-context) --namespace=<YOUR_NAMESPACE> # change namespace
+# investigation
+netstat -ltapn | grep ESTABLISHED | more
+netstat -ltan | grep ":80 " | awk '{print $5}' | awk -F : '{print $4}' | sort | uniq -c | sort -nr | head
+lsof -i:80
+nc localhost 8080 # netcat
+dstat -Tclmdrn
+dstat -Tclm
+dstat -Tclr
+dstat -Tclnd
+dstat -Tcldr
+dstat --top-cpu --top-cputime
+dstat --top-io --top-bio
+dstat --top-io-adv --top-bio-adv
+date +%Y%m%d
+date -r 1537370697
+echo | openssl s_client -connect google.co.jp:443 | openssl x509 -text | less
+openssl rsa -in private-key.pem -text -noout
+openssl rsa -pubin -in public-key.pem -text -noout
+openssl x509 -in public-key.crt -text -noout
+openssl ciphers -v
+du -ma | sort -rn | head -100 # sort disk
+find . -type f -name "*.php"
+find . -mtime +15 -name "*.tar.gz" | xargs rm # delete backup files which are made 15 days ago
+find . -type f -name "\*.txt" | xargs grep "hoge" # search .txt file written in xxx
+find / -size +1G -ls
+diff -u
+du -sh dir # folder size

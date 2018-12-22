@@ -10,18 +10,29 @@ setopt auto_pushd
 setopt pushd_ignore_dups
 setopt noautoremoveslash
 setopt nolistbeep
+setopt auto_resume
+setopt interactive_comments
 setopt globdots # dotfile effective
+setopt no_flow_control
 bindkey "^[u" undo
 bindkey "^[r" redo
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
 export WORDCHARS='*?_.[]~-=&;!#$%^(){}<>' # delimitor
+export LESS='-gj10 --no-init --quit-if-one-screen --RAW-CONTROL-CHARS -iMRN'
+
+zstyle ':completion:*' recent-dirs-insert both
+zstyle ':chpwd:*' recent-dirs-max 500
+zstyle ':chpwd:*' recent-dirs-default true
+zstyle ':chpwd:*' recent-dirs-pushd true
 
 # --------------
 # prompt
 # --------------
-fpath=( "$HOME/.zfunctions" "$HOME/.zsh/completion" $fpath )
+fpath=( "$HOME/.zfunctions" $fpath )
 autoload -U promptinit; promptinit
+autoload -U colors; colors
+RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
 prompt pure
 
 # --------------
@@ -54,8 +65,8 @@ setopt hist_save_no_dups
 setopt hist_expire_dups_first
 setopt hist_expand
 setopt inc_append_history
-autoload history-search-end
 
+autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end # CTRL-P
@@ -73,29 +84,35 @@ bindkey "\\en" history-beginning-search-forward-end # ESC-N
 # --------------
 # alias
 # --------------
+alias e='emacs'
+alias k='kubectl'
+alias l='ls -la'
+alias h='hostname'
+alias g='git'
+alias u='cd ..'
 alias du='du -h'
 alias df='df -h'
 alias ls='ls -F'
 alias ll='ls -ltr'
 alias cp='cp -i'
 alias mv='mv -i'
-alias h='hostname'
 alias mkdir='mkdir -p'
-alias g='git'
-alias u='cd ..'
 alias uu='cd ../..'
 alias uuu='cd ../../..'
 alias uuuu='cd ../../../..'
-alias vi='vim'
+if which nvim >/dev/null 2>&1; then
+    alias vi='nvim'
+else
+    alias vi='vim'
+fi
 alias rmi='rm -i'
 alias ghd='cd $(ghq list --full-path | peco)'
 alias memo=peco-memo-dir-open
 alias grep='grep --color'
-alias dstat-full='dstat -Tclmdrn'
-alias dstat-mem='dstat -Tclm'
-alias dstat-cpu='dstat -Tclr'
-alias dstat-net='dstat -Tclnd'
-alias dstat-disk='dstat -Tcldr'
+alias vg='agvim'
+alias gb='git branch -a | peco | xargs git checkout'
+alias ij='open -b com.jetbrains.intellij'
+
 if [ "$(uname)" = 'Darwin' ]; then
     alias ls='ls -G'
 else
@@ -123,11 +140,11 @@ alias -s {gz,tgz,zip,lzh,bz2,tbz,Z,tar,arj,xz}=extract
 # path
 # --------------
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-export PYENV_ROOT="${HOME}/.pyenv"
-if [ -d "${PYENV_ROOT}" ]; then
-    export PATH=${PYENV_ROOT}/bin:$PATH
-    eval "$(pyenv init -)"
-fi
+# export PYENV_ROOT="${HOME}/.pyenv"
+# if [ -d "${PYENV_ROOT}" ]; then
+#     export PATH=${PYENV_ROOT}/bin:$PATH
+#     eval "$(pyenv init -)"
+# fi
 export TEXPATH="/Library/TeX/texbin"
 if [ -e "${TEXPATH}" ]; then
     export PATH=${TEXPATH}/bin:$PATH
@@ -140,16 +157,18 @@ export GOPATH="${HOME}/go"
 if [ -e "${GOPATH}" ]; then
     export PATH=${GOPATH}/bin:$PATH
 fi
-
-export SNAP_PATH="/snap"
-if [ -e "${SNAP_PATH}" ]; then
-    export PATH=${SNAP_PATH}/bin:$PATH
+export GOENVPATH="${HOME}/.goenv"
+if [ -e "${GOENVPATH}" ]; then
+    export PATH=${GOENVPATH}/bin:$PATH
+    eval "$(goenv init -)"
 fi
-
-export ANDROID_HOME="${HOME}/Android/Sdk"
-if [ -e "${ANDROID_HOME}" ]; then
-    export PATH=$PATH:$ANDROID_HOME/tools
-    export PATH=$PATH:$ANDROID_HOME/platform-tools
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home
+if [ -e "${JAVA_HOME}" ]; then
+    export PATH=$PATH:$JAVA_HOME/bin
+fi
+export PHP_HOME="${HOME}/.composer/vendor"
+if [ -e "${PHP_HOME}" ]; then
+    export PATH=$PATH:$PHP_HOME/bin
 fi
 
 # --------------
@@ -175,7 +194,7 @@ zle -N peco-cdr
 bindkey '^Z' peco-cdr
 
 function peco-memo-dir-open () {
-    find ~/memo -type f | sort -r | peco | xargs sh -c 'vim "$0" < /dev/tty'
+    find ~/Documents/memo -type f | sort -r | peco | xargs sh -c 'vim "$0" < /dev/tty'
 }
 zle -N peco-memo-dir-open
 
@@ -184,7 +203,27 @@ function peco-snippets() {
     zle reset-prompt
 }
 zle -N peco-snippets
-bindkey '^T' peco-snippets
+bindkey '^S' peco-snippets
+
+function peco-select-tmux-session()
+{
+    if [ -n "$TMUX"  ]; then
+        echo 'Do not use this command in a tmux session.'
+        return 1
+    fi
+
+    local session="$(tmux list-sessions | peco | cut -d : -f 1)"
+    if [ -n "$session"  ]; then
+        BUFFER="tmux a -t $session"
+        zle accept-line
+    fi
+}
+zle -N peco-select-tmux-session
+bindkey '^u' peco-select-tmux-session
+
+function agvim () {
+  exec ag "$@" . | peco --exec 'awk -F : '"'"'{print "+" $2 " " $1}'"'"' | xargs -o vim '
+}
 
 # --------------
 # plugin
@@ -192,13 +231,4 @@ bindkey '^T' peco-snippets
 # zsh-syntax-highlighting
 [ -f ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-# added by travis gem
-[ -f /Users/daison/.travis/travis.sh ] && source /Users/daison/.travis/travis.sh
-source <(kubectl completion zsh)
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/dais0n/google-cloud-sdk/path.zsh.inc' ]; then source '/home/dais0n/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/dais0n/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/dais0n/google-cloud-sdk/completion.zsh.inc'; fi
+[ -f ${HOME}/.zsh/kubectl.zsh ] && source ${HOME}/.zsh/kubectl.zsh
