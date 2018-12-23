@@ -84,7 +84,7 @@ bindkey "\\en" history-beginning-search-forward-end # ESC-N
 # --------------
 # alias
 # --------------
-alias e='emacs'
+alias e='emacs -nw'
 alias k='kubectl'
 alias l='ls -la'
 alias h='hostname'
