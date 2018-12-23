@@ -117,7 +117,6 @@ xmap gs  <plug>(GrepperOperator)
 nnoremap <leader>g :Grepper -tool git<cr>
 command! -nargs=+ -complete=file GrepperGit Grepper -noprompt -tool git -query <args>
 "Airline
-let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
@@ -130,6 +129,7 @@ let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycach
 let NERDTreeWinSize=35
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 autocmd FileType nerdtree setlocal nolist
+let g:NERDTreeNodeDelimiter = "\u00a0"
 
 "-----------------
 " general
@@ -139,7 +139,7 @@ set encoding=utf-8
 set nobackup
 set modeline
 set fileencoding=utf-8
-set fileencodings=ucs-boms,utf-8,euc-jp,cp932
+set fileencodings=utf-8,euc-jp,cp932
 set fileformats=unix,dos,mac
 set ambiwidth=double
 set expandtab " change tab to space
