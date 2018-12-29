@@ -33,7 +33,7 @@ set encoding=UTF-8
 call plug#begin('~/.vim/plugged')
 " general
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'altercation/vim-colors-solarized'
+Plug 'jnurmine/Zenburn'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/syntastic'
 Plug 'tomtom/tcomment_vim'
@@ -203,7 +203,7 @@ vnoremap v $h " select endline by vv
 " color
 set background=dark
 try
-    colorscheme solarized
+    colorscheme zenburn
 catch
 endtry
 highlight clear SignColumn
