@@ -12,6 +12,8 @@ install: vim-init zsh-init
 	zsh
 vim-init: ctags-init
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+emacs-init:
+	ln -snfv $(CURRENTDIR)/.emacs.d/init.el $(HOME)/.emacs.d/init.el
 zsh-init: peco-init pure-init
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
 	git clone -b v0.4.0 https://github.com/zsh-users/zsh-autosuggestions.git ~/.zsh/zsh-autosuggestions
