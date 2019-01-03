@@ -2,23 +2,29 @@
 ; package
 ; ----
 (require 'package)
+(package-initialize)
 
+;(setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
-(package-initialize)
-(package-refresh-contents)
+; helm
+(require 'helm-config)
+(helm-mode 1)
+(global-set-key (kbd "M-x") 'helm-M-x)
 
-(package-install 'init-loader)
-(package-install 'php-mode)
-(package-install 'markdown-mode)
-(package-install 'yaml-mode)
-(package-install 'auto-complete)
-(package-install 'go-mode)
-(package-install 'go-autocomplete)
-(package-install 'golint)
-(package-install 'dockerfile-mode)
-(package-install 'neotree)
-(package-install 'zenburn-theme)
+; company
+(require 'company)
+(global-company-mode)
+(setq company-idle-delay 0)
+(setq company-minimum-prefix-length 2)
+(setq company-selection-wrap-around t)
+(define-key company-active-map (kbd "M-n") nil)
+(define-key company-active-map (kbd "M-p") nil)
+(define-key company-active-map (kbd "C-n") 'company-select-next)
+(define-key company-active-map (kbd "C-p") 'company-select-previous)
+(define-key company-active-map (kbd "C-h") nil)
+ ;markdown-mode
+(setq markdown-command "multimarkdown")
 
 ; ----
 ; language
@@ -87,6 +93,10 @@
 
 (tool-bar-mode -1)
 
+;allow symlink
+(setq vc-follow-symlinks t)
+(setq auto-revert-check-vc-info t)
+
 (display-time)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -95,7 +105,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (zenburn-theme auto-complete yaml-mode php-mode neotree markdown-mode init-loader golint go-mode go-autocomplete dockerfile-mode))))
+    (vue-mode zenburn-theme auto-complete yaml-mode php-mode neotree markdown-mode init-loader golint go-mode go-autocomplete dockerfile-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

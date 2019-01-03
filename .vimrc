@@ -59,6 +59,7 @@ Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
 " js support
 Plug 'othree/yajs.vim', {'for': 'javascript'}
 Plug 'heavenshell/vim-jsdoc', {'for': 'javascript'}
+Plug 'posva/vim-vue'
 call plug#end()
 
 "-----------------
@@ -90,6 +91,7 @@ let g:syntastic_mode_map = {
 let g:syntastic_php_checkers = ['php', 'phpmd']
 let g:syntastic_php_phpmd_post_args='unusedcode'
 let g:syntastic_php_phpcs_args='--standard=psr2'
+let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming empty <", "unescaped &" , "lacks \"action", "is not recognized!", "discarding unexpected"]
 " indent_guides
 filetype plugin indent on
 let g:indent_guides_enable_on_vim_startup = 1
@@ -157,7 +159,7 @@ augroup fileTypeIndent
     autocmd BufNewFile,BufRead *.js setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufNewFile,BufRead *.html setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufNewFile,BufRead *.yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufNewFile,BufRead *.vue setf js setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.vue setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
