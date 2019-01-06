@@ -16,6 +16,7 @@
 (global-set-key (kbd "C-x b") 'helm-mini)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-c h o") 'helm-occur)
+(global-set-key (kbd "C-x C-r") 'helm-recentf)
 (helm-autoresize-mode t)
 
 ; company
@@ -57,6 +58,15 @@
 
 ; undo-tree
 (global-undo-tree-mode)
+
+; recentf
+(setq recentf-max-saved-items 2000)
+(setq recentf-auto-cleanup 'never)
+(setq recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
+(recentf-mode 1)
+(add-hook 'after-init-hook (lambda()
+    (recentf-open-files)
+    ))
 
 ; ----
 ; language
@@ -136,7 +146,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (avy undo-tree multiple-cursors wgrep git-gutter+ helm company editorconfig flycheck nyan-mode ox-hugo vue-mode zenburn-theme auto-complete yaml-mode php-mode neotree markdown-mode init-loader golint go-mode go-autocomplete dockerfile-mode))))
+    (htmlize avy undo-tree multiple-cursors wgrep git-gutter+ helm company editorconfig flycheck nyan-mode ox-hugo vue-mode zenburn-theme auto-complete yaml-mode php-mode neotree markdown-mode init-loader golint go-mode go-autocomplete dockerfile-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
