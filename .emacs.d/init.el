@@ -10,7 +10,13 @@
 ; helm
 (require 'helm-config)
 (helm-mode 1)
+(global-set-key (kbd "C-c h") 'helm-command-prefix)
 (global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(global-set-key (kbd "C-x b") 'helm-mini)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-c h o") 'helm-occur)
+(helm-autoresize-mode t)
 
 ; company
 (require 'company)
@@ -23,8 +29,34 @@
 (define-key company-active-map (kbd "C-n") 'company-select-next)
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
 (define-key company-active-map (kbd "C-h") nil)
- ;markdown-mode
+
+; markdown-mode
 (setq markdown-command "multimarkdown")
+
+; nyan-mode
+(nyan-mode 1)
+
+; flycheck
+(require 'flycheck)
+
+; editorconfig
+(require 'editorconfig)
+(editorconfig-mode 1)
+(setq edconf-exec-path "/usr/local/bin/editorconfig")
+
+(with-eval-after-load 'editorconfig
+  (add-to-list 'editorconfig-indentation-alist
+               '(vue-mode css-indent-offset
+                          js-indent-level
+                          sgml-basic-offset
+                          ssass-tab-width
+                          )))
+
+; git-gutter-plus
+(global-git-gutter+-mode)
+
+; undo-tree
+(global-undo-tree-mode)
 
 ; ----
 ; language
@@ -77,8 +109,6 @@
 
 (electric-pair-mode 1)
 
-(setq-default tab-width 4 indent-tabs-mode nil)
-
 (setq inhibit-startup-message t)
 
 (column-number-mode t)
@@ -97,6 +127,7 @@
 (setq vc-follow-symlinks t)
 (setq auto-revert-check-vc-info t)
 
+
 (display-time)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -105,10 +136,11 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (ox-hugo vue-mode zenburn-theme auto-complete yaml-mode php-mode neotree markdown-mode init-loader golint go-mode go-autocomplete dockerfile-mode))))
+    (avy undo-tree multiple-cursors wgrep git-gutter+ helm company editorconfig flycheck nyan-mode ox-hugo vue-mode zenburn-theme auto-complete yaml-mode php-mode neotree markdown-mode init-loader golint go-mode go-autocomplete dockerfile-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
