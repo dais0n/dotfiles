@@ -40,9 +40,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'majutsushi/tagbar'
 Plug 'jiangmiao/auto-pairs'
-Plug 'glidenote/memolist.vim'
 Plug 'tyru/open-browser.vim'
-Plug 'kannokanno/previm'
 Plug 'thinca/vim-quickrun'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'airblade/vim-gitgutter'
@@ -108,8 +106,6 @@ let g:vim_tags_project_tags_command = "/usr/local/bin/ctags . 2>/dev/null"
 let g:quickrun_config={'*': {'split': ''}}
 set splitbelow
 nnoremap <C-c> :<C-u>bw! \[quickrun\ output\]<CR>
-" memolist.vim
-let g:memolist_path = "~/Documents/memo"
 " ctags
 nnoremap <C-]> g<C-]>zz " ctags
 " supertab
