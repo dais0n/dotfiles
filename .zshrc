@@ -29,11 +29,17 @@ zstyle ':chpwd:*' recent-dirs-pushd true
 # --------------
 # prompt
 # --------------
+# pure prompt
 fpath=( "$HOME/.zfunctions" $fpath )
 autoload -U promptinit; promptinit
 autoload -U colors; colors
-RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
 prompt pure
+
+# kube prompt
+if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
+    source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+    PS1='$(kube_ps1) '$PS1
+fi
 
 # --------------
 # completion

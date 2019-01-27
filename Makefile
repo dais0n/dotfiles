@@ -31,6 +31,8 @@ pure-init:
 	mkdir ~/.zfunctions
 	curl -L https://raw.githubusercontent.com/dais0n/pure/master/pure.zsh > ~/.zfunctions/prompt_pure_setup
 	curl -L https://raw.githubusercontent.com/dais0n/pure/master/async.zsh > ~/.zfunctions/async
+kube-ps1-init:
+	brew install kube-ps1
 ctags-init:
 ifdef IS_CTAGS
 	@echo "ctags installed"

@@ -8,16 +8,15 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 ; helm
-(require 'helm-config)
-(helm-mode 1)
-(global-set-key (kbd "C-c h") 'helm-command-prefix)
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-x b") 'helm-mini)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-c h o") 'helm-occur)
-(global-set-key (kbd "C-x C-r") 'helm-recentf)
-(helm-autoresize-mode t)
+;
+;
+;c h") 'helm-command-prefix)
+;x") 'helm-M-x)
+;y") 'helm-show-kill-ring)
+;x b") 'helm-mini)
+;x C-f") 'helm-find-files)
+;c h o") 'helm-occur)
+;
 
 ; company
 (require 'company)
@@ -44,32 +43,6 @@
 (require 'editorconfig)
 (editorconfig-mode 1)
 (setq edconf-exec-path "/usr/local/bin/editorconfig")
-
-(with-eval-after-load 'editorconfig
-  (add-to-list 'editorconfig-indentation-alist
-               '(vue-mode css-indent-offset
-                          js-indent-level
-                          sgml-basic-offset
-                          ssass-tab-width
-                          )))
-
-; git-gutter-plus
-(global-git-gutter+-mode)
-
-; undo-tree
-(global-undo-tree-mode)
-
-; recentf
-(setq recentf-max-saved-items 2000)
-(setq recentf-auto-cleanup 'never)
-(setq recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
-(recentf-mode 1)
-
-; ----
-; org
-; ----
-(global-set-key (kbd "C-c C-q") 'org-capture)
-
 
 ; ----
 ; language
@@ -149,7 +122,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (htmlize avy undo-tree multiple-cursors wgrep git-gutter+ helm company editorconfig flycheck nyan-mode ox-hugo vue-mode zenburn-theme auto-complete yaml-mode php-mode neotree markdown-mode init-loader golint go-mode go-autocomplete dockerfile-mode))))
+    (company editorconfig flycheck nyan-mode ox-hugo vue-mode zenburn-theme auto-complete yaml-mode php-mode neotree markdown-mode init-loader golint go-mode go-autocomplete dockerfile-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
