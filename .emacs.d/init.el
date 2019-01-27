@@ -34,9 +34,6 @@
 ; markdown-mode
 (setq markdown-command "multimarkdown")
 
-; nyan-mode
-(nyan-mode 1)
-
 ; flycheck
 (require 'flycheck)
 
@@ -64,6 +61,25 @@
 (setq recentf-auto-cleanup 'never)
 (setq recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
 (recentf-mode 1)
+
+; lsp
+(require 'vue-mode)
+(require 'lsp-mode)
+
+(setq lsp-auto-guess-root t)  ;; if you have projectile ...
+
+(with-eval-after-load 'lsp-mode
+  (require 'lsp-ui))
+
+(defun vuejs-custom ()
+  (lsp)
+  (lsp-ui-mode)
+  (push 'company-lsp company-backends)
+  (flycheck-mode t)
+  (company-mode))
+
+(add-hook 'vue-mode-hook 'vuejs-custom)
+
 
 ; ----
 ; org
@@ -149,7 +165,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (htmlize avy undo-tree multiple-cursors wgrep git-gutter+ helm company editorconfig flycheck nyan-mode ox-hugo vue-mode zenburn-theme auto-complete yaml-mode php-mode neotree markdown-mode init-loader golint go-mode go-autocomplete dockerfile-mode))))
+    (lsp-mode lsp-vue htmlize avy undo-tree multiple-cursors wgrep git-gutter+ helm company editorconfig flycheck ox-hugo vue-mode zenburn-theme auto-complete yaml-mode php-mode neotree markdown-mode init-loader golint go-mode go-autocomplete dockerfile-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

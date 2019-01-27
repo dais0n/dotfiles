@@ -38,6 +38,9 @@ prompt pure
 # kube prompt
 if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
     source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+    #KUBE_PS1_PREFIX=""
+    #KUBE_PS1_SUFFIX=""
+    #KUBE_PS1_SEPARATOR=""
     PS1='$(kube_ps1)
 '$PS1
 fi
