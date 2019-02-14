@@ -22,6 +22,9 @@
     rv = remote --verbose
     l = log --graph --date=short --decorate=short --pretty=format:'%C(red)%h　%C(reset)-%C(yellow)%d %Creset%s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
     ll = log --graph --all --abbrev-commit --date=relative --pretty=format:'%C(red)%h　%C(reset)-%C(yellow)%d %Creset%s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+    o = open
+    om = open origin master
+    od = open origin develop
 [push]
     default = current
 [credential]
