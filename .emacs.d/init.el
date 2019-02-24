@@ -8,79 +8,81 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 ; company
-(require 'company)
-(global-company-mode)
-(setq company-idle-delay 0)
-(setq company-minimum-prefix-length 2)
-(setq company-selection-wrap-around t)
-(define-key company-active-map (kbd "M-n") nil)
-(define-key company-active-map (kbd "M-p") nil)
-(define-key company-active-map (kbd "C-n") 'company-select-next)
-(define-key company-active-map (kbd "C-p") 'company-select-previous)
-(define-key company-active-map (kbd "C-h") nil)
+(when (require 'company nil t)
+  (global-company-mode)
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 2)
+  (setq company-selection-wrap-around t)
+  (define-key company-active-map (kbd "M-n") nil)
+  (define-key company-active-map (kbd "M-p") nil)
+  (define-key company-active-map (kbd "C-n") 'company-select-next)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous)
+  (define-key company-active-map (kbd "C-h") nil))
 
-; ivy/counsel
-(ivy-mode 1)
-(counsel-mode 1)
+; Ivy/counsel
+(when (require 'ivy-mode nil t)
+  (ivy-mode 1)
+  (counseq:l-mode 1)
 
-(global-set-key "\C-s" 'swiper)
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key (kbd "<f6>") 'ivy-resume)
-(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-(global-set-key (kbd "C-c g") 'counsel-git)
-(global-set-key (kbd "C-c j") 'counsel-git-grep)
-(global-set-key (kbd "C-c k") 'counsel-ag)
-(global-set-key (kbd "C-x l") 'counsel-locate)
-(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+  (global-set-key "\C-s" 'swiper)
+  (global-set-key (kbd "C-c C-r") 'ivy-resume)
+  (global-set-key (kbd "<f6>") 'ivy-resume)
+  (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+  (global-set-key (kbd "C-c g") 'counsel-git)
+  (global-set-key (kbd "C-c j") 'counsel-git-grep)
+  (global-set-key (kbd "C-c k") 'counsel-ag)
+  (global-set-key (kbd "C-x l") 'counsel-locate)
+  (global-set-key (kbd "C-S-o") 'counsel-rhythmbox))
 
 ; markdown-mode
-(setq markdown-command "multimarkdown")
+(when (require 'markdown-mode nil t)
+(setq markdown-command "multimarkdown"))
 
 ; flycheck
 (require 'flycheck)
 
 ; editorconfig
-(require 'editorconfig)
-(editorconfig-mode 1)
-(setq edconf-exec-path "/usr/local/bin/editorconfig")
+(when (require 'editorconfig nil t)
+  (editorconfig-mode 1)
+  (setq edconf-exec-path "/usr/local/bin/editorconfig")
 
-(with-eval-after-load 'editorconfig
-  (add-to-list 'editorconfig-indentation-alist
-               '(vue-mode css-indent-offset
-                          js-indent-level
-                          sgml-basic-offset
-                          ssass-tab-width
-                          )))
+  (with-eval-after-load 'editorconfig
+                        (add-to-list 'editorconfig-indentation-alist
+                                     '(vue-mode css-indent-offset
+                                                js-indent-level
+                                                sgml-basic-offset
+                                                ssass-tab-width
+                                                ))))
 
 ; git-gutter-plus
-(global-git-gutter+-mode)
+(when (require 'git-gutter+ nil t)
+  (global-git-gutter+-mode))
 
 ; undo-tree
-(global-undo-tree-mode)
+(when (require 'undo-tree nil t)
+  (global-undo-tree-mode))
 
 ; recentf
+(when (require 'recentf nil t)
 (setq recentf-max-saved-items 2000)
 (setq recentf-auto-cleanup 'never)
 (setq recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
-(recentf-mode 1)
+(recentf-mode 1))
 
 ; lsp
-(require 'vue-mode)
-(require 'lsp-mode)
+(when (require 'vue-mode nil t))
+(when (require 'lsp-mode nil t)
+  (setq lsp-auto-guess-root t)  ;; if you have projectile ...
+  (with-eval-after-load 'lsp-mode
+                        (require 'lsp-ui))
+  (defun vuejs-custom ()
+    (lsp)
+    (lsp-ui-mode)
+    (push 'company-lsp company-backends)
+    (flycheck-mode t)
+    (company-mode))
 
-(setq lsp-auto-guess-root t)  ;; if you have projectile ...
-
-(with-eval-after-load 'lsp-mode
-  (require 'lsp-ui))
-
-(defun vuejs-custom ()
-  (lsp)
-  (lsp-ui-mode)
-  (push 'company-lsp company-backends)
-  (flycheck-mode t)
-  (company-mode))
-
-(add-hook 'vue-mode-hook 'vuejs-custom)
+  (add-hook 'vue-mode-hook 'vuejs-custom))
 
 
 ; ----
@@ -119,7 +121,9 @@
 ; ----
 ; preferences
 ; ----
-(load-theme 'zenburn t)
+(when (require 'zenburn-theme nil t)
+  (load-theme 'zenburn t))
+
 ; startup message
 (setq inhibit-startup-message 1)
 (if (eq window-system 'x)
@@ -161,17 +165,16 @@
 
 (display-time)
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (counsel lsp-mode lsp-vue htmlize avy undo-tree multiple-cursors wgrep git-gutter+ company editorconfig flycheck ox-hugo vue-mode zenburn-theme auto-complete yaml-mode php-mode neotree markdown-mode init-loader golint go-mode go-autocomplete dockerfile-mode))))
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+  '(package-selected-packages
+     (quote
+       (counsel lsp-ui lsp-mode lsp-vue htmlize avy undo-tree multiple-cursors wgrep git-gutter+ company editorconfig flycheck ox-hugo vue-mode zenburn-theme auto-complete yaml-mode php-mode neotree markdown-mode init-loader golint go-mode go-autocomplete dockerfile-mode))))
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+  )
