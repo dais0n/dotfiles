@@ -2,7 +2,6 @@
 " plugin
 "-----------------
 call plug#begin('~/.local/share/nvim/plugged')
-"common
 Plug 'w0rp/ale'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'ctrlpvim/ctrlp.vim'
@@ -12,24 +11,19 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'tyru/open-browser.vim'
+Plug 'tomtom/tcomment_vim'
+Plug 'jnurmine/Zenburn'
+Plug 'glidenote/memolist.vim'
+Plug 'kannokanno/previm'
+" airline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'jnurmine/Zenburn'
-Plug 'tomtom/tcomment_vim'
 Plug 'jiangmiao/auto-pairs'
 " nerd tree
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-" lsp
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
 " go support
 Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries' }
-" markdown support
-Plug 'glidenote/memolist.vim'
-Plug 'kannokanno/previm'
 " nginx
 Plug 'chr4/nginx.vim'
 call plug#end()
@@ -41,18 +35,6 @@ let g:ctrlp_custom_ignore = {
   \ 'link': '',
   \ }
 let g:ctrlp_cmd = 'CtrlPMRU' " mru first
-
-" lsp
-let g:lsp_diagnostics_enabled = 0
-" if executable('gopls')
-"     au User lsp_setup call lsp#register_server({
-"         \ 'name': 'gopls',
-"         \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-"         \ 'whitelist': ['go'],
-"         \ })
-" endif
-autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
-"au FileType go nnoremap <C-]> :<C-u>LspDefinition<CR>
 
 " ale
 let g:ale_lint_on_text_changed = 'never'
@@ -93,6 +75,10 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline_theme = 'base16'
+
+let g:lsp_diagnostics_enabled = 0
+" debug
+let g:lsp_log_verbose = 1
 
 " vim-go
 let g:go_fmt_command = "goimports"
@@ -135,21 +121,22 @@ filetype plugin on
 filetype plugin indent on
 augroup fileTypeIndent
     autocmd!
-    autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
-    autocmd BufNewFile,BufRead *.rb setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufNewFile,BufRead *.sh setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufNewFile,BufRead *.js setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufNewFile,BufRead *.json setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufNewFile,BufRead *.html setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufNewFile,BufRead *.xml setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufNewFile,BufRead *.yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufNewFile,BufRead *.yml setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufNewFile,BufRead *.vue setf js setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    au BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
+    au BufNewFile,BufRead *.rb setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    au BufNewFile,BufRead *.sh setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    au BufNewFile,BufRead *.js setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    au BufNewFile,BufRead *.json setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    au BufNewFile,BufRead *.html setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    au BufNewFile,BufRead *.xml setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    au BufNewFile,BufRead *.yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    au BufNewFile,BufRead *.yml setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    au BufNewFile,BufRead *.vue setf js setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd Filetype php  :set omnifunc=phpcomplete#CompletePHP
+au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+au FileType css setlocal omnifunc=csscomplete#CompleteCSS
+au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+au Filetype php  :set omnifunc=phpcomplete#CompletePHP
+au BufRead,BufNewFile *.md set filetype=markdown
 set backspace=indent,eol,start
 set whichwrap=b,s,h,l,<,>,[,],~
 set showmatch
@@ -168,6 +155,7 @@ set incsearch
 set splitright
 set tags=tags,../tags,../../tags,../../../tags,../../../../tags,../../../../../tags
 set grepprg=grep\ -rnIH\ --exclude-dir=.svn\ --exclude-dir=.git
+set syntax=markdown
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
