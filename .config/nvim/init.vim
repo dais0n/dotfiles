@@ -22,6 +22,8 @@ Plug 'jiangmiao/auto-pairs'
 " nerd tree
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" lsp
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
 " go support
 Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries' }
 " nginx
@@ -80,6 +82,9 @@ let g:lsp_diagnostics_enabled = 0
 " debug
 let g:lsp_log_verbose = 1
 
+" coc
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
 " vim-go
 let g:go_fmt_command = "goimports"
 let g:go_version_warning = 0
@@ -94,7 +99,6 @@ let g:go_highlight_types = 1
 let g:go_auto_sameids = 1
 let g:go_auto_type_info = 1
 let g:go_gocode_unimported_packages = 1
-let g:go_def_mode='gopls'
 let g:go_doc_keywordprg_enabled = 0
 
 "-----------------
