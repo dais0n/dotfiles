@@ -10,7 +10,7 @@
     {
         "key": "ctrl+n",
         "command": "workbench.action.toggleSidebarVisibility",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && vim.mode != 'Insert'"
     },
     {
         "key": "cmd+b",

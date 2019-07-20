@@ -72,7 +72,7 @@ vscode-extension-install:
 	@while read -r line; do \
 		code --install-extension "$$line"; \
 	done <$(CURRENTDIR)/.vscode/extensions
-vscode-backup:
+vscode-extension-backup:
 	code --list-extensions > $(CURRENTDIR)/.vscode/extensions
 clean:
 	@$(foreach val, $(CLEAN_TARGET), rm -rf $(HOME)/$(val);)
