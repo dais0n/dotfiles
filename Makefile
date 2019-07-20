@@ -65,6 +65,15 @@ docker-init:
 nvim-init:
 	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	ln -snfv $(CURRENTDIR)/.config/nvim/init.vim $(HOME)/.config/nvim/init.vim
+vscode-init:
+	rm "$(HOME)/Library/Application Support/Code/User/settings.json" || ln -snfv "$(CURRENTDIR)/.vscode/settings.json" "$(HOME)/Library/Application Support/Code/User/settings.json"
+	rm "$(HOME)/Library/Application Support/Code/User/keybindings.json" || ln -snfv "$(CURRENTDIR)/.vscode/keybindings.json" "$(HOME)/Library/Application Support/Code/User/keybindings.json"
+vscode-extension-install:
+	@while read -r line; do \
+		code --install-extension "$$line"; \
+	done <$(CURRENTDIR)/.vscode/extensions
+vscode-backup:
+	code --list-extensions > $(CURRENTDIR)/.vscode/extensions
 clean:
 	@$(foreach val, $(CLEAN_TARGET), rm -rf $(HOME)/$(val);)
 update:
