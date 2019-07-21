@@ -1,5 +1,5 @@
 {
-  "editor.fontSize": 12,
+  "editor.fontSize": 13,
   "editor.fontFamily": "RictyDiminishedDiscord Nerd Font",
   "editor.renderControlCharacters": true,
   "editor.formatOnSave": true,
@@ -62,4 +62,13 @@
     "vs-kubernetes.draft-path": "/Users/dais0n/.vs-kubernetes/tools/draft/darwin-amd64/draft",
     "vs-kubernetes.minikube-path": "/Users/dais0n/.vs-kubernetes/tools/minikube/darwin-amd64/minikube"
   },
+  "eslint.autoFixOnSave": true,
+  "eslint.validate": [
+    {
+      "language": "vue",
+      "autoFix": true
+    }
+  ],
+  "vetur.validation.template": false,
+  "vetur.format.defaultFormatter.html": "none"
 }
