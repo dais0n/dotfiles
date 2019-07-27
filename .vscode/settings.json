@@ -1,16 +1,19 @@
 {
-  "editor.fontSize": 13,
+  "editor.fontSize": 14,
   "editor.fontFamily": "RictyDiminishedDiscord Nerd Font",
   "editor.renderControlCharacters": true,
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
   "editor.minimap.enabled": false,
   "editor.hover.enabled": false,
+  "editor.links": true,
+  "editor.quickSuggestions": true,
   "workbench.startupEditor": "newUntitledFile",
   "terminal.external.osxExec": "iTerm.app",
   "terminal.integrated.shell.osx": "/usr/local/bin/zsh",
   "terminal.integrated.setLocaleVariables": false,
   "terminal.integrated.copyOnSelection": true,
+  "extensions.autoUpdate": true,
   "vim.easymotion": true,
   "vim.sneak": true,
   "vim.incsearch": true,
@@ -19,33 +22,18 @@
   "vim.hlsearch": true,
   "vim.insertModeKeyBindings": [
     {
-      "before": [
-        "j",
-        "j"
-      ],
-      "after": [
-        "<Esc>"
-      ]
+      "before": ["j", "j"],
+      "after": ["<Esc>"]
     }
   ],
   "vim.normalModeKeyBindingsNonRecursive": [
     {
-      "before": [
-        "<leader>",
-        "d"
-      ],
-      "after": [
-        "d",
-        "d"
-      ]
+      "before": ["<leader>", "d"],
+      "after": ["d", "d"]
     },
     {
-      "before": [
-        "<C-n>"
-      ],
-      "commands": [
-        ":nohl"
-      ]
+      "before": ["<C-n>"],
+      "commands": [":nohl"]
     }
   ],
   "vim.leader": "<space>",
@@ -55,20 +43,25 @@
   },
   "vim.visualstar": true,
   "vim.foldfix": true,
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "workbench.colorTheme": "Zenburn (No Bold)",
+  "workbench.colorTheme": "Zenburn",
   "vs-kubernetes": {
     "vs-kubernetes.helm-path": "/Users/dais0n/.vs-kubernetes/tools/helm/darwin-amd64/helm",
     "vs-kubernetes.draft-path": "/Users/dais0n/.vs-kubernetes/tools/draft/darwin-amd64/draft",
     "vs-kubernetes.minikube-path": "/Users/dais0n/.vs-kubernetes/tools/minikube/darwin-amd64/minikube"
   },
-  "eslint.autoFixOnSave": true,
+  "prettier.eslintIntegration": true,
+  "eslint.enable": true,
   "eslint.validate": [
+    "javascript",
     {
       "language": "vue",
       "autoFix": true
     }
   ],
-  "vetur.validation.template": false,
-  "vetur.format.defaultFormatter.html": "none"
+  "eslint.options": {
+    "configFile": ".eslintrc.js"
+  },
+  "eslint.autoFixOnSave": true,
+  "vetur.format.defaultFormatter.js": "vscode-typescript",
+  "files.autoSave": "afterDelay"
 }
