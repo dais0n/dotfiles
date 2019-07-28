@@ -41,6 +41,7 @@ if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
     #KUBE_PS1_PREFIX=""
     #KUBE_PS1_SUFFIX=""
     #KUBE_PS1_SEPARATOR=""
+    KUBE_PS1_CTX_COLOR="green"
     PS1='$(kube_ps1)
 '$PS1
 fi
