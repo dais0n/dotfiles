@@ -63,5 +63,6 @@
   },
   "eslint.autoFixOnSave": true,
   "vetur.format.defaultFormatter.js": "vscode-typescript",
-  "files.autoSave": "afterDelay"
+  "files.autoSave": "afterDelay",
+  "window.zoomLevel": 0
 }

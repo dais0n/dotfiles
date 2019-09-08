@@ -38,3 +38,9 @@ find . -type f -name "\*.txt" | xargs grep "hoge" # search .txt file written in 
 find / -size +1G -ls
 diff -u
 du -sh dir # folder size
+# tmux
+tmux set-window-option synchronize-panes on
+# mac
+networksetup -setdnsservers Wi-Fi 8.8.8.8
+networksetup -getdnsservers Wi-Fi
+networksetup -setairportpower en0 on

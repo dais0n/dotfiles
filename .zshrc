@@ -243,3 +243,9 @@ function agvim () {
 [ -f ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 [ -f ${HOME}/.zsh/kubectl.zsh ] && source ${HOME}/.zsh/kubectl.zsh
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/dais0n/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/dais0n/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/dais0n/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/dais0n/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
