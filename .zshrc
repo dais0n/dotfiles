@@ -18,7 +18,7 @@ bindkey "^[u" undo
 bindkey "^[r" redo
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
-export WORDCHARS='*?_.[]~-=&;!#$%^(){}<>' # delimitor
+export WORDCHARS="*?_.[]~-=&;!#$%^(){}<>\'" # delimitor
 export LESS='-gj10 --no-init --quit-if-one-screen --RAW-CONTROL-CHARS -iMRN'
 
 zstyle ':completion:*' recent-dirs-insert both
@@ -29,7 +29,6 @@ zstyle ':chpwd:*' recent-dirs-pushd true
 # --------------
 # prompt
 # --------------
-# pure prompt
 fpath=( "$HOME/.zfunctions" $fpath )
 autoload -U promptinit; promptinit
 autoload -U colors; colors
@@ -103,9 +102,11 @@ alias g='git'
 alias u='cd ..'
 alias du='du -h'
 alias df='df -h'
+alias kc='kubectx'
+alias kn='kubens'
 alias ls='ls -F'
 alias ll='ls -ltr'
-alias cp='cp -i'
+#alias cp='cp -i'
 alias mv='mv -i'
 alias mkdir='mkdir -p'
 alias uu='cd ../..'
@@ -118,11 +119,11 @@ else
 fi
 alias rmi='rm -i'
 alias ghd='cd $(ghq list --full-path | peco)'
-alias memo=peco-memo-dir-open
 alias grep='grep --color'
 alias vg='agvim'
 alias gb='git branch -a | peco | xargs git checkout'
 alias ij='open -b com.jetbrains.intellij'
+alias tsplit='tmux split-window -v -p 30 && tmux split-window -h -p 66 && tmux split-window -h -p 50 '
 
 if [ "$(uname)" = 'Darwin' ]; then
     alias ls='ls -G'
@@ -173,7 +174,7 @@ if [ -e "${GOENVPATH}" ]; then
     export PATH=${GOENVPATH}/bin:$PATH
     eval "$(goenv init -)"
 fi
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_192.jdk/Contents/Home
 if [ -e "${JAVA_HOME}" ]; then
     export PATH=$PATH:$JAVA_HOME/bin
 fi
@@ -181,6 +182,9 @@ export PHP_HOME="${HOME}/.composer/vendor"
 if [ -e "${PHP_HOME}" ]; then
     export PATH=$PATH:$PHP_HOME/bin
 fi
+
+# go 1.12
+export GO111MODULE=on
 
 # --------------
 # peco
@@ -203,11 +207,6 @@ function peco-cdr() {
 }
 zle -N peco-cdr
 bindkey '^Z' peco-cdr
-
-function peco-memo-dir-open () {
-    find ~/Documents/memo -type f | sort -r | peco | xargs sh -c 'vim "$0" < /dev/tty'
-}
-zle -N peco-memo-dir-open
 
 function peco-snippets() {
     BUFFER=$(grep -v "^#" ~/.zsh/snippets | peco --query "$LBUFFER")
@@ -242,10 +241,4 @@ function agvim () {
 # zsh-syntax-highlighting
 [ -f ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-[ -f ${HOME}/.zsh/kubectl.zsh ] && source ${HOME}/.zsh/kubectl.zsh
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/dais0n/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/dais0n/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/dais0n/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/dais0n/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+source <(kubectl completion zsh)

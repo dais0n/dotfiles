@@ -1,29 +1,12 @@
 "----------------
 " init
 "----------------
-" reset augroup
-augroup MyAutoCmd
-  autocmd!
-augroup END
 
 "----------------
 " statusline
 "----------------
-"set statusline=%F  " filename
-"set statusline+=%m " check mode change
-"set statusline+=%r " check readonly
-"set statusline+=%h " help page
-"set statusline+=%w " preview
-" rightstatus
-"set statusline+=%=
-"set statusline+=[ENC=%{&fileencoding}] " file encoding
-"set statusline+=[LOW=%l/%L] " display rows
-"function! g:Date()
-"    return strftime("%x %H:%M")
-"endfunction
-"set statusline+=\ \%{g:Date()}
-set laststatus=2  " Always display the statusline in all windows
-set showtabline=2 " Always display the tabline, even if there is only one tab
+set laststatus=2
+set showtabline=2
 set completeopt=menuone
 set encoding=UTF-8
 
@@ -40,14 +23,14 @@ Plug 'tomtom/tcomment_vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'majutsushi/tagbar'
 Plug 'jiangmiao/auto-pairs'
+Plug 'glidenote/memolist.vim'
 Plug 'tyru/open-browser.vim'
+Plug 'kannokanno/previm'
 Plug 'thinca/vim-quickrun'
-Plug 'ntpeters/vim-better-whitespace'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'szw/vim-tags'
 Plug 'ervandew/supertab'
-Plug 'vim-airline/vim-airline'
 Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
 " nerdtree
 Plug 'scrooloose/nerdtree'
@@ -73,9 +56,6 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_cmd = 'CtrlPMRU' " mru first
 " vim-surround
 " syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_check_on_save=1
 let g:syntastic_auto_loc_list = 1
@@ -106,6 +86,8 @@ let g:vim_tags_project_tags_command = "/usr/local/bin/ctags . 2>/dev/null"
 let g:quickrun_config={'*': {'split': ''}}
 set splitbelow
 nnoremap <C-c> :<C-u>bw! \[quickrun\ output\]<CR>
+" memolist.vim
+let g:memolist_path = "~/Documents/memo"
 " ctags
 nnoremap <C-]> g<C-]>zz " ctags
 " supertab
@@ -114,10 +96,6 @@ let g:SuperTabDefaultCompletionType = "context"
 xmap gs  <plug>(GrepperOperator)
 nnoremap <leader>g :Grepper -tool git<cr>
 command! -nargs=+ -complete=file GrepperGit Grepper -noprompt -tool git -query <args>
-"Airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 1
-let g:airline#extensions#tabline#tab_nr_type = 1
 " nerdtree
 map <C-n> :NERDTreeToggle<CR>
 nnoremap <silent> <C-n> :NERDTreeToggle<CR>
@@ -128,6 +106,8 @@ let NERDTreeWinSize=35
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 autocmd FileType nerdtree setlocal nolist
 let g:NERDTreeNodeDelimiter = "\u00a0"
+
+
 
 "-----------------
 " general
@@ -232,3 +212,5 @@ aug QFClose
   au!
   au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
 aug END
+
+let g:go_fmt_command = "goimports"
