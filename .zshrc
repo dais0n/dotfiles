@@ -118,10 +118,9 @@ else
     alias vi='vim'
 fi
 alias rmi='rm -i'
-alias ghd='cd $(ghq list --full-path | peco)'
+alias ghd='cd $(ghq list --full-path | fzf)'
 alias grep='grep --color'
 alias vg='agvim'
-alias gb='git branch -a | peco | xargs git checkout'
 alias ij='open -b com.jetbrains.intellij'
 alias tsplit='tmux split-window -v -p 30 && tmux split-window -h -p 66 && tmux split-window -h -p 50 '
 
@@ -187,53 +186,33 @@ fi
 export GO111MODULE=on
 
 # --------------
-# peco
+# fzf
 # --------------
-function peco-select-history {
-    BUFFER=`history -n -r 1 | peco --query "$LBUFFER"`
-    CURSOR=$#BUFFER
-    zle reset-prompt
+function fzf-history() {
+  BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
+  CURSOR=$#BUFFER
+  zle reset-prompt
 }
-zle -N peco-select-history
-bindkey '^r' peco-select-history
 
-function peco-cdr() {
-    local selected_dir=$(cdr -l | awk '{ print $2 }' | peco)
+zle -N fzf-history
+bindkey '^R' fzf-history
+
+function fzf-cdr() {
+    local selected_dir=$(cdr -l | awk '{ print $2 }' | fzf --prompt="Cdr > ")
     if [ -n "$selected_dir" ]; then
         BUFFER="cd ${selected_dir}"
         zle accept-line
     fi
-    zle clear-screen
 }
-zle -N peco-cdr
-bindkey '^Z' peco-cdr
+zle -N fzf-cdr
+bindkey '^Z' fzf-cdr
 
-function peco-snippets() {
-    BUFFER=$(grep -v "^#" ~/.zsh/snippets | peco --query "$LBUFFER")
+function fzf-snippets() {
+    BUFFER=$(grep -v "^#" ~/.zsh/snippets | fzf --query "$LBUFFER" --prompt="Snippet > ")
     zle reset-prompt
 }
-zle -N peco-snippets
-bindkey '^S' peco-snippets
-
-function peco-select-tmux-session()
-{
-    if [ -n "$TMUX"  ]; then
-        echo 'Do not use this command in a tmux session.'
-        return 1
-    fi
-
-    local session="$(tmux list-sessions | peco | cut -d : -f 1)"
-    if [ -n "$session"  ]; then
-        BUFFER="tmux a -t $session"
-        zle accept-line
-    fi
-}
-zle -N peco-select-tmux-session
-bindkey '^u' peco-select-tmux-session
-
-function agvim () {
-  exec ag "$@" . | peco --exec 'awk -F : '"'"'{print "+" $2 " " $1}'"'"' | xargs -o vim '
-}
+zle -N fzf-snippets
+bindkey '^S' fzf-snippets
 
 # --------------
 # plugin
