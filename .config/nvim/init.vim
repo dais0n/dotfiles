@@ -234,3 +234,8 @@ aug QFClose
   au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
 aug END
 
+" use ripgrep
+command! -bang -nargs=* Rg
+            \ call fzf#vim#grep(
+            \   'rg --line-number --no-heading '.shellescape(<q-args>), 0,
+            \   fzf#vim#with_preview({'options': '--exact --reverse'}, 'right:50%:wrap'))
