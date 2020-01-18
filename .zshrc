@@ -150,12 +150,12 @@ alias -s {gz,tgz,zip,lzh,bz2,tbz,Z,tar,arj,xz}=extract
 # --------------
 # path
 # --------------
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-# export PYENV_ROOT="${HOME}/.pyenv"
-# if [ -d "${PYENV_ROOT}" ]; then
-#     export PATH=${PYENV_ROOT}/bin:$PATH
-#     eval "$(pyenv init -)"
-# fi
+export PATH="/home/y/bin64:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PYENV_ROOT="${HOME}/.pyenv"
+if [ -d "${PYENV_ROOT}" ]; then
+    export PATH=${PYENV_ROOT}/bin:$PATH
+    eval "$(pyenv init -)"
+fi
 export TEXPATH="/Library/TeX/texbin"
 if [ -e "${TEXPATH}" ]; then
     export PATH=${TEXPATH}/bin:$PATH
@@ -182,6 +182,8 @@ if [ -e "${PHP_HOME}" ]; then
     export PATH=$PATH:$PHP_HOME/bin
 fi
 
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
 # go 1.12
 export GO111MODULE=on
 
@@ -189,7 +191,7 @@ export GO111MODULE=on
 # fzf
 # --------------
 function fzf-history() {
-  BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
+  BUFFER=$(history -n -r 1 | fzf -e --no-sort +m --query "$LBUFFER" --prompt="History > ")
   CURSOR=$#BUFFER
   zle reset-prompt
 }
@@ -198,7 +200,7 @@ zle -N fzf-history
 bindkey '^R' fzf-history
 
 function fzf-cdr() {
-    local selected_dir=$(cdr -l | awk '{ print $2 }' | fzf --prompt="Cdr > ")
+    local selected_dir=$(cdr -l | awk '{ print $2 }' | fzf -e --prompt="Cdr > ")
     if [ -n "$selected_dir" ]; then
         BUFFER="cd ${selected_dir}"
         zle accept-line
@@ -208,7 +210,7 @@ zle -N fzf-cdr
 bindkey '^Z' fzf-cdr
 
 function fzf-snippets() {
-    BUFFER=$(grep -v "^#" ~/.zsh/snippets | fzf --query "$LBUFFER" --prompt="Snippet > ")
+    BUFFER=$(grep -v "^#" ~/.zsh/snippets | fzf -e --query "$LBUFFER" --prompt="Snippet > ")
     zle reset-prompt
 }
 zle -N fzf-snippets

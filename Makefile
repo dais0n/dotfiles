@@ -6,42 +6,53 @@ UNAME 	          := $(shell uname)
 CURRENTDIR        := $(shell pwd)
 IS_CTAGS          := $(shell ctags --version 2> /dev/null)
 
+.PHONY: help
+## print all available commands
+help:
+	@awk '/^[a-zA-Z\_0-9%:\\\/-]+:/ { \
+	  helpMessage = match(lastLine, /^## (.*)/); \
+	  if (helpMessage) { \
+	    helpCommand = $$1; \
+	    helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
+      gsub("\\\\", "", helpCommand); \
+      gsub(":+$$", "", helpCommand); \
+	    printf "  \x1b[32;01m%-35s\x1b[0m %s\n", helpCommand, helpMessage; \
+	  } \
+	} \
+	{ lastLine = $$0 }' $(MAKEFILE_LIST) | sort -u
+	@printf "\n"
+
+.PHONY: install
+## zsh and vim init and make symlink
 install: vim-init zsh-init
 	@$(foreach val, $(DOTFILES_FILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
 	vim +PlugInstall +qall
 	zsh
-vim-init: ctags-init
+
+.PHONY: vim-init
+## install vim-plug
+vim-init:
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-emacs-init:
-	ln -snfv $(CURRENTDIR)/.emacs.d/init.el $(HOME)/.emacs.d/init.el
-zsh-init: peco-init pure-init
+
+.PHONY: zsh-init
+## install prompt theme and fzf
+zsh-init: fzf-init pure-init
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
 	git clone -b v0.4.0 https://github.com/zsh-users/zsh-autosuggestions.git ~/.zsh/zsh-autosuggestions
 	ln -snfv $(CURRENTDIR)/.zsh/snippets $(HOME)/.zsh/snippets
-peco-init:
-ifeq ($(UNAME),Darwin)
-	curl -L -O https://github.com/peco/peco/releases/download/v0.5.1/peco_darwin_amd64.zip
-	unzip peco_darwin_amd64.zip && sudo mv peco_darwin_amd64/peco /usr/local/bin && rm -rf peco_darwin_amd64 peco_darwin_amd64.zip
-endif
-ifeq ($(UNAME),Linux)
-	curl -L -O https://github.com/peco/peco/releases/download/v0.5.1/peco_linux_amd64.tar.gz
-	tar -zxvf peco_linux_amd64.tar.gz && sudo mv peco_linux_amd64/peco /usr/local/bin && rm -rf peco_linux_amd64 peco_linux_amd64.tar.gz
-endif
+
+.PHONY: fzf-init
+## install fzf
+
+.PHONY: pure-init
+## install pure prompt
 pure-init:
 	mkdir ~/.zfunctions
 	curl -L https://raw.githubusercontent.com/dais0n/pure/master/pure.zsh > ~/.zfunctions/prompt_pure_setup
 	curl -L https://raw.githubusercontent.com/dais0n/pure/master/async.zsh > ~/.zfunctions/async
-kube-ps1-init:
-	brew install kube-ps1
-ctags-init:
-ifdef IS_CTAGS
-	@echo "ctags installed"
-else
-	curl -LO 'http://prdownloads.sourceforge.net/ctags/ctags-5.8.tar.gz'
-	tar -zxvf ctags-5.8.tar.gz
-	cd ctags-5.8 && ./configure --prefix=/usr/local && make && sudo make install
-	rm -rf ctags-5.8 && rm ctags-5.8.tar.gz
-endif
+
+.PHONY: ghq-init
+## install ghq
 ghq-init:
 ifeq ($(UNAME),Darwin)
 	wget https://github.com/motemen/ghq/releases/download/v0.7.4/ghq_darwin_amd64.zip
@@ -51,31 +62,36 @@ ifeq ($(UNAME),Linux)
 	wget https://github.com/motemen/ghq/releases/download/v0.7.4/ghq_linux_amd64.zip
 	unzip ghq_linux_amd64.zip -d ghq_linux_amd64 && sudo mv ghq_linux_amd64/ghq /usr/local/bin && rm -rf ghq_linux_amd64*
 endif
-ag-init:
-	wget https://geoff.greer.fm/ag/releases/the_silver_searcher-2.1.0.tar.gz
-	tar -zxvf the_silver_searcher-2.1.0.tar.gz
-	cd the_silver_searcher-2.1.0 && ./configure --prefix=/usr/local && make && sudo make install
-php-init:
-	curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && composer
-	composer global require "squizlabs/php_codesniffer=*"
-	composer global require "phpmd/phpmd"
+
+.PHONY: docker-init
+## install docker completion
 docker-init:
 	curl -fLo ~/.zfunctions/_docker https://raw.github.com/felixr/docker-zsh-completion/master/_docker
 	exec zsh
+
+.PHONY: kubectx-init
+## install kubectx completion
+kubectx-init:
+	curl -fLo ~/.zfunctions/_kubectx https://raw.githubusercontent.com/ahmetb/kubectx/master/completion/kubectx.zsh
+	curl -fLo ~/.zfunctions/_kubens https://raw.githubusercontent.com/ahmetb/kubectx/master/completion/kubens.zsh
+
+.PHONY: nvim-init
+## install nvim
 nvim-init:
 	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	ln -snfv $(CURRENTDIR)/.config/nvim/init.vim $(HOME)/.config/nvim/init.vim
-vscode-init:
-	rm "$(HOME)/Library/Application Support/Code/User/settings.json" || ln -snfv "$(CURRENTDIR)/.vscode/settings.json" "$(HOME)/Library/Application Support/Code/User/settings.json"
-	rm "$(HOME)/Library/Application Support/Code/User/keybindings.json" || ln -snfv "$(CURRENTDIR)/.vscode/keybindings.json" "$(HOME)/Library/Application Support/Code/User/keybindings.json"
-vscode-extension-install:
-	@while read -r line; do \
-		code --install-extension "$$line"; \
-	done <$(CURRENTDIR)/.vscode/extensions
-vscode-extension-backup:
-	code --list-extensions > $(CURRENTDIR)/.vscode/extensions
+
+.PHONY: krew-init
+## install krew
+krew-init:
+	set -x; cd "$(mktemp -d)" &&
+	curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.3.3/krew.{tar.gz,yaml}" &&
+	tar zxvf krew.tar.gz &&
+	KREW=./krew-"$(uname | tr '[:upper:]' '[:lower:]')_amd64" &&
+	"$KREW" install --manifest=krew.yaml --archive=krew.tar.gz &&
+	"$KREW" update
+
+.PHONY: clean
+## unlink symlink and delete dotfiles
 clean:
 	@$(foreach val, $(CLEAN_TARGET), rm -rf $(HOME)/$(val);)
-update:
-	vim +PlugInstall +qall
-	zsh

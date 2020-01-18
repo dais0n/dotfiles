@@ -2,7 +2,7 @@
 " plugin
 "-----------------
 call plug#begin('~/.local/share/nvim/plugged')
-"common
+" common
 Plug 'w0rp/ale'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'nathanaelkane/vim-indent-guides'
@@ -10,56 +10,71 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'tyru/open-browser.vim'
-Plug 'jnurmine/Zenburn'
 Plug 'tomtom/tcomment_vim'
-Plug 'jiangmiao/auto-pairs'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-surround'
+Plug 'cohama/lexima.vim'
+" lsp
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " nerd tree
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-" lsp
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':call coc#util#install()'}
 " go support
-Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries' }
+Plug 'mattn/vim-goimports'
 " markdown support
-Plug 'glidenote/memolist.vim'
 Plug 'kannokanno/previm'
+Plug 'mattn/vim-maketable'
 " nginx
 Plug 'chr4/nginx.vim'
+" theme
+Plug 'jnurmine/Zenburn'
 call plug#end()
-" lsp
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+" coc
+function! s:completion_check_bs()
+    let l:col = col('.') - 1
+    return !l:col || getline('.')[l:col - 1] =~? '\s'
 endfunction
 
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>completion_check_bs() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" Or use `complete_info` if your vim support it, like:
-" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+"Autocmd CursorHold * silent call CocUpdagteAsync('highlight')
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+vmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 " ale
 let g:ale_lint_on_save = 1
@@ -82,9 +97,6 @@ map <Space> <Plug>(easymotion-overwin-f2)
 setlocal iskeyword+=$
 setlocal iskeyword+=-
 
-" memolist.vim
-let g:memolist_path = "~/Documents/memo"
-
 " indent guides
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
@@ -105,9 +117,6 @@ if exists('g:loaded_webdevicons')
 endif
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
 
-" vim-go
-let g:go_fmt_command = "goimports"
-
 " fzf
 let g:fzf_command_prefix = 'Fzf'
 let g:fzf_layout = { 'down': '~40%' }
@@ -118,13 +127,21 @@ command! -bang -nargs=* Rg
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 nnoremap <silent> <C-p> :FzfFiles<CR>
-nnoremap <Space>h :FzfHistory<cr>
-nnoremap <Space>b :FzfBuffers<cr>
+nnoremap <silent> <C-p> :FzfHistory<cr>
 nnoremap <Space>f :FzfRg<cr>
+
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 "-----------------
 " general
 "-----------------
+if executable('python2')
+    let g:python_host_prog=$PYENV_ROOT.'/versions/neovim-2/bin/python'
+endif
+if executable('python3')
+    let g:python3_host_prog=$PYENV_ROOT.'/versions/neovim-3/bin/python'
+endif
+
 syntax enable
 
 " statusline
@@ -234,7 +251,6 @@ aug QFClose
   au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
 aug END
 
-" use ripgrep
 command! -bang -nargs=* Rg
             \ call fzf#vim#grep(
             \   'rg --line-number --no-heading '.shellescape(<q-args>), 0,
