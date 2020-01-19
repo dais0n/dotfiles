@@ -3,26 +3,24 @@
 "-----------------
 call plug#begin('~/.local/share/nvim/plugged')
 " common
-Plug 'w0rp/ale'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
 Plug 'tyru/open-browser.vim'
 Plug 'tomtom/tcomment_vim'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
-Plug 'cohama/lexima.vim'
+Plug 'cohama/lexima.vim' " auto close
+Plug 'justinmk/vim-dirvish' "filer
+" git
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
 " lsp
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" nerd tree
-Plug 'ryanoasis/vim-devicons'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-" go support
+" go
 Plug 'mattn/vim-goimports'
-" markdown support
+" markdown
 Plug 'kannokanno/previm'
 Plug 'mattn/vim-maketable'
 " nginx
@@ -76,23 +74,6 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
-" ale
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_enter = 0
-let g:ale_fix_on_save = 0
-let g:ale_fix_on_text_changed = 'never'
-let g:ale_sign_error = '⨉'
-let g:ale_sign_warning = '⚠ '
-let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_sign_column_always = 1
-
-" easymotion
-let g:EasyMotion_do_mapping = 0 "Disable default mappings
-map <Space> <Plug>(easymotion-overwin-f2)
-
 " not stop completion $ & /
 setlocal iskeyword+=$
 setlocal iskeyword+=-
@@ -101,21 +82,6 @@ setlocal iskeyword+=-
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
-let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'tagbar', 'unite']
-
-" nerdtree
-map <C-n> :NERDTreeToggle<CR>
-nnoremap <silent> <C-n> :NERDTreeToggle<CR>
-let g:NERDTreeShowBookmarks=1
-let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'node_modules', 'bower_components']
-let NERDTreeWinSize=32
-
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-let g:NERDTreeDirArrows=0
-if exists('g:loaded_webdevicons')
-    call webdevicons#refresh()
-endif
-let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
 
 " fzf
 let g:fzf_command_prefix = 'Fzf'
@@ -192,10 +158,6 @@ augroup fileTypeIndent
     autocmd BufNewFile,BufRead *.yml setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufNewFile,BufRead *.vue setf js setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd Filetype php  :set omnifunc=phpcomplete#CompletePHP
 set backspace=indent,eol,start
 set whichwrap=b,s,h,l,<,>,[,],~
 set showmatch
@@ -231,7 +193,6 @@ set wrapscan
 set shortmess+=I
 vnoremap v $h " select endline by vv
 " color
-set background=dark
 try
     colorscheme zenburn
 catch
