@@ -110,23 +110,6 @@ endif
 
 syntax enable
 
-" statusline
-set statusline=%<
-set statusline+=[%n]
-set statusline+=%m
-set statusline+=%r
-set statusline+=%h
-set statusline+=%w
-set statusline+=%{'['.(&fenc!=''?&fenc:&enc).':'.&ff.']'}
-set statusline+=%y
-set statusline+=\
-if winwidth(0) >= 130
-	set statusline+=%F
-else
-	set statusline+=%t
-endif
-set statusline+=%=
-
 set sh=zsh
 set completeopt=menuone
 set encoding=utf-8
@@ -174,8 +157,6 @@ set wildmenu wildmode=list:full
 set ignorecase
 set incsearch
 set splitright
-set tags=tags,../tags,../../tags,../../../tags,../../../../tags,../../../../../tags
-set grepprg=grep\ -rnIH\ --exclude-dir=.svn\ --exclude-dir=.git
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
@@ -192,7 +173,10 @@ set ttyfast
 set wrapscan
 set shortmess+=I
 vnoremap v $h " select endline by vv
+
+"-----------------
 " color
+"-----------------
 try
     colorscheme zenburn
 catch
@@ -200,10 +184,30 @@ endtry
 highlight clear SignColumn
 set t_Co=256
 highlight Normal ctermbg=none
-nnoremap <F1> <Esc>
-inoremap <F1> <Esc>
 
-" user definition cmd
+"-----------------
+" statusline
+"-----------------
+set statusline=%<
+set statusline+=[%n]
+set statusline+=%m
+set statusline+=%r
+set statusline+=%h
+set statusline+=%w
+set statusline+=%{'['.(&fenc!=''?&fenc:&enc).':'.&ff.']'}
+set statusline+=%y
+set statusline+=\
+if winwidth(0) >= 130
+	set statusline+=%F
+else
+	set statusline+=%t
+endif
+set statusline+=%=
+
+
+"-----------------
+" user cmd
+"-----------------
 command DelBrankLine v/./d
 command DelMathcLine g//d
 command ExecReplaceFiles argdo %s///g | update
@@ -212,6 +216,7 @@ aug QFClose
   au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
 aug END
 
+" rip grep
 command! -bang -nargs=* Rg
             \ call fzf#vim#grep(
             \   'rg --line-number --no-heading '.shellescape(<q-args>), 0,
