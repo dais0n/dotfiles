@@ -19,7 +19,7 @@ Plug 'tpope/vim-fugitive'
 " lsp
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " go
-Plug 'mattn/vim-goimports'
+Plug 'mattn/vim-goimports', { 'for':  'go'}
 " markdown
 Plug 'kannokanno/previm'
 Plug 'mattn/vim-maketable'
@@ -28,6 +28,9 @@ Plug 'chr4/nginx.vim'
 " theme
 Plug 'jnurmine/Zenburn'
 call plug#end()
+
+" dirvish
+map <C-n> :Dirvish<CR>
 
 " coc
 function! s:completion_check_bs()
@@ -221,3 +224,4 @@ command! -bang -nargs=* Rg
             \ call fzf#vim#grep(
             \   'rg --line-number --no-heading '.shellescape(<q-args>), 0,
             \   fzf#vim#with_preview({'options': '--exact --reverse'}, 'right:50%:wrap'))
+

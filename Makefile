@@ -36,20 +36,17 @@ vim-init:
 
 .PHONY: zsh-init
 ## install prompt theme and fzf
-zsh-init: fzf-init pure-init
+zsh-init: prompt-init
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
 	git clone -b v0.4.0 https://github.com/zsh-users/zsh-autosuggestions.git ~/.zsh/zsh-autosuggestions
 	ln -snfv $(CURRENTDIR)/.zsh/snippets $(HOME)/.zsh/snippets
 
-.PHONY: fzf-init
-## install fzf
+.PHONY: prompt-init
+## install prompt
+prompt-init:
+	curl -fsSL https://starship.rs/install.sh | bash
+	ln -snfv $(CURRENTDIR)/.config/starship.toml $(HOME)/.config/starship.toml
 
-.PHONY: pure-init
-## install pure prompt
-pure-init:
-	mkdir ~/.zfunctions
-	curl -L https://raw.githubusercontent.com/dais0n/pure/master/pure.zsh > ~/.zfunctions/prompt_pure_setup
-	curl -L https://raw.githubusercontent.com/dais0n/pure/master/async.zsh > ~/.zfunctions/async
 
 .PHONY: ghq-init
 ## install ghq

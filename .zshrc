@@ -1,6 +1,7 @@
 # --------------
 # general
 # --------------
+fpath=( "$HOME/.zfunctions" $fpath )
 export LANG='ja_JP.UTF-8'
 export LC_ALL='ja_JP.UTF-8'
 bindkey -e
@@ -25,25 +26,6 @@ zstyle ':completion:*' recent-dirs-insert both
 zstyle ':chpwd:*' recent-dirs-max 500
 zstyle ':chpwd:*' recent-dirs-default true
 zstyle ':chpwd:*' recent-dirs-pushd true
-
-# --------------
-# prompt
-# --------------
-fpath=( "$HOME/.zfunctions" $fpath )
-autoload -U promptinit; promptinit
-autoload -U colors; colors
-prompt pure
-
-# kube prompt
-if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
-    source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-    #KUBE_PS1_PREFIX=""
-    #KUBE_PS1_SUFFIX=""
-    #KUBE_PS1_SEPARATOR=""
-    KUBE_PS1_CTX_COLOR="green"
-    PS1='$(kube_ps1)
-'$PS1
-fi
 
 # --------------
 # completion
@@ -85,13 +67,6 @@ bindkey "\\ep" history-beginning-search-backward-end # ESC-P
 bindkey "\\en" history-beginning-search-forward-end # ESC-N
 
 # --------------
-# ssh
-# --------------
-# .ssh  for .ssh/ssh-configs/*/config
-#alias ssh='cat ~/.ssh/ssh-configs/_config.global ~/.ssh/ssh-configs/*/config > ~/.ssh/config; ssh'
-#chmod 700 ~/.ssh/config
-
-# --------------
 # alias
 # --------------
 alias e='emacs -nw'
@@ -128,6 +103,10 @@ if [ "$(uname)" = 'Darwin' ]; then
     alias ls='ls -G'
 else
     alias ls='ls --color=auto'
+fi
+
+if type "exa" > /dev/null 2>&1; then
+    alias ls='exa --git'
 fi
 
 function extract() {
@@ -181,7 +160,6 @@ export PHP_HOME="${HOME}/.composer/vendor"
 if [ -e "${PHP_HOME}" ]; then
     export PATH=$PATH:$PHP_HOME/bin
 fi
-
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # go 1.12
@@ -217,9 +195,13 @@ zle -N fzf-snippets
 bindkey '^S' fzf-snippets
 
 # --------------
-# plugin
+# plugins
 # --------------
 # zsh-syntax-highlighting
 [ -f ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# zsh-autosuggestions
 [ -f ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source <(kubectl completion zsh)
+
+# prompt
+eval "$(starship init zsh)"
