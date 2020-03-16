@@ -1,7 +1,6 @@
 # --------------
 # general
 # --------------
-fpath=( "$HOME/.zfunctions" $fpath )
 export LANG='ja_JP.UTF-8'
 export LC_ALL='ja_JP.UTF-8'
 bindkey -e
@@ -194,9 +193,21 @@ function fzf-snippets() {
 zle -N fzf-snippets
 bindkey '^S' fzf-snippets
 
+function secenv()
+{
+    file=~/.secret_environment_value
+    if [ $# -eq 0 ]; then
+        `gpg <$file`
+    fi
+    if [ $# -eq 1 ]; then
+        `gpg -c --output $file $1`
+    fi
+}
+
 # --------------
 # plugins
 # --------------
+fpath=( "$HOME/.zfunctions" $fpath )
 # zsh-syntax-highlighting
 [ -f ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
