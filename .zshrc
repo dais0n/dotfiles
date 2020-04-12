@@ -1,6 +1,7 @@
 # --------------
 # general
 # --------------
+fpath=( "$HOME/.zfunctions" $fpath )
 export LANG='ja_JP.UTF-8'
 export LC_ALL='ja_JP.UTF-8'
 bindkey -e
@@ -25,6 +26,8 @@ zstyle ':completion:*' recent-dirs-insert both
 zstyle ':chpwd:*' recent-dirs-max 500
 zstyle ':chpwd:*' recent-dirs-default true
 zstyle ':chpwd:*' recent-dirs-pushd true
+# go 1.12
+export GO111MODULE=on
 
 # --------------
 # completion
@@ -78,9 +81,6 @@ alias du='du -h'
 alias df='df -h'
 alias kc='kubectx'
 alias kn='kubens'
-alias ls='ls -F'
-alias ll='ls -ltr'
-#alias cp='cp -i'
 alias mv='mv -i'
 alias mkdir='mkdir -p'
 alias uu='cd ../..'
@@ -91,10 +91,8 @@ if which nvim >/dev/null 2>&1; then
 else
     alias vi='vim'
 fi
-alias rmi='rm -i'
 alias ghd='cd $(ghq list --full-path | fzf)'
 alias grep='grep --color'
-alias vg='agvim'
 alias ij='open -b com.jetbrains.intellij'
 alias tsplit='tmux split-window -v -p 30 && tmux split-window -h -p 66 && tmux split-window -h -p 50 '
 
@@ -106,6 +104,7 @@ fi
 
 if type "exa" > /dev/null 2>&1; then
     alias ls='exa --git'
+    alias ll='exa -halT --git --time-style=iso --group-directories-first'
 fi
 
 function extract() {
@@ -129,43 +128,23 @@ alias -s {gz,tgz,zip,lzh,bz2,tbz,Z,tar,arj,xz}=extract
 # path
 # --------------
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-export PYENV_ROOT="${HOME}/.pyenv"
-if [ -d "${PYENV_ROOT}" ]; then
-    export PATH=${PYENV_ROOT}/bin:$PATH
-    eval "$(pyenv init -)"
-fi
 export TEXPATH="/Library/TeX/texbin"
 if [ -e "${TEXPATH}" ]; then
     export PATH=${TEXPATH}/bin:$PATH
-fi
-export NODE_BREW_DIR="${HOME}/.nodebrew/current/bin"
-if [ -e "${NODE_BREW_DIR}" ]; then
-    export PATH=${NODE_BREW_DIR}:$PATH
 fi
 export GOPATH="${HOME}/go"
 if [ -e "${GOPATH}" ]; then
     export PATH=${GOPATH}/bin:$PATH
 fi
-export GOENVPATH="${HOME}/.goenv"
-if [ -e "${GOENVPATH}" ]; then
-    export PATH=${GOENVPATH}/bin:$PATH
-    eval "$(goenv init -)"
-fi
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_192.jdk/Contents/Home
 if [ -e "${JAVA_HOME}" ]; then
     export PATH=$PATH:$JAVA_HOME/bin
 fi
-export PHP_HOME="${HOME}/.composer/vendor"
-if [ -e "${PHP_HOME}" ]; then
-    export PATH=$PATH:$PHP_HOME/bin
-fi
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
-# go 1.12
-export GO111MODULE=on
+export PATH="$HOME/.anyenv/bin:$PATH"
 
 # --------------
-# fzf
+# func
 # --------------
 function fzf-history() {
   BUFFER=$(history -n -r 1 | fzf -e --no-sort +m --query "$LBUFFER" --prompt="History > ")
@@ -193,6 +172,15 @@ function fzf-snippets() {
 zle -N fzf-snippets
 bindkey '^S' fzf-snippets
 
+function pet-select() {
+  BUFFER=$(pet search --query "$LBUFFER")
+  CURSOR=$#BUFFER
+  zle redisplay
+}
+zle -N pet-select
+stty -ixon
+bindkey '^s' pet-select
+
 function secenv()
 {
     file=~/.secret_environment_value
@@ -204,10 +192,24 @@ function secenv()
     fi
 }
 
+function prev-cmd-register-to-pet() {
+  PREV=$(fc -lrn | head -n 1)
+  sh -c "pet new `printf %q "$PREV"`"
+}
+
+function fzf-checkout-pull-request () {
+    local selected_pr_id=$(gh pr list | fzf | awk '{ print $1 }')
+    if [ -n "$selected_pr_id" ]; then
+        BUFFER="gh pr checkout ${selected_pr_id}"
+        zle accept-line
+    fi
+    zle clear-screen
+}
+zle -N fzf-checkout-pull-request
+
 # --------------
 # plugins
 # --------------
-fpath=( "$HOME/.zfunctions" $fpath )
 # zsh-syntax-highlighting
 [ -f ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
@@ -216,3 +218,6 @@ fpath=( "$HOME/.zfunctions" $fpath )
 
 # prompt
 eval "$(starship init zsh)"
+
+# anyenv
+eval "$(anyenv init -)"
