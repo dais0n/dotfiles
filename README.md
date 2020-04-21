@@ -2,7 +2,7 @@
 
 ## installation
 ```
-bash -c "$(curl -L https://raw.ghe.corp.yahoo.co.jp/taomura/dotfiles/master/rc/installer.sh)"
+bash -c "$(curl -L https://raw.githubusercontent.com/dais0n/dotfiles/master/rc/installer.sh)"
 ```
 
 ## task
