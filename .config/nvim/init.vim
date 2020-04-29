@@ -177,6 +177,18 @@ set wrapscan
 set shortmess+=I
 vnoremap v $h " select endline by vv
 
+" turn terminal to normal mode with escape
+set splitbelow
+tnoremap <Esc> <C-\><C-n>
+" start terminal in insert mode
+au BufEnter * if &buftype == 'terminal' | :startinsert | endif
+" open terminal on ctrl+n
+function! OpenTerminal()
+  split term://zsh
+  resize 15
+endfunction
+nnoremap <c-n> :call OpenTerminal()<CR>
+
 "-----------------
 " color
 "-----------------

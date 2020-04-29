@@ -132,16 +132,11 @@ export TEXPATH="/Library/TeX/texbin"
 if [ -e "${TEXPATH}" ]; then
     export PATH=${TEXPATH}/bin:$PATH
 fi
-export GOPATH="${HOME}/go"
-if [ -e "${GOPATH}" ]; then
-    export PATH=${GOPATH}/bin:$PATH
-fi
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_192.jdk/Contents/Home
-if [ -e "${JAVA_HOME}" ]; then
-    export PATH=$PATH:$JAVA_HOME/bin
-fi
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+# anyenv
 export PATH="$HOME/.anyenv/bin:$PATH"
+# rust
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # --------------
 # func
