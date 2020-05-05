@@ -11,7 +11,7 @@ Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
 Plug 'cohama/lexima.vim' " auto close
-Plug 'justinmk/vim-dirvish' "filer
+Plug 'scrooloose/nerdtree'
 " git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
@@ -29,8 +29,9 @@ Plug 'chr4/nginx.vim'
 Plug 'jnurmine/Zenburn'
 call plug#end()
 
-" dirvish
-map <C-n> :Dirvish<CR>
+" nerdtree
+inoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <C-n> :NERDTreeToggle<CR>
 
 " coc
 function! s:completion_check_bs()
@@ -187,7 +188,7 @@ function! OpenTerminal()
   split term://zsh
   resize 15
 endfunction
-nnoremap <c-n> :call OpenTerminal()<CR>
+nnoremap <c-x> :call OpenTerminal()<CR>
 
 "-----------------
 " color
