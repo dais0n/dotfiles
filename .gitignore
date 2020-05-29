@@ -4,3 +4,4 @@ watchr_script
 .DS_Store
 *.pyc
 *.retry
+.generators

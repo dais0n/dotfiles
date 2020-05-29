@@ -2,6 +2,7 @@
 # general
 # --------------
 fpath=( "$HOME/.zfunctions" $fpath )
+setopt nonomatch
 export LANG='ja_JP.UTF-8'
 export LC_ALL='ja_JP.UTF-8'
 bindkey -e
@@ -134,9 +135,15 @@ if [ -e "${TEXPATH}" ]; then
 fi
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 # anyenv
+eval "$(anyenv init - zsh)"
 export PATH="$HOME/.anyenv/bin:$PATH"
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
+# go
+export GOENV_DISABLE_GOPATH=1
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$PATH"
+export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 
 # --------------
 # func
@@ -202,6 +209,19 @@ function fzf-checkout-pull-request () {
 }
 zle -N fzf-checkout-pull-request
 
+# rf. https://blog.n-z.jp/blog/2014-07-25-compact-chpwd-recent-dirs.html
+my-compact-chpwd-recent-dirs () {
+    emulate -L zsh
+    setopt extendedglob
+    local -aU reply
+    integer history_size
+    autoload -Uz chpwd_recent_filehandler
+    chpwd_recent_filehandler
+    history_size=$#reply
+    reply=(${^reply}(N))
+    (( $history_size == $#reply )) || chpwd_recent_filehandler $reply
+}
+
 # --------------
 # plugins
 # --------------
@@ -214,5 +234,3 @@ zle -N fzf-checkout-pull-request
 # prompt
 eval "$(starship init zsh)"
 
-# anyenv
-eval "$(anyenv init -)"

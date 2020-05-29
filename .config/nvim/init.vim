@@ -18,6 +18,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 " lsp
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'liuchengxu/vista.vim'
 " go
 Plug 'mattn/vim-goimports', { 'for':  'go'}
 " markdown
@@ -86,6 +87,12 @@ setlocal iskeyword+=-
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
+
+" vista
+" Executive used when opening vista sidebar without specifying it.
+" See all the avaliable executives via `:echo g:vista#executives`.
+let g:vista#renderer#enable_icon = 0
+let g:vista_default_executive = 'coc'
 
 " fzf
 let g:fzf_command_prefix = 'Fzf'
