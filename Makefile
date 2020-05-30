@@ -36,10 +36,13 @@ vim-init:
 
 .PHONY: zsh-init
 ## install prompt theme and fzf
-zsh-init:
+zsh-init: zsh-pkg-init
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
 	git clone -b v0.4.0 https://github.com/zsh-users/zsh-autosuggestions.git ~/.zsh/zsh-autosuggestions
-	ln -snfv $(CURRENTDIR)/.zsh/snippets $(HOME)/.zsh/snippets
+
+.PHONY: zsh-file-include
+zsh-file-include:
+	ln -snfv $(CURRENTDIR)/.zsh.d $(HOME)/.zsh.d
 
 .PHONY: prompt-init
 ## install prompt
