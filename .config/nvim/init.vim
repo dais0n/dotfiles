@@ -1,5 +1,7 @@
 "-----------------
-" plugin
+"
+" plugins
+"
 "-----------------
 call plug#begin('~/.local/share/nvim/plugged')
 " common
@@ -29,6 +31,11 @@ Plug 'chr4/nginx.vim'
 " theme
 Plug 'jnurmine/Zenburn'
 call plug#end()
+
+" open-browser.vim
+let g:netrw_nogx = 1 " disable netrw's gx mapping.
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)
 
 " nerdtree
 inoremap <C-n> :NERDTreeToggle<CR>
@@ -184,6 +191,9 @@ set ttyfast
 set wrapscan
 set shortmess+=I
 vnoremap v $h " select endline by vv
+" changelog
+let g:changelog_timeformat="%Y-%m-%d"
+let g:changelog_username="dais0n<t.omura8383@gmail.com>"
 
 " turn terminal to normal mode with escape
 set splitbelow

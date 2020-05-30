@@ -210,7 +210,7 @@ function fzf-checkout-pull-request () {
 zle -N fzf-checkout-pull-request
 
 # rf. https://blog.n-z.jp/blog/2014-07-25-compact-chpwd-recent-dirs.html
-my-compact-chpwd-recent-dirs () {
+function my-compact-chpwd-recent-dirs () {
     emulate -L zsh
     setopt extendedglob
     local -aU reply
