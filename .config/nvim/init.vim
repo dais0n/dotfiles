@@ -13,7 +13,9 @@ Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
 Plug 'cohama/lexima.vim' " auto close
+" nerdtree
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 " git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
@@ -24,6 +26,7 @@ Plug 'liuchengxu/vista.vim'
 " go
 Plug 'mattn/vim-goimports', { 'for':  'go'}
 " markdown
+Plug 'plasticboy/vim-markdown'
 Plug 'kannokanno/previm'
 Plug 'mattn/vim-maketable'
 " nginx
@@ -115,6 +118,9 @@ nnoremap <silent> <C-p> :FzfHistory<cr>
 nnoremap <Space>f :FzfRg<cr>
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" markdown
+let g:vim_markdown_folding_disabled = 1
 
 "-----------------
 " general

@@ -1,9 +1,7 @@
 # --------------
 # general
 # --------------
-fpath=( "$HOME/.zfunctions" $fpath )
-
-# include
+# include my zsh file
 ZSHHOME="${HOME}/.zsh.d"
 if [ -d $ZSHHOME -a -r $ZSHHOME -a \
      -x $ZSHHOME ]; then
@@ -40,6 +38,26 @@ zstyle ':chpwd:*' recent-dirs-default true
 zstyle ':chpwd:*' recent-dirs-pushd true
 # go 1.12
 export GO111MODULE=on
+
+# --------------
+# prompt
+# --------------
+# pure prompt
+
+# plugin path
+fpath+=$HOME/.zsh/pure
+
+autoload -U promptinit; promptinit
+autoload -U colors; colors
+prompt pure
+
+# kube prompt
+if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
+    source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+    KUBE_PS1_CTX_COLOR="green"
+    PS1='$(kube_ps1)
+'$PS1
+fi
 
 # --------------
 # completion
@@ -241,7 +259,4 @@ function my-compact-chpwd-recent-dirs () {
 
 # zsh-autosuggestions
 [ -f ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-# prompt
-eval "$(starship init zsh)"
 
