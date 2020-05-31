@@ -55,8 +55,7 @@ prompt pure
 if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
     source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
     KUBE_PS1_CTX_COLOR="green"
-    PS1='$(kube_ps1)
-'$PS1
+    PS1='$(kube_ps1)'$PS1
 fi
 
 # --------------
