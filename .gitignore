@@ -5,3 +5,4 @@ watchr_script
 *.pyc
 *.retry
 .generators
+.idea/

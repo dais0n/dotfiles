@@ -41,7 +41,6 @@ nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
 
 " nerdtree
-inoremap <C-n> :NERDTreeToggle<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
 
 " coc
