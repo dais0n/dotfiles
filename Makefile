@@ -45,11 +45,11 @@ zsh-file-include:
 	ln -snfv $(CURRENTDIR)/.zsh.d $(HOME)/.zsh.d
 
 .PHONY: prompt-init
+
 ## install prompt
 prompt-init:
-	curl -fsSL https://starship.rs/install.sh | bash
-	ln -snfv $(CURRENTDIR)/.config/starship.toml $(HOME)/.config/starship.toml
-
+	# pure
+	git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
 
 .PHONY: ghq-init
 ## install ghq

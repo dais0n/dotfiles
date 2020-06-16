@@ -171,7 +171,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export GOENV_DISABLE_GOPATH=1
 export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
-export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 
 # --------------
 # func

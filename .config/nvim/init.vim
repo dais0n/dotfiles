@@ -25,6 +25,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'liuchengxu/vista.vim'
 " go
 Plug 'mattn/vim-goimports', { 'for':  'go'}
+Plug 'sebdah/vim-delve', { 'for':  'go'}
 " markdown
 Plug 'plasticboy/vim-markdown'
 Plug 'kannokanno/previm'
