@@ -6,3 +6,4 @@ watchr_script
 *.retry
 .generators
 .idea/
+*.iml

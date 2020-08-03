@@ -71,6 +71,7 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
 zstyle ':completion:*:default' menu select=1
 zstyle ':completion:*:*:docker:*' option-stacking yes
 zstyle ':completion:*:*:docker-*:*' option-stacking yes
+eval "$(gh completion -s zsh)"
 
 # --------------
 # history
@@ -258,4 +259,3 @@ function my-compact-chpwd-recent-dirs () {
 
 # zsh-autosuggestions
 [ -f ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
