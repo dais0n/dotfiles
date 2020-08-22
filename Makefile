@@ -1,4 +1,4 @@
-DOTFILES_EXCLUDES := .DS_Store .git .gitmodules .travis.yml .zsh .screenrc
+DOTFILES_EXCLUDES := .DS_Store .gitmodules .zsh
 DOTFILES_TARGET   := $(wildcard .??*)
 CLEAN_TARGET      := $(wildcard .??*) .vim .zfunctions
 DOTFILES_FILES    := $(filter-out $(DOTFILES_EXCLUDES), $(DOTFILES_TARGET))
@@ -6,54 +6,32 @@ UNAME 	          := $(shell uname)
 CURRENTDIR        := $(shell pwd)
 IS_CTAGS          := $(shell ctags --version 2> /dev/null)
 
-.PHONY: help
-## print all available commands
-help:
-	@awk '/^[a-zA-Z\_0-9%:\\\/-]+:/ { \
-	  helpMessage = match(lastLine, /^## (.*)/); \
-	  if (helpMessage) { \
-	    helpCommand = $$1; \
-	    helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
-      gsub("\\\\", "", helpCommand); \
-      gsub(":+$$", "", helpCommand); \
-	    printf "  \x1b[32;01m%-35s\x1b[0m %s\n", helpCommand, helpMessage; \
-	  } \
-	} \
-	{ lastLine = $$0 }' $(MAKEFILE_LIST) | sort -u
-	@printf "\n"
-
 .PHONY: install
-## zsh and vim init and make symlink
-install: vim-init zsh-init
+install: vim-init zsh-init ## zsh and vim init and make symlink
 	@$(foreach val, $(DOTFILES_FILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
-	vim +PlugInstall +qall
+	nvim +PlugInstall +qall
 	zsh
 
 .PHONY: vim-init
-## install vim-plug
-vim-init:
+vim-init: ## install vim-plug
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 .PHONY: zsh-init
-## install prompt theme and fzf
-zsh-init: zsh-pkg-init
+zsh-init: zsh-pkg-init ## install prompt theme and fzf
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
 	git clone -b v0.4.0 https://github.com/zsh-users/zsh-autosuggestions.git ~/.zsh/zsh-autosuggestions
 
 .PHONY: zsh-file-include
-zsh-file-include:
+zsh-file-include: ## zsh plugin dir
 	ln -snfv $(CURRENTDIR)/.zsh.d $(HOME)/.zsh.d
 
 .PHONY: prompt-init
-
-## install prompt
-prompt-init:
+prompt-init: ## install prompt pure
 	# pure
 	git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
 
 .PHONY: ghq-init
-## install ghq
-ghq-init:
+ghq-init: ## install ghq
 ifeq ($(UNAME),Darwin)
 	wget https://github.com/motemen/ghq/releases/download/v0.7.4/ghq_darwin_amd64.zip
 	unzip ghq_darwin_amd64.zip && sudo mv ghq /usr/local/bin && rm -rf ghq_darwin_amd64* zsh README.txt
@@ -64,26 +42,22 @@ ifeq ($(UNAME),Linux)
 endif
 
 .PHONY: docker-init
-## install docker completion
-docker-init:
+docker-init: ## install docker completion
 	curl -fLo ~/.zfunctions/_docker https://raw.github.com/felixr/docker-zsh-completion/master/_docker
 	exec zsh
 
 .PHONY: kubectx-init
-## install kubectx completion
-kubectx-init:
+kubectx-init: ## install kubectx completion
 	curl -fLo ~/.zfunctions/_kubectx https://raw.githubusercontent.com/ahmetb/kubectx/master/completion/kubectx.zsh
 	curl -fLo ~/.zfunctions/_kubens https://raw.githubusercontent.com/ahmetb/kubectx/master/completion/kubens.zsh
 
 .PHONY: nvim-init
-## install nvim
-nvim-init:
+nvim-init: ## install nvim
 	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	ln -snfv $(CURRENTDIR)/.config/nvim/init.vim $(HOME)/.config/nvim/init.vim
 
 .PHONY: krew-init
-## install krew
-krew-init:
+krew-init: ## install krew
 	set -x; cd "$(mktemp -d)" &&
 	curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.3.3/krew.{tar.gz,yaml}" &&
 	tar zxvf krew.tar.gz &&
@@ -92,6 +66,11 @@ krew-init:
 	"$KREW" update
 
 .PHONY: clean
-## unlink symlink and delete dotfiles
-clean:
+clean: ## unlink symlink and delete dotfiles
 	@$(foreach val, $(CLEAN_TARGET), rm -rf $(HOME)/$(val);)
+
+.PHONY: help
+help: ## print all available commands
+	@printf "\033[36m%-30s\033[0m %-50s %s\n" "[Sub command]" "[Description]" "[Example]"
+	@grep -E '^[/a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | perl -pe 's%^([/a-zA-Z_-]+):.*?(##)%$$1 $$2%' | awk -F " *?## *?" '{printf "\033[36m%-30s\033[0m %-50s %s\n", $$1, $$2, $$3}'
+
