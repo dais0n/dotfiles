@@ -13,7 +13,7 @@ Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
 Plug 'cohama/lexima.vim' " auto close
-Plug 'lambdalisue/reword.vim'
+Plug 'tpope/vim-fugitive'
 " nerdtree
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -41,6 +41,12 @@ call plug#end()
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
+
+" fzf.vim
+command! -bang -nargs=* Rg
+            \ call fzf#vim#grep(
+            \   'rg --line-number --no-heading '.shellescape(<q-args>), 0,
+            \   fzf#vim#with_preview({'options': '--exact --reverse'}, 'right:50%:wrap'))
 
 " nerdtree
 nnoremap <C-n> :NERDTreeToggle<CR>
@@ -255,10 +261,4 @@ aug QFClose
   au!
   au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
 aug END
-
-" rip grep
-command! -bang -nargs=* Rg
-            \ call fzf#vim#grep(
-            \   'rg --line-number --no-heading '.shellescape(<q-args>), 0,
-            \   fzf#vim#with_preview({'options': '--exact --reverse'}, 'right:50%:wrap'))
 
