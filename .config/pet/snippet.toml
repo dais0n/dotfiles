@@ -14,6 +14,6 @@
   output = ""
 
 [[snippets]]
-  description = "gcalcli-agenda-all"
-  command = "gcalcli agenda --details all"
+  description = "ngrep-localhost"
+  command = "ngrep -W byline -q -d lo0 'HTTP' port 8080"
   output = ""
