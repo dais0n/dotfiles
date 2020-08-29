@@ -12,6 +12,7 @@
 [alias]
     co = checkout
     s = status --short --branch
+    st = stash
     b = branch -a
     cm = commit -v
     cma = commit -a -v

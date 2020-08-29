@@ -65,6 +65,9 @@ krew-init: ## install krew
 	"$KREW" install --manifest=krew.yaml --archive=krew.tar.gz &&
 	"$KREW" update
 
+tmux-init: ## install tmux plugin manager
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 .PHONY: clean
 clean: ## unlink symlink and delete dotfiles
 	@$(foreach val, $(CLEAN_TARGET), rm -rf $(HOME)/$(val);)
