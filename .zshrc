@@ -251,6 +251,11 @@ function my-compact-chpwd-recent-dirs () {
     (( $history_size == $#reply )) || chpwd_recent_filehandler $reply
 }
 
+
+if type "jq" > /dev/null 2>&1; then
+    . ${HOME}/dotfiles/rc/famous-saying.sh
+fi
+
 # --------------
 # plugins
 # --------------
@@ -259,3 +264,4 @@ function my-compact-chpwd-recent-dirs () {
 
 # zsh-autosuggestions
 [ -f ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
