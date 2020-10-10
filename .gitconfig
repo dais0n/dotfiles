@@ -35,3 +35,5 @@
     email = t.omura8383@gmail.com
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+[diff "sopsdiffer"]
+	textconv = sops -d

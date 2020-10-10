@@ -41,12 +41,6 @@ let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
 
-" fzf.vim
-command! -bang -nargs=* Rg
-            \ call fzf#vim#grep(
-            \   'rg --line-number --no-heading '.shellescape(<q-args>), 0,
-            \   fzf#vim#with_preview({'options': '--exact --reverse'}, 'right:50%:wrap'))
-
 " nerdtree
 nnoremap <C-n> :NERDTreeToggle<CR>
 
@@ -116,9 +110,10 @@ let g:fzf_layout = { 'down': '~40%' }
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'}, 'up:60%')
+  \           : fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'right:50%:hidden', '?'),
   \   <bang>0)
+
 nnoremap <silent> <C-p> :FzfFiles<CR>
 nnoremap <silent> <C-p> :FzfHistory<cr>
 nnoremap <Space>f :FzfRg<cr>
@@ -260,4 +255,9 @@ aug QFClose
   au!
   au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
 aug END
+
+autocmd BufReadPost *
+            \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+            \   exe "normal! g'\"" |
+            \ endif
 

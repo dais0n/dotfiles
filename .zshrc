@@ -173,6 +173,8 @@ export GOENV_DISABLE_GOPATH=1
 export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
+# java
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
 
 # --------------
 # func
@@ -255,6 +257,15 @@ function my-compact-chpwd-recent-dirs () {
 if type "jq" > /dev/null 2>&1; then
     . ${HOME}/dotfiles/rc/famous-saying.sh
 fi
+
+lssh () {
+  IP=$(lsec2 $@ | fzf | awk '{print $2}')
+  if [ $? -eq 0 -a "${IP}" != "" ]
+  then
+      echo ">>> SSH to ${IP}"
+      ssh ${IP}
+  fi
+}
 
 # --------------
 # plugins
