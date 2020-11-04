@@ -7,3 +7,5 @@ watchr_script
 .generators
 .idea/
 *.iml
+.solargraph.yml
+.ruby-version

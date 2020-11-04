@@ -33,7 +33,7 @@ Plug 'mattn/vim-maketable'
 " nginx
 Plug 'chr4/nginx.vim'
 " theme
-Plug 'jnurmine/Zenburn'
+Plug 'morhetz/gruvbox'
 call plug#end()
 
 " open-browser.vim
@@ -116,7 +116,7 @@ command! -bang -nargs=* Rg
 
 nnoremap <silent> <C-p> :FzfFiles<CR>
 nnoremap <silent> <C-p> :FzfHistory<cr>
-nnoremap <Space>f :FzfRg<cr>
+nnoremap <Space>r :FzfRg<cr>
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
@@ -218,7 +218,7 @@ nnoremap <c-x> :call OpenTerminal()<CR>
 " color
 "-----------------
 try
-    colorscheme zenburn
+    colorscheme gruvbox
 catch
 endtry
 highlight clear SignColumn
@@ -256,6 +256,7 @@ aug QFClose
   au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
 aug END
 
+" open file in cursor position which I opened file before
 autocmd BufReadPost *
             \ if line("'\"") > 0 && line ("'\"") <= line("$") |
             \   exe "normal! g'\"" |

@@ -276,3 +276,4 @@ lssh () {
 # zsh-autosuggestions
 [ -f ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+export PATH="/usr/local/opt/helm@2/bin:$PATH"
