@@ -17,3 +17,8 @@
   description = "ngrep-localhost"
   command = "ngrep -W byline -q -d lo0 'HTTP' port 8080"
   output = ""
+
+[[snippets]]
+  description = "export-eks-config"
+  command = "export KUBECONFIG=/etc/eksctl/kubeconfig.yaml"
+  output = ""

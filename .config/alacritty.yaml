@@ -1,7 +1,14 @@
 font:
   normal:
-    family: Ricty Nerd Font
-  size: 15.0
+    family: SauceCodePro Nerd Font Mono
+    style: Light
+  size: 14.0
+  offset:
+    x: 2
+  #  y: 0
+  glyph_offset:
+    x: -3
+    y: 1000
 # Colors (Iceberg)
 colors:
   # Default colors

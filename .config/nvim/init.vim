@@ -13,25 +13,33 @@ Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
 Plug 'cohama/lexima.vim' " auto close
-" nerdtree
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" fern
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-git-status.vim'
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/glyph-palette.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 " git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-rhubarb' " for opening git url
 " lsp
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'liuchengxu/vista.vim'
 " go
 Plug 'mattn/vim-goimports', { 'for':  'go'}
 Plug 'sebdah/vim-delve', { 'for':  'go'}
+" ruby
+Plug 'tpope/vim-rails', { 'for': 'ruby' }
 " markdown
 Plug 'plasticboy/vim-markdown'
 Plug 'kannokanno/previm'
 Plug 'mattn/vim-maketable'
+" lightline
+Plug 'itchyny/lightline.vim'
 " nginx
 Plug 'chr4/nginx.vim'
+" sql
+Plug 'jsborjesson/vim-uppercase-sql'
 " theme
 Plug 'morhetz/gruvbox'
 call plug#end()
@@ -41,8 +49,14 @@ let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
 
-" nerdtree
-nnoremap <C-n> :NERDTreeToggle<CR>
+" fern
+nnoremap <C-n> :Fern . -reveal=% -drawer -toggle -width=40<CR>
+let g:fern#renderer = 'nerdfont'
+augroup my-glyph-palette
+  autocmd! *
+  autocmd FileType fern call glyph_palette#apply()
+  autocmd FileType nerdtree,startify call glyph_palette#apply()
+augroup END
 
 " coc
 function! s:completion_check_bs()
@@ -98,12 +112,6 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 
-" vista
-" Executive used when opening vista sidebar without specifying it.
-" See all the avaliable executives via `:echo g:vista#executives`.
-let g:vista#renderer#enable_icon = 0
-let g:vista_default_executive = 'coc'
-
 " fzf
 let g:fzf_command_prefix = 'Fzf'
 let g:fzf_layout = { 'down': '~40%' }
@@ -115,13 +123,35 @@ command! -bang -nargs=* Rg
   \   <bang>0)
 
 nnoremap <silent> <C-p> :FzfFiles<CR>
-nnoremap <silent> <C-p> :FzfHistory<cr>
-nnoremap <Space>r :FzfRg<cr>
+nnoremap <silent> <C-h> :FzfHistory<cr>
+nnoremap <silent> <C-g> :FzfRg<cr>
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
+let g:coc_disable_startup_warning = 1
 
 " markdown
 let g:vim_markdown_folding_disabled = 1
+
+" lightline
+let g:lightline = {
+      \ 'separator': { 'left': "\ue0b8", 'right': "\ue0be" },
+      \ 'subseparator': { 'left': "\ue0b9", 'right': "\ue0b9" },
+      \ 'tabline_separator': { 'left': "\ue0bc", 'right': "\ue0ba" },
+      \ 'tabline_subseparator': { 'left': "\ue0bb", 'right': "\ue0bb" },
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead',
+      \   'filename': 'FilenameForLightline'
+      \ }
+      \ }
+
+function! FilenameForLightline()
+    return expand('%')
+endfunction
 
 "-----------------
 " general
@@ -143,7 +173,6 @@ set modeline
 set fileencoding=utf-8
 set fileencodings=ucs-boms,utf-8,euc-jp,cp932
 set fileformats=unix,dos,mac
-set ambiwidth=double
 set expandtab " change tab to space
 set tabstop=4
 set softtabstop=4
@@ -207,7 +236,7 @@ set splitbelow
 tnoremap <Esc> <C-\><C-n>
 " start terminal in insert mode
 au BufEnter * if &buftype == 'terminal' | :startinsert | endif
-" open terminal on ctrl+n
+" open terminal on ctrl+x
 function! OpenTerminal()
   split term://zsh
   resize 15
@@ -224,26 +253,6 @@ endtry
 highlight clear SignColumn
 set t_Co=256
 highlight Normal ctermbg=none
-
-"-----------------
-" statusline
-"-----------------
-set statusline=%<
-set statusline+=[%n]
-set statusline+=%m
-set statusline+=%r
-set statusline+=%h
-set statusline+=%w
-set statusline+=%{'['.(&fenc!=''?&fenc:&enc).':'.&ff.']'}
-set statusline+=%y
-set statusline+=\
-if winwidth(0) >= 130
-	set statusline+=%F
-else
-	set statusline+=%t
-endif
-set statusline+=%=
-
 
 "-----------------
 " user cmd

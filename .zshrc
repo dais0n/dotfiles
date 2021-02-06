@@ -42,21 +42,21 @@ export GO111MODULE=on
 # --------------
 # prompt
 # --------------
-# pure prompt
-
 # plugin path
 fpath+=$HOME/.zsh/pure
 
 autoload -U promptinit; promptinit
 autoload -U colors; colors
+
 prompt pure
 
 # kube prompt
 if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
     source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
     KUBE_PS1_CTX_COLOR="green"
-    PS1='$(kube_ps1)'$PS1
+    PS1='$(kube_ps1)'${NEWLINE}$PS1
 fi
+
 
 # --------------
 # completion
@@ -125,16 +125,18 @@ alias ghd='cd $(ghq list --full-path | fzf)'
 alias grep='grep --color'
 alias ij='open -b com.jetbrains.intellij'
 alias tsplit='tmux split-window -v -p 30 && tmux split-window -h -p 66 && tmux split-window -h -p 50 '
+alias cf='cat ~/memo/changelog.memo | grep -n -E "^\t\*.*" | tr -d "\t" | fzf | sed -e "s/:.*//g" | xargs -o -I{} nvim ~/memo/changelog.memo +{}'
+alias ce='nvim ~/memo/changelog.memo'
 
 if [ "$(uname)" = 'Darwin' ]; then
     alias ls='ls -G'
+    alias ctags="`brew --prefix`/bin/ctags"
 else
     alias ls='ls --color=auto'
 fi
 
 if type "exa" > /dev/null 2>&1; then
     alias ls='exa --git'
-    alias ll='exa -halT --git --time-style=iso --group-directories-first'
 fi
 
 function extract() {
@@ -230,7 +232,7 @@ function prev-cmd-register-to-pet() {
   sh -c "pet new `printf %q "$PREV"`"
 }
 
-function fzf-checkout-pull-request () {
+function fzf-checkout-pull-request() {
     local selected_pr_id=$(gh pr list | fzf | awk '{ print $1 }')
     if [ -n "$selected_pr_id" ]; then
         BUFFER="gh pr checkout ${selected_pr_id}"
@@ -241,7 +243,7 @@ function fzf-checkout-pull-request () {
 zle -N fzf-checkout-pull-request
 
 # rf. https://blog.n-z.jp/blog/2014-07-25-compact-chpwd-recent-dirs.html
-function my-compact-chpwd-recent-dirs () {
+function my-compact-chpwd-recent-dirs() {
     emulate -L zsh
     setopt extendedglob
     local -aU reply
@@ -277,3 +279,6 @@ lssh () {
 [ -f ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 export PATH="/usr/local/opt/helm@2/bin:$PATH"
+export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
