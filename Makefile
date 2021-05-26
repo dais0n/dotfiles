@@ -21,6 +21,10 @@ zsh-init: zsh-pkg-init ## install prompt theme and fzf
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
 	git clone -b v0.4.0 https://github.com/zsh-users/zsh-autosuggestions.git ~/.zsh/zsh-autosuggestions
 
+.PHONY: zsh-emoji-completion
+zsh-emoji-completion:
+	git clone https://github.com/b4b4r07/emoji-cli.git ~/.zsh/emoji-cli
+
 .PHONY: zsh-file-include
 zsh-file-include: ## zsh plugin dir
 	ln -snfv $(CURRENTDIR)/.zsh.d $(HOME)/.zsh.d

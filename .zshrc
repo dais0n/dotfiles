@@ -127,6 +127,7 @@ alias ij='open -b com.jetbrains.intellij'
 alias tsplit='tmux split-window -v -p 30 && tmux split-window -h -p 66 && tmux split-window -h -p 50 '
 alias cf='cat ~/memo/changelog.memo | grep -n -E "^\t\*.*" | tr -d "\t" | fzf | sed -e "s/:.*//g" | xargs -o -I{} nvim ~/memo/changelog.memo +{}'
 alias ce='nvim ~/memo/changelog.memo'
+alias em='emojify'
 
 if [ "$(uname)" = 'Darwin' ]; then
     alias ls='ls -G'
@@ -277,6 +278,9 @@ lssh () {
 
 # zsh-autosuggestions
 [ -f ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# zsh-autosuggestions
+[ -f ${HOME}/.zsh/emoji-cli/emoji-cli.zsh ] && source ${HOME}/.zsh/emoji-cli/emoji-cli.zsh
 
 export PATH="/usr/local/opt/helm@2/bin:$PATH"
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
