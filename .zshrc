@@ -57,7 +57,6 @@ if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
     PS1='$(kube_ps1)'${NEWLINE}$PS1
 fi
 
-
 # --------------
 # completion
 # --------------
@@ -130,6 +129,7 @@ alias tsplit='tmux split-window -v -p 30 && tmux split-window -h -p 66 && tmux s
 alias cf='cat ~/memo/changelog.memo | grep -n -E "^\t\*.*" | tr -d "\t" | fzf | sed -e "s/:.*//g" | xargs -o -I{} nvim ~/memo/changelog.memo +{}'
 alias ce='nvim ~/memo/changelog.memo'
 alias em='emojify'
+alias gt='gitui'
 
 if [ "$(uname)" = 'Darwin' ]; then
     alias ls='ls -G'
