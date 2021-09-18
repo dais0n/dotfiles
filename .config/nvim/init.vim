@@ -15,7 +15,8 @@ Plug 'tpope/vim-surround'
 Plug 'cohama/lexima.vim' " auto close
 Plug 'easymotion/vim-easymotion'
 Plug 'soramugi/auto-ctags.vim'
-Plug 'rbgrouleff/bclose.vim'
+Plug 'kannokanno/previm'
+Plug 'sheerun/vim-polyglot' " language syntax highlight
 " fern
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-git-status.vim'
@@ -26,25 +27,15 @@ Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-rhubarb' " for opening git url
-Plug 'iberianpig/tig-explorer.vim'
 " lsp
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " go
 Plug 'mattn/vim-goimports', { 'for':  'go'}
 Plug 'sebdah/vim-delve', { 'for':  'go'}
-" ruby
-Plug 'tpope/vim-rails', { 'for': 'ruby' }
 " markdown
-Plug 'plasticboy/vim-markdown'
-Plug 'kannokanno/previm'
 Plug 'mattn/vim-maketable'
-" javascirpt/typescript
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'MaxMEllon/vim-jsx-pretty'
 " lightline
 Plug 'itchyny/lightline.vim'
-" nginx
-Plug 'chr4/nginx.vim'
 " sql
 Plug 'jsborjesson/vim-uppercase-sql'
 " theme
