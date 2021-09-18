@@ -71,7 +71,10 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
 zstyle ':completion:*:default' menu select=1
 zstyle ':completion:*:*:docker:*' option-stacking yes
 zstyle ':completion:*:*:docker-*:*' option-stacking yes
-eval "$(gh completion -s zsh)"
+
+if type "gh" > /dev/null 2>&1; then
+  eval "$(gh completion -s zsh)"
+fi
 
 # --------------
 # history
@@ -123,7 +126,6 @@ else
 fi
 alias ghd='cd $(ghq list --full-path | fzf)'
 alias grep='grep --color'
-alias ij='open -b com.jetbrains.intellij'
 alias tsplit='tmux split-window -v -p 30 && tmux split-window -h -p 66 && tmux split-window -h -p 50 '
 alias cf='cat ~/memo/changelog.memo | grep -n -E "^\t\*.*" | tr -d "\t" | fzf | sed -e "s/:.*//g" | xargs -o -I{} nvim ~/memo/changelog.memo +{}'
 alias ce='nvim ~/memo/changelog.memo'
@@ -134,6 +136,7 @@ if [ "$(uname)" = 'Darwin' ]; then
     alias ctags="`brew --prefix`/bin/ctags"
 else
     alias ls='ls --color=auto'
+    alias pbcopy='nc -w0 localhost 8377'
 fi
 
 if type "exa" > /dev/null 2>&1; then
@@ -158,7 +161,7 @@ function extract() {
 alias -s {gz,tgz,zip,lzh,bz2,tbz,Z,tar,arj,xz}=extract
 
 # --------------
-# path
+# path/env
 # --------------
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export TEXPATH="/Library/TeX/texbin"
@@ -166,9 +169,6 @@ if [ -e "${TEXPATH}" ]; then
     export PATH=${TEXPATH}/bin:$PATH
 fi
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-# anyenv
-eval "$(anyenv init - zsh)"
-export PATH="$HOME/.anyenv/bin:$PATH"
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
 # go
@@ -178,6 +178,23 @@ export PATH="$GOPATH/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 # java
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
+
+# asdf
+[ -f $HOME/.asdf/asdf.sh ] && . $HOME/.asdf/asdf.sh && eval "$(asdf exec direnv hook zsh)"
+
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# To enable agent forwarding when screen is reconnected.
+# See http://mokokko.hatenablog.com/entry/2013/03/14/133850
+AUTH_SOCK="$HOME/.ssh/.ssh-auth-sock"
+if [ -S "$AUTH_SOCK" ]; then
+    export SSH_AUTH_SOCK=$AUTH_SOCK
+elif [ ! -S "$SSH_AUTH_SOCK" ]; then
+    export SSH_AUTH_SOCK=$AUTH_SOCK
+elif [ ! -L "$SSH_AUTH_SOCK" ]; then
+    ln -snf "$SSH_AUTH_SOCK" $AUTH_SOCK && export SSH_AUTH_SOCK=$AUTH_SOCK
+fi
 
 # --------------
 # func
@@ -256,12 +273,11 @@ function my-compact-chpwd-recent-dirs() {
     (( $history_size == $#reply )) || chpwd_recent_filehandler $reply
 }
 
-
 if type "jq" > /dev/null 2>&1; then
     . ${HOME}/dotfiles/rc/famous-saying.sh
 fi
 
-lssh () {
+function lssh() {
   IP=$(lsec2 $@ | fzf | awk '{print $2}')
   if [ $? -eq 0 -a "${IP}" != "" ]
   then
@@ -286,3 +302,4 @@ export PATH="/usr/local/opt/helm@2/bin:$PATH"
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+
