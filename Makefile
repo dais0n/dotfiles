@@ -1,4 +1,4 @@
-DOTFILES_EXCLUDES := .DS_Store .gitmodules .zsh
+DOTFILES_EXCLUDES := .DS_Store .git .gitmodules .zsh
 DOTFILES_TARGET   := $(wildcard .??*)
 CLEAN_TARGET      := $(wildcard .??*) .vim .zfunctions
 DOTFILES_FILES    := $(filter-out $(DOTFILES_EXCLUDES), $(DOTFILES_TARGET))
@@ -7,7 +7,7 @@ CURRENTDIR        := $(shell pwd)
 IS_CTAGS          := $(shell ctags --version 2> /dev/null)
 
 .PHONY: install
-install: vim-init zsh-init ## zsh and vim init and make symlink
+install:
 	@$(foreach val, $(DOTFILES_FILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
 	nvim +PlugInstall +qall
 	zsh
