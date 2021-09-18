@@ -9,11 +9,13 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'tyru/open-browser.vim'
 Plug 'tomtom/tcomment_vim'
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
 Plug 'cohama/lexima.vim' " auto close
 Plug 'easymotion/vim-easymotion'
+Plug 'soramugi/auto-ctags.vim'
+Plug 'rbgrouleff/bclose.vim'
 " fern
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-git-status.vim'
@@ -24,6 +26,7 @@ Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-rhubarb' " for opening git url
+Plug 'iberianpig/tig-explorer.vim'
 " lsp
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " go
@@ -35,6 +38,9 @@ Plug 'tpope/vim-rails', { 'for': 'ruby' }
 Plug 'plasticboy/vim-markdown'
 Plug 'kannokanno/previm'
 Plug 'mattn/vim-maketable'
+" javascirpt/typescript
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'MaxMEllon/vim-jsx-pretty'
 " lightline
 Plug 'itchyny/lightline.vim'
 " nginx
@@ -158,6 +164,9 @@ let g:lightline = {
 function! FilenameForLightline()
     return expand('%')
 endfunction
+
+let g:auto_ctags = 1
+nnoremap <C-]> g<C-]>
 
 "-----------------
 " general
