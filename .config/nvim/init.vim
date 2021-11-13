@@ -19,6 +19,7 @@ Plug 'sheerun/vim-polyglot' " language syntax highlight
 Plug 'tpope/vim-dispatch'
 Plug 'mhinz/vim-startify'
 Plug 'itchyny/lightline.vim'
+Plug 'vim-test/vim-test'
 " fern
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-git-status.vim'
@@ -34,8 +35,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " go
 Plug 'mattn/vim-goimports', { 'for':  'go'}
 Plug 'sebdah/vim-delve', { 'for':  'go'}
-" ruby
-Plug 'thoughtbot/vim-rspec'
 " markdown
 Plug 'mattn/vim-maketable'
 " sql
@@ -53,6 +52,8 @@ nmap <Leader>L <Plug>(easymotion-overwin-line)
 " Move to word
 map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
+
+let test#strategy = "dispatch"
 
 " fern
 nnoremap <C-n> :Fern . -reveal=% -drawer -toggle -width=40<CR>
@@ -160,13 +161,6 @@ endfunction
 
 let g:auto_ctags = 1
 nnoremap <C-]> g<C-]>
-
-" rspec-vim mappings
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
-let g:rspec_command = "Dispatch !bin/rspec {spec}"
 
 "-----------------
 " general
