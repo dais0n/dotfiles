@@ -12,11 +12,13 @@ Plug 'tomtom/tcomment_vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
-Plug 'cohama/lexima.vim' " auto close
 Plug 'easymotion/vim-easymotion'
 Plug 'soramugi/auto-ctags.vim'
 Plug 'kannokanno/previm'
 Plug 'sheerun/vim-polyglot' " language syntax highlight
+Plug 'tpope/vim-dispatch'
+Plug 'mhinz/vim-startify'
+Plug 'itchyny/lightline.vim'
 " fern
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-git-status.vim'
@@ -32,10 +34,10 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " go
 Plug 'mattn/vim-goimports', { 'for':  'go'}
 Plug 'sebdah/vim-delve', { 'for':  'go'}
+" ruby
+Plug 'thoughtbot/vim-rspec'
 " markdown
 Plug 'mattn/vim-maketable'
-" lightline
-Plug 'itchyny/lightline.vim'
 " sql
 Plug 'jsborjesson/vim-uppercase-sql'
 " theme
@@ -121,8 +123,8 @@ let g:fzf_layout = { 'down': '~40%' }
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'}, 'up:60%')
-  \           : fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'right:50%:hidden', '?'),
+  \   <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse'}, 'up:60%')
+  \           : fzf#vim#with_preview({'options': '--exact --reverse'},'right:50%:hidden', '?'),
   \   <bang>0)
 
 nnoremap <silent> <C-p> :FzfFiles<CR>
@@ -158,6 +160,13 @@ endfunction
 
 let g:auto_ctags = 1
 nnoremap <C-]> g<C-]>
+
+" rspec-vim mappings
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
+let g:rspec_command = "Dispatch !bin/rspec {spec}"
 
 "-----------------
 " general

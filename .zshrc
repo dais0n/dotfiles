@@ -79,8 +79,8 @@ fi
 # history
 # --------------
 HISTFILE=~/.zsh_history
-HISTSIZE=1000000
-SAVEHIST=1000000
+HISTSIZE=10000000
+SAVEHIST=10000000
 setopt extended_history
 setopt share_history
 setopt hist_ignore_all_dups
@@ -284,6 +284,10 @@ function lssh() {
       echo ">>> SSH to ${IP}"
       ssh ${IP}
   fi
+}
+
+function urlencode {
+  echo "$1" | nkf -WwMQ | sed 's/=$//g' | tr = % | tr -d '\n'
 }
 
 # --------------
