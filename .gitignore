@@ -1,4 +1,6 @@
 tags
+.tags
+.Gemfile.lock.tags
 vendor/bundle
 watchr_script
 .DS_Store

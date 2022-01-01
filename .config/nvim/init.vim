@@ -13,7 +13,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
 Plug 'easymotion/vim-easymotion'
-Plug 'soramugi/auto-ctags.vim'
+Plug 'szw/vim-tags',{ 'for': 'ruby' }
 Plug 'kannokanno/previm'
 Plug 'sheerun/vim-polyglot' " language syntax highlight
 Plug 'tpope/vim-dispatch'
@@ -33,8 +33,8 @@ Plug 'tpope/vim-rhubarb' " for opening git url
 " lsp
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " go
-Plug 'mattn/vim-goimports', { 'for':  'go'}
-Plug 'sebdah/vim-delve', { 'for':  'go'}
+Plug 'mattn/vim-goimports', { 'for': 'go' }
+Plug 'sebdah/vim-delve', { 'for': 'go' }
 " markdown
 Plug 'mattn/vim-maketable'
 " sql
@@ -79,10 +79,10 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 nmap <silent> [c <Plug>(coc-diagnostic-prev)
 nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
-nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> <C-]> <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nmap <silent> <C-t> <Plug>(coc-references)
 "Autocmd CursorHold * silent call CocUpdagteAsync('highlight')
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
@@ -159,8 +159,11 @@ function! FilenameForLightline()
     return expand('%')
 endfunction
 
-let g:auto_ctags = 1
-nnoremap <C-]> g<C-]>
+let g:vim_tags_auto_generate = 1
+let g:vim_tags_project_tags_command = "ctags -f .tags -R . 2>/dev/null"
+let g:vim_tags_gems_tags_command = "ctags -R -f .Gemfile.lock.tags `bundle show --paths` 2>/dev/null"
+let g:vim_tags_use_vim_dispatch = 1
+autocmd filetype ruby nnoremap <C-]> g<C-]>
 
 "-----------------
 " general
@@ -221,6 +224,8 @@ set lazyredraw
 set ttyfast
 set wrapscan
 set shortmess+=I
+set tags+=.tags
+set tags+=.Gemfile.lock.tags
 vnoremap v $h " select endline by vv
 " changelog
 let g:changelog_timeformat="%Y-%m-%d"
