@@ -7,17 +7,13 @@ call plug#begin('~/.local/share/nvim/plugged')
 " common
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'tyru/open-browser.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
-Plug 'easymotion/vim-easymotion'
 Plug 'szw/vim-tags',{ 'for': 'ruby' }
-Plug 'kannokanno/previm'
 Plug 'sheerun/vim-polyglot' " language syntax highlight
 Plug 'tpope/vim-dispatch'
-Plug 'mhinz/vim-startify'
 Plug 'itchyny/lightline.vim'
 Plug 'vim-test/vim-test'
 " fern
@@ -36,27 +32,16 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mattn/vim-goimports', { 'for': 'go' }
 Plug 'sebdah/vim-delve', { 'for': 'go' }
 " markdown
-Plug 'mattn/vim-maketable'
-" sql
-Plug 'jsborjesson/vim-uppercase-sql'
+Plug 'mattn/vim-maketable', { 'for': 'markdown' }
 " theme
 Plug 'morhetz/gruvbox'
 call plug#end()
 
-" open-browser.vim
-let g:netrw_nogx = 1 " disable netrw's gx mapping.
-" Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
-
-" Move to word
-map  <Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader>w <Plug>(easymotion-overwin-w)
-
+" vim-test
 let test#strategy = "dispatch"
 
 " fern
-nnoremap <C-n> :Fern . -reveal=% -drawer -toggle -width=40<CR>
+nnoremap <C-n> :Fern . -reveal=% -drawer -toggle -width=40<CR>1
 let g:fern#renderer = 'nerdfont'
 augroup my-glyph-palette
   autocmd! *
@@ -144,7 +129,8 @@ let g:lightline = {
       \ 'subseparator': { 'left': "\ue0b9", 'right': "\ue0b9" },
       \ 'tabline_separator': { 'left': "\ue0bc", 'right': "\ue0ba" },
       \ 'tabline_subseparator': { 'left': "\ue0bb", 'right': "\ue0bb" },
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'gruvbox',
+      \ 'inactive': {'left': [[]] },
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -160,7 +146,7 @@ function! FilenameForLightline()
 endfunction
 
 let g:vim_tags_auto_generate = 1
-let g:vim_tags_project_tags_command = "ctags -f .tags -R . 2>/dev/null"
+let g:vim_tags_project_tags_command = "ctags --exclude=vendor -f .tags -R . 2>/dev/null"
 let g:vim_tags_gems_tags_command = "ctags -R -f .Gemfile.lock.tags `bundle show --paths` 2>/dev/null"
 let g:vim_tags_use_vim_dispatch = 1
 autocmd filetype ruby nnoremap <C-]> g<C-]>
@@ -168,11 +154,10 @@ autocmd filetype ruby nnoremap <C-]> g<C-]>
 "-----------------
 " general
 "-----------------
-if executable('python2')
-    let g:python_host_prog=$PYENV_ROOT.'/versions/neovim-2/bin/python'
-endif
-if executable('python3')
-    let g:python3_host_prog=$PYENV_ROOT.'/versions/neovim-3/bin/python'
+if executable('asdf')
+  if executable('python3')
+    let g:python3_host_prog = expand('~/.asdf/shims/python3')
+  endif
 endif
 
 syntax enable
