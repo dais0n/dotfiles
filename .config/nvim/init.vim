@@ -265,7 +265,7 @@ let g:tmuxline_preset = {
       \'win'  : [ '#I', '#W' ],
       \'cwin' : [ '#I', '#W', '#F' ],
       \'x'    : [ "#[fg=blue]#{sysstat_itemp} #{sysstat_cpu}" ],
-      \'y'    : [ '#(TZ=JST-9 date)' ],
+      \'y'    : [ '#(TZ=UTC-9 date "+%Y-%m-%d %H:%M:%S")' ],
       \'z'    : '#H #{prefix_highlight}'
       \}
 let g:tmuxline_separators = {
