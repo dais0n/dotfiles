@@ -15,6 +15,7 @@ Plug 'szw/vim-tags',{ 'for': 'ruby' }
 Plug 'sheerun/vim-polyglot' " language syntax highlight
 Plug 'tpope/vim-dispatch'
 Plug 'itchyny/lightline.vim'
+Plug 'edkolev/tmuxline.vim'
 Plug 'vim-test/vim-test'
 " fern
 Plug 'lambdalisue/fern.vim'
@@ -256,3 +257,20 @@ autocmd BufReadPost *
             \   exe "normal! g'\"" |
             \ endif
 
+" tmuxline.vim
+let g:tmuxline_preset = {
+      \'a'    : '#S',
+      \'b'    : '%R',
+      \'c'    : [ '#{sysstat_mem} #[fg=blue]#{sysstat_ntemp}' ],
+      \'win'  : [ '#I', '#W' ],
+      \'cwin' : [ '#I', '#W', '#F' ],
+      \'x'    : [ "#[fg=blue]#{sysstat_itemp} #{sysstat_cpu}" ],
+      \'y'    : [ '#(TZ=JST-9 date)' ],
+      \'z'    : '#H #{prefix_highlight}'
+      \}
+let g:tmuxline_separators = {
+      \ 'left' : "\ue0bc",
+      \ 'left_alt': "\ue0bd",
+      \ 'right' : "\ue0ba",
+      \ 'right_alt' : "\ue0bd",
+      \ 'space' : ' '}
