@@ -10,13 +10,12 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'tomtom/tcomment_vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-surround'
 Plug 'szw/vim-tags',{ 'for': 'ruby' }
 Plug 'sheerun/vim-polyglot' " language syntax highlight
 Plug 'tpope/vim-dispatch'
 Plug 'itchyny/lightline.vim'
-Plug 'edkolev/tmuxline.vim'
-Plug 'vim-test/vim-test'
+Plug 'edkolev/tmuxline.vim', { 'on': 'Tmuxline' }
+Plug 'vim-test/vim-test', { 'on': ['TestFile', 'TestNearest', 'TestLast', 'TestSuite'] }
 " fern
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-git-status.vim'
@@ -26,7 +25,6 @@ Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 " git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-rhubarb' " for opening git url
 " lsp
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " go
@@ -34,6 +32,7 @@ Plug 'mattn/vim-goimports', { 'for': 'go' }
 Plug 'sebdah/vim-delve', { 'for': 'go' }
 " markdown
 Plug 'mattn/vim-maketable', { 'for': 'markdown' }
+Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 " theme
 Plug 'morhetz/gruvbox'
 call plug#end()
