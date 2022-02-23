@@ -136,7 +136,6 @@ if [ "$(uname)" = 'Darwin' ]; then
     alias ctags="`brew --prefix`/bin/ctags"
 else
     alias ls='ls --color=auto'
-    alias pbcopy='nc -w0 localhost 8377'
 fi
 
 if type "exa" > /dev/null 2>&1; then
