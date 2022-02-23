@@ -16,6 +16,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'itchyny/lightline.vim'
 Plug 'edkolev/tmuxline.vim', { 'on': 'Tmuxline' }
 Plug 'vim-test/vim-test', { 'on': ['TestFile', 'TestNearest', 'TestLast', 'TestSuite'] }
+Plug 'ojroques/vim-oscyank', { 'on': ['OSCYank', 'OSCYankReg'] }
 " fern
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-git-status.vim'
@@ -102,6 +103,9 @@ setlocal iskeyword+=-
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
+
+" vim-oscyank
+autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
 
 " fzf
 let g:fzf_command_prefix = 'Fzf'
@@ -219,8 +223,6 @@ let g:changelog_username="dais0n<t.omura8383@gmail.com>"
 " turn terminal to normal mode with escape
 set splitbelow
 tnoremap <Esc> <C-\><C-n>
-" start terminal in insert mode
-au BufEnter * if &buftype == 'terminal' | :startinsert | endif
 " open terminal on ctrl+x
 function! OpenTerminal()
   split term://zsh
