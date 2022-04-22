@@ -1,7 +1,5 @@
 "-----------------
-"
 " plugins
-"
 "-----------------
 call plug#begin('~/.local/share/nvim/plugged')
 " common
@@ -198,6 +196,7 @@ set wildmenu wildmode=list:full
 set ignorecase
 set incsearch
 set splitright
+set confirm
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
