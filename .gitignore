@@ -11,3 +11,4 @@ watchr_script
 *.iml
 .solargraph.yml
 .ruby-version
+node_modules
