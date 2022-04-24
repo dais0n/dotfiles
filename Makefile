@@ -32,7 +32,7 @@ zsh-file-include: ## zsh plugin dir
 .PHONY: prompt-init
 prompt-init: ## install prompt pure
 	# pure
-	git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
+	git clone https://github.com/sindresorhus/pure.git "$(HOME)/.zsh/pure"
 
 .PHONY: ghq-init
 ghq-init: ## install ghq
