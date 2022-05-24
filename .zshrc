@@ -40,24 +40,6 @@ zstyle ':chpwd:*' recent-dirs-pushd true
 export GO111MODULE=on
 
 # --------------
-# prompt
-# --------------
-# plugin path
-fpath+=$HOME/.zsh/pure
-
-autoload -U promptinit; promptinit
-autoload -U colors; colors
-
-prompt pure
-
-# kube prompt
-if [ -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]; then
-    source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-    KUBE_PS1_CTX_COLOR="green"
-    PS1='$(kube_ps1)'${NEWLINE}$PS1
-fi
-
-# --------------
 # completion
 # --------------
 zmodload zsh/complist
@@ -162,7 +144,7 @@ alias -s {gz,tgz,zip,lzh,bz2,tbz,Z,tar,arj,xz}=extract
 # --------------
 # path/env
 # --------------
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/snap/bin"
 export TEXPATH="/Library/TeX/texbin"
 if [ -e "${TEXPATH}" ]; then
     export PATH=${TEXPATH}/bin:$PATH
@@ -306,3 +288,4 @@ export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 
+eval "$(starship init zsh)"
