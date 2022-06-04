@@ -1,0 +1,56 @@
+### zsh-autopair ###
+zinit wait'1' lucid light-mode for \
+    @'hlissner/zsh-autopair'
+
+### anyflame ###
+zinit light mollifier/anyframe
+zstyle ":anyframe:selector:" use fzf
+bindkey '^z' anyframe-widget-cdr
+bindkey '^r' anyframe-widget-put-history
+
+### zsh plugins ###
+zinit wait lucid blockf light-mode for \
+    atload'async_init' @'mafredri/zsh-async' \
+    @'zsh-users/zsh-autosuggestions' \
+    @'zsh-users/zsh-completions' \
+    @'zdharma-continuum/fast-syntax-highlighting'
+
+### history ###
+export HISTFILE="$XDG_STATE_HOME/zsh_history"
+export HISTSIZE=12000
+export SAVEHIST=12000
+
+setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
+setopt GLOBDOTS
+setopt APPEND_HISTORY
+setopt EXTENDED_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
+setopt HIST_SAVE_NO_DUPS
+setopt INTERACTIVE_COMMENTS
+setopt NO_SHARE_HISTORY
+setopt MAGIC_EQUAL_SUBST
+setopt PRINT_EIGHT_BIT
+
+zshaddhistory() {
+    local line="${1%%$'\n'}"
+    [[ ! "$line" =~ "^(cd|jj?|lazygit|la|ll|ls|rm|rmdir)($| )" ]]
+}
+
+### alias ###
+alias k='kubectl'
+alias g='git'
+alias ls='ls --color=auto'
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -i'
+alias mkdir='mkdir -p'
+(( ${+commands[nvim]} )) && alias vi='nvim'
+
+### autoloads ###
+autoload -Uz cdr
+autoload -Uz chpwd_recent_dirs
+autoload -Uz _zinit
+zpcompinit
