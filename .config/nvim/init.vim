@@ -32,6 +32,7 @@ Plug 'sebdah/vim-delve', { 'for': 'go' }
 " markdown
 Plug 'mattn/vim-maketable', { 'for': 'markdown' }
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 " theme
 Plug 'morhetz/gruvbox'
 call plug#end()
@@ -152,6 +153,8 @@ let g:vim_tags_project_tags_command = "ctags --exclude=vendor -f .tags -R . 2>/d
 let g:vim_tags_gems_tags_command = "ctags -R -f .Gemfile.lock.tags `bundle show --paths` 2>/dev/null"
 let g:vim_tags_use_vim_dispatch = 1
 autocmd filetype ruby nnoremap <C-]> g<C-]>
+
+let g:mkdp_theme = 'light'
 
 "-----------------
 " general
