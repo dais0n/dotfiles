@@ -18,6 +18,7 @@ export WORDCHARS="*?_.[]~-=&;!#$%^(){}<>\'"
 
 ### Editor ###
 export EDITOR="vi"
+(( ${+commands[nvim]} )) && export EDITOR="nvim"
 export GIT_EDITOR="$EDITOR"
 
 ### AWS ###
