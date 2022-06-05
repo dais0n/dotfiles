@@ -2,11 +2,7 @@ tags
 .tags
 .Gemfile.lock.tags
 vendor/bundle
-watchr_script
 .DS_Store
-*.pyc
-.generators
-*.iml
 .solargraph.yml
 .ruby-version
 node_modules

@@ -1,4 +1,4 @@
-### general ###
+### general
 bindkey -e
 eval "$(starship init zsh)"
 

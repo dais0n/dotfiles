@@ -1,21 +1,21 @@
-### zsh-autopair ###
+### zsh-autopair
 zinit wait'1' lucid light-mode for \
     @'hlissner/zsh-autopair'
 
-### anyflame ###
+### anyflame
 zinit light mollifier/anyframe
 zstyle ":anyframe:selector:" use fzf
 bindkey '^z' anyframe-widget-cdr
 bindkey '^r' anyframe-widget-put-history
 
-### zsh plugins ###
+### zsh plugins
 zinit wait lucid blockf light-mode for \
     atload'async_init' @'mafredri/zsh-async' \
     @'zsh-users/zsh-autosuggestions' \
     @'zsh-users/zsh-completions' \
     @'zdharma-continuum/fast-syntax-highlighting'
 
-### history ###
+### history
 export HISTFILE="$XDG_STATE_HOME/zsh_history"
 export HISTSIZE=12000
 export SAVEHIST=12000
@@ -39,7 +39,7 @@ zshaddhistory() {
     [[ ! "$line" =~ "^(cd|jj?|lazygit|la|ll|ls|rm|rmdir)($| )" ]]
 }
 
-### alias ###
+### alias
 alias k='kubectl'
 alias g='git'
 alias ls='ls --color=auto'
@@ -50,7 +50,7 @@ alias mkdir='mkdir -p'
 alias ghd='cd $(ghq list --full-path | fzf)'
 (( ${+commands[nvim]} )) && alias vi='nvim'
 
-### autoloads ###
+### autoloads
 autoload -Uz cdr
 autoload -Uz chpwd_recent_dirs
 autoload -Uz _zinit
