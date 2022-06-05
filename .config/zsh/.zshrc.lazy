@@ -47,6 +47,7 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
 alias mkdir='mkdir -p'
+alias ghd='cd $(ghq list --full-path | fzf)'
 (( ${+commands[nvim]} )) && alias vi='nvim'
 
 ### autoloads ###

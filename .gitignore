@@ -13,3 +13,4 @@ node_modules
 ### Zsh cache ###
 *.zwc
 .zcomp*
+.chpwd-recent-dirs
