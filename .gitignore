@@ -5,10 +5,11 @@ vendor/bundle
 watchr_script
 .DS_Store
 *.pyc
-*.retry
 .generators
-.idea/
 *.iml
 .solargraph.yml
 .ruby-version
 node_modules
+### Zsh cache ###
+*.zwc
+.zcomp*

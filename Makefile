@@ -18,7 +18,7 @@ vim-init:
 
 .PHONY: zsh-init
 zsh-init: link
-	ln -sfv $(XDG_CONFIG_HOME)/zsh/.zshenv .config/zsh/.zshenv
+	ln -sfv .config/zsh/.zshenv $(HOME)/.zshenv
 
 .PHONY: nvim-init
 nvim-init: ## install nvim

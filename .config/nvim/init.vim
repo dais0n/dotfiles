@@ -30,12 +30,15 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mattn/vim-goimports', { 'for': 'go' }
 Plug 'sebdah/vim-delve', { 'for': 'go' }
 " markdown
+Plug 'previm/previm', {'for': 'markdown'}
 Plug 'mattn/vim-maketable', { 'for': 'markdown' }
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 " theme
 Plug 'morhetz/gruvbox'
 call plug#end()
+
+let g:previm_open_cmd = 'open -a "Google Chrome Beta"'
 
 " vim-test
 let test#strategy = "dispatch"
