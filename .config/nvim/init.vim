@@ -30,7 +30,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mattn/vim-goimports', { 'for': 'go' }
 Plug 'sebdah/vim-delve', { 'for': 'go' }
 " markdown
-Plug 'previm/previm', {'for': 'markdown'}
 Plug 'mattn/vim-maketable', { 'for': 'markdown' }
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
@@ -51,6 +50,7 @@ augroup my-glyph-palette
   autocmd FileType fern call glyph_palette#apply()
   autocmd FileType nerdtree,startify call glyph_palette#apply()
 augroup END
+let g:fern#default_hidden=1
 
 " coc
 function! s:completion_check_bs()

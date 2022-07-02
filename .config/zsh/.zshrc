@@ -3,7 +3,7 @@ bindkey -e
 eval "$(starship init zsh)"
 
 ### history
-export HISTFILE="${HOME}/.zsh_history"
+export HISTFILE="${XDG_STATE_HOME}/.zsh_history"
 export HISTSIZE=10000
 export SAVEHIST=10000
 setopt AUTO_PUSHD
@@ -23,7 +23,7 @@ setopt NO_FLOW_CONTROL
 
 zshaddhistory() {
     local line="${1%%$'\n'}"
-    [[ ! "$line" =~ "^(cd|ls|rm|vi)($| )" ]]
+    [[ ! "$line" =~ "^(cd|ls|rm)($| )" ]]
 }
 
 function lssh() {
