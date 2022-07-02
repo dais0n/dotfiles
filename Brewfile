@@ -17,7 +17,6 @@ brew "nkf"
 brew "pandoc"
 brew "protobuf"
 brew "protoc-gen-go"
-brew "pwgen"
 brew "reattach-to-user-namespace"
 brew "ripgrep"
 brew "starship"
@@ -27,5 +26,4 @@ brew "vim"
 brew "zsh"
 cask "alacritty"
 cask "clipy"
-mas "Gifted", id: 771955779
 mas "Xcode", id: 497799835
