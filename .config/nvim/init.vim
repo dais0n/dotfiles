@@ -37,6 +37,8 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 Plug 'morhetz/gruvbox'
 call plug#end()
 
+let g:previm_open_cmd = 'open -a "Google Chrome Beta"'
+
 " vim-test
 let test#strategy = "dispatch"
 
@@ -48,6 +50,7 @@ augroup my-glyph-palette
   autocmd FileType fern call glyph_palette#apply()
   autocmd FileType nerdtree,startify call glyph_palette#apply()
 augroup END
+let g:fern#default_hidden=1
 
 " coc
 function! s:completion_check_bs()
