@@ -1,6 +1,3 @@
-DOTFILES_EXCLUDES := .DS_Store .git .gitmodules
-DOTFILES_TARGET   := $(wildcard .??*)
-DOTFILES_FILES    := $(filter-out $(DOTFILES_EXCLUDES), $(DOTFILES_TARGET))
 UNAME 	          := $(shell uname)
 CURRENTDIR        := $(shell pwd)
 export
