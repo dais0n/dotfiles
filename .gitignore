@@ -5,6 +5,7 @@ vendor/bundle
 .DS_Store
 .solargraph.yml
 .ruby-version
+.tool-versions
 node_modules
 ### Zsh cache ###
 *.zwc

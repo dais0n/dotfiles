@@ -2,8 +2,38 @@
 bindkey -e
 eval "$(starship init zsh)"
 
+# include my zsh file
+ZSHHOME="${HOME}/.zsh.d"
+if [ -d $ZSHHOME -a -r $ZSHHOME -a \
+     -x $ZSHHOME ]; then
+    for i in $ZSHHOME/*; do
+        [[ ${i##*/} = *.zsh ]] &&
+            [ \( -f $i -o -h $i \) -a -r $i ] && . $i
+    done
+fi
+
+typeset -U path
+
+path=(
+    "$HOME/.local/bin"(N-/)
+    "$CARGO_HOME/bin"(N-/)
+    "$GOPATH/bin"(N-/)
+    "$path[@]"
+)
+
+# To enable agent forwarding when screen is reconnected.
+# See http://mokokko.hatenablog.com/entry/2013/03/14/133850
+AUTH_SOCK="$HOME/.ssh/.ssh-auth-sock"
+if [ -S "$AUTH_SOCK" ]; then
+    export SSH_AUTH_SOCK=$AUTH_SOCK
+elif [ ! -S "$SSH_AUTH_SOCK" ]; then
+    export SSH_AUTH_SOCK=$AUTH_SOCK
+elif [ ! -L "$SSH_AUTH_SOCK" ]; then
+    ln -snf "$SSH_AUTH_SOCK" $AUTH_SOCK && export SSH_AUTH_SOCK=$AUTH_SOCK
+fi
+
 ### history
-export HISTFILE="${XDG_STATE_HOME}/.zsh_history"
+export HISTFILE="${XDG_STATE_HOME}/zsh/.zsh_history"
 export HISTSIZE=10000
 export SAVEHIST=10000
 setopt AUTO_PUSHD
@@ -23,7 +53,7 @@ setopt NO_FLOW_CONTROL
 
 zshaddhistory() {
     local line="${1%%$'\n'}"
-    [[ ! "$line" =~ "^(cd|ls|rm)($| )" ]]
+    [[ ! "$line" =~ "^(cd|ls|rm|kill)($| )" ]]
 }
 
 function lssh() {

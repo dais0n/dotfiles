@@ -7,15 +7,12 @@ XDG_STATE_HOME := $(HOME)/.local/state
 
 .PHONY: link
 link:
-	ln -sfv ".config/"* $(XDG_CONFIG_HOME)
+	ln -sfv $(HOME)/dotfiles/.config/* $(XDG_CONFIG_HOME)
+	ln -sfv .config/zsh/.zshenv $(HOME)/.zshenv
 
 .PHONY: vim-init
 vim-init:
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-.PHONY: zsh-init
-zsh-init: link
-	ln -sfv .config/zsh/.zshenv $(HOME)/.zshenv
 
 .PHONY: nvim-init
 nvim-init: ## install nvim

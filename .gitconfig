@@ -8,7 +8,6 @@
     editor = vim
 [pull]
     rebase = true
-
 [alias]
     co = checkout
     s = status --short --branch

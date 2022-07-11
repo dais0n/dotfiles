@@ -8,7 +8,6 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'tomtom/tcomment_vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'szw/vim-tags',{ 'for': 'ruby' }
 Plug 'sheerun/vim-polyglot' " language syntax highlight
 Plug 'tpope/vim-dispatch'
 Plug 'itchyny/lightline.vim'
@@ -150,13 +149,6 @@ let g:lightline = {
 function! FilenameForLightline()
     return expand('%')
 endfunction
-
-let g:vim_tags_auto_generate = 1
-let g:vim_tags_project_tags_command = "ctags --exclude=vendor -f .tags -R . 2>/dev/null"
-let g:vim_tags_gems_tags_command = "ctags -R -f .Gemfile.lock.tags `bundle show --paths` 2>/dev/null"
-let g:vim_tags_use_vim_dispatch = 1
-autocmd filetype ruby nnoremap <C-]> g<C-]>
-
 let g:mkdp_theme = 'light'
 
 "-----------------
