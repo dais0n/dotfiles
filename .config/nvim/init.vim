@@ -14,6 +14,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'edkolev/tmuxline.vim', { 'on': 'Tmuxline' }
 Plug 'vim-test/vim-test', { 'on': ['TestFile', 'TestNearest', 'TestLast', 'TestSuite'] }
 Plug 'ojroques/vim-oscyank', { 'on': ['OSCYank', 'OSCYankReg'] }
+Plug 'vim-skk/eskk.vim'
 " fern
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-git-status.vim'
@@ -50,6 +51,15 @@ augroup my-glyph-palette
   autocmd FileType nerdtree,startify call glyph_palette#apply()
 augroup END
 let g:fern#default_hidden=1
+
+" eskk
+" https://alwei.hatenadiary.org/entry/20111029/1319905783
+let g:eskk#directory = "~/.eskk"
+let g:eskk#dictionary = { 'path': "~/.skk-jisyo", 'sorted': 0, 'encoding': 'utf-8', }
+let g:eskk#large_dictionary = { 'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp', }
+let g:eskk#enable_completion = 0
+let g:eskk#keep_state = 0
+let g:eskk#egg_like_newline = 1
 
 " coc
 function! s:completion_check_bs()
@@ -210,8 +220,7 @@ set lazyredraw
 set ttyfast
 set wrapscan
 set shortmess+=I
-set tags+=.tags
-set tags+=.Gemfile.lock.tags
+set imdisable
 vnoremap v $h " select endline by vv
 " changelog
 let g:changelog_timeformat="%Y-%m-%d"
