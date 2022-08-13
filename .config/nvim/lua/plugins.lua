@@ -4,8 +4,17 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
-  -- Packer can manage itself
+  -- common utilities
+  use 'nvim-lua/plenary.nvim'
+  -- packer can manage itself
   use 'wbthomason/packer.nvim'
-  -- Plugins can have post-install/update hooks
+  -- statusline
+  use 'nvim-lualine/lualine.nvim'
+  -- markdown
   use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
+  -- lsp
+  use 'neovim/nvim-lspconfig'
+  -- fuzzy finder
+  use 'nvim-telescope/telescope.nvim'
+  use 'nvim-telescope/telescope-file-browser.nvim'
 end)

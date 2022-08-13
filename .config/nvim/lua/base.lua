@@ -8,6 +8,7 @@ vim.opt.number = true
 vim.opt.expandtab = true
 vim.opt.backup = false
 vim.opt.showcmd = true
+vim.opt.cmdheight = 1
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.hlsearch = true
