@@ -17,4 +17,5 @@ return require('packer').startup(function(use)
   -- fuzzy finder
   use 'nvim-telescope/telescope.nvim'
   use 'nvim-telescope/telescope-file-browser.nvim'
+  use { 'nvim-telescope/telescope-frecency.nvim', requires = {"tami5/sqlite.lua"}}
 end)

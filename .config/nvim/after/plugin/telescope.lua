@@ -28,9 +28,6 @@ telescope.setup {
           -- your custom normal mode mappings
           ["N"] = fb_actions.create,
           ["h"] = fb_actions.goto_parent_dir,
-          ["/"] = function()
-            vim.cmd('startinsert')
-          end
         },
       },
     },
@@ -38,6 +35,7 @@ telescope.setup {
 }
 
 telescope.load_extension("file_browser")
+telescope.load_extension("frecency")
 
 vim.keymap.set('n', '<C-f>',
   function()
@@ -46,20 +44,11 @@ vim.keymap.set('n', '<C-f>',
       hidden = true
     })
   end)
-vim.keymap.set('n', ';r', function()
+vim.keymap.set('n', '<C-r>', function()
   builtin.live_grep()
-end)
-vim.keymap.set('n', '\\\\', function()
-  builtin.buffers()
 end)
 vim.keymap.set('n', ';t', function()
   builtin.help_tags()
-end)
-vim.keymap.set('n', ';;', function()
-  builtin.resume()
-end)
-vim.keymap.set('n', ';e', function()
-  builtin.diagnostics()
 end)
 vim.keymap.set("n", "<C-n>", function()
   telescope.extensions.file_browser.file_browser({
@@ -73,3 +62,4 @@ vim.keymap.set("n", "<C-n>", function()
     layout_config = { height = 40 }
   })
 end)
+vim.keymap.set("n", "<C-p>", function() telescope.extensions.frecency.frecency() end)
