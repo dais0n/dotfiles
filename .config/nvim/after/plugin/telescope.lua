@@ -13,8 +13,14 @@ local fb_actions = telescope.extensions.file_browser.actions
 telescope.setup {
   defaults = {
     mappings = {
+      i = {
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+      },
       n = {
-        ["q"] = actions.close
+        ["q"] = actions.close,
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
       },
     },
   },
