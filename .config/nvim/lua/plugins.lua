@@ -8,8 +8,12 @@ return require('packer').startup(function(use)
   use 'nvim-lua/plenary.nvim'
   -- packer can manage itself
   use 'wbthomason/packer.nvim'
+  -- theme
+  use 'ellisonleao/gruvbox.nvim'
+  -- file icons
+  use 'kyazdani42/nvim-web-devicons'
   -- statusline
-  use 'nvim-lualine/lualine.nvim'
+  use 'feline-nvim/feline.nvim'
   -- markdown
   use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
   -- lsp
@@ -18,4 +22,6 @@ return require('packer').startup(function(use)
   use 'nvim-telescope/telescope.nvim'
   use 'nvim-telescope/telescope-file-browser.nvim'
   use { 'nvim-telescope/telescope-frecency.nvim', requires = {"tami5/sqlite.lua"}}
+  -- git
+  use 'lewis6991/gitsigns.nvim'
 end)
