@@ -1,7 +1,6 @@
 local status, feline = pcall(require, "feline")
 if (not status) then return end
 
-
 local gruvbox = {
     fg = '#928374',
     bg = '#1F2223',

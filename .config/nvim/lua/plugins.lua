@@ -23,6 +23,8 @@ return require('packer').startup(function(use)
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/vim-vsnip'
   use 'williamboman/mason.nvim'
+  use 'williamboman/mason-lspconfig.nvim'
+  use 'folke/trouble.nvim'
   -- fuzzy finder
   use 'nvim-telescope/telescope.nvim'
   use 'nvim-telescope/telescope-file-browser.nvim'
