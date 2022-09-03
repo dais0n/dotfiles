@@ -29,7 +29,6 @@ return require('packer').startup(function(use)
   -- fuzzy finder
   use 'nvim-telescope/telescope.nvim'
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-  use { 'nvim-telescope/telescope-frecency.nvim', requires = {"tami5/sqlite.lua"}}
   -- git
   use 'lewis6991/gitsigns.nvim'
 end)

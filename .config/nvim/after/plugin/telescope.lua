@@ -29,7 +29,6 @@ telescope.setup {
 }
 
 telescope.load_extension('fzf')
-telescope.load_extension("frecency")
 
 vim.keymap.set('n', '<C-r>',
   function()
