@@ -6,6 +6,8 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function(use)
   -- common utilities
   use 'nvim-lua/plenary.nvim'
+  -- symtax highlight
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   -- packer can manage itself
   use 'wbthomason/packer.nvim'
   -- theme
