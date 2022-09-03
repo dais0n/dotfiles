@@ -4,11 +4,15 @@ if (not status) then return end
 local actions = require('telescope.actions')
 local builtin = require("telescope.builtin")
 
-local function telescope_buffer_dir()
-  return vim.fn.expand('%:p:h')
-end
-
 telescope.setup {
+  extensions = {
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = true,  -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+    },
+  },
   defaults = {
     mappings = {
       i = {
@@ -24,6 +28,7 @@ telescope.setup {
   },
 }
 
+telescope.load_extension('fzf')
 telescope.load_extension("frecency")
 
 vim.keymap.set('n', '<C-r>',
@@ -36,4 +41,6 @@ vim.keymap.set('n', '<C-r>',
 vim.keymap.set('n', '<C-g>', function()
   builtin.live_grep()
 end)
-vim.keymap.set("n", "<C-p>", function() telescope.extensions.frecency.frecency() end)
+vim.keymap.set("n", "<C-p>", function()
+  builtin.oldfiles()
+end)
