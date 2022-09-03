@@ -12,6 +12,8 @@ return require('packer').startup(function(use)
   use 'ellisonleao/gruvbox.nvim'
   -- file icons
   use 'kyazdani42/nvim-web-devicons'
+  -- filer
+  use 'kyazdani42/nvim-tree.lua'
   -- statusline
   use 'feline-nvim/feline.nvim'
   -- markdown
@@ -27,7 +29,6 @@ return require('packer').startup(function(use)
   use 'folke/trouble.nvim'
   -- fuzzy finder
   use 'nvim-telescope/telescope.nvim'
-  use 'nvim-telescope/telescope-file-browser.nvim'
   use { 'nvim-telescope/telescope-frecency.nvim', requires = {"tami5/sqlite.lua"}}
   -- git
   use 'lewis6991/gitsigns.nvim'
