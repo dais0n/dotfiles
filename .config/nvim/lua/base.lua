@@ -25,3 +25,10 @@ vim.opt.hidden = true
 vim.opt.cursorline = false
 vim.opt.pumblend = 5
 vim.opt.termguicolors = true
+
+-- theme
+vim.g.nord_contrast = false
+vim.g.nord_borders = false
+vim.g.nord_disable_background = true
+vim.g.nord_italic = false
+vim.g.nord_uniform_diff_background = true

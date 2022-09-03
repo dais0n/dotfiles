@@ -9,7 +9,7 @@ return require('packer').startup(function(use)
   -- packer can manage itself
   use 'wbthomason/packer.nvim'
   -- theme
-  use 'ellisonleao/gruvbox.nvim'
+  use 'shaunsingh/nord.nvim'
   -- file icons
   use 'kyazdani42/nvim-web-devicons'
   -- filer
