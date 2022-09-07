@@ -34,7 +34,8 @@ return require('packer').startup(function(use)
   -- git
   use 'lewis6991/gitsigns.nvim'
   use 'dinhhuy258/git.nvim'
+  -- osc52
+  use {'ojroques/nvim-osc52', config = function() require('osc52').setup() end }
   -- comment
-  use { 'numToStr/Comment.nvim', config = function() require('Comment').setup() end
-}
+  use { 'numToStr/Comment.nvim', config = function() require('Comment').setup() end }
 end)
