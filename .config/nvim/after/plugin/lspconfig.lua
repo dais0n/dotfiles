@@ -23,4 +23,20 @@ nvim_lsp.sumneko_lua.setup {
     },
   },
 }
+
+nvim_lsp.solargraph.setup {
+  settings = {
+    solargraph = {
+      autoformat = false,
+      formatting = false,
+      completion = true,
+      diagnostic = false,
+      folding = true,
+      references = true,
+      rename = true,
+      symbols = true
+    }
+  }
+}
+
 vim.keymap.set("n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<CR>")

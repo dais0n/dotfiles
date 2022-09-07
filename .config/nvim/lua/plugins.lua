@@ -33,8 +33,8 @@ return require('packer').startup(function(use)
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   -- git
   use 'lewis6991/gitsigns.nvim'
+  use 'dinhhuy258/git.nvim'
   -- comment
   use { 'numToStr/Comment.nvim', config = function() require('Comment').setup() end
 }
-
 end)
