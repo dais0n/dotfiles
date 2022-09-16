@@ -39,4 +39,6 @@ nvim_lsp.solargraph.setup {
   }
 }
 
+nvim_lsp.tsserver.setup{}
+
 vim.keymap.set("n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<CR>")
