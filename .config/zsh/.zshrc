@@ -16,7 +16,6 @@ typeset -U path
 
 path=(
     "$HOME/.local/bin"(N-/)
-    "$CARGO_HOME/bin"(N-/)
     "$GOPATH/bin"(N-/)
     "$path[@]"
 )
