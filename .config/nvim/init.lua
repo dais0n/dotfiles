@@ -14,4 +14,4 @@ vim.g.clipboard = {
 }
 -- Now the '+' register will copy to system clipboard using OSC52
 vim.keymap.set('v', 'y', '"+y')
-vim.cmd([[colorscheme nord]])
+vim.cmd('colorscheme embark')

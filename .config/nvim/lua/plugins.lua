@@ -11,7 +11,7 @@ return require('packer').startup(function(use)
   -- packer can manage itself
   use 'wbthomason/packer.nvim'
   -- theme
-  use 'shaunsingh/nord.nvim'
+  use { 'embark-theme/vim', as = 'embark' }
   -- file icons
   use 'kyazdani42/nvim-web-devicons'
   -- filer
