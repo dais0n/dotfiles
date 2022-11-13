@@ -6,6 +6,8 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function(use)
   -- common utilities
   use 'nvim-lua/plenary.nvim'
+  use 'tpope/vim-surround'
+  use { 'windwp/nvim-autopairs', config = function() require("nvim-autopairs").setup {} end }
   -- symtax highlight
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   -- packer can manage itself
@@ -33,7 +35,7 @@ return require('packer').startup(function(use)
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   -- git
   use 'lewis6991/gitsigns.nvim'
-  use 'dinhhuy258/git.nvim'
+  use 'tpope/vim-fugitive'
   -- osc52
   use {'ojroques/nvim-osc52', config = function() require('osc52').setup() end }
   -- comment
