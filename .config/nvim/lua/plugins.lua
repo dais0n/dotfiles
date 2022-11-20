@@ -8,6 +8,7 @@ return require('packer').startup(function(use)
   use 'nvim-lua/plenary.nvim'
   use 'tpope/vim-surround'
   use { 'windwp/nvim-autopairs', config = function() require("nvim-autopairs").setup {} end }
+  use { "renerocksai/telekasten.nvim", after = { "telescope.nvim" } }
   -- symtax highlight
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   -- packer can manage itself
@@ -21,7 +22,7 @@ return require('packer').startup(function(use)
   -- statusline
   use 'feline-nvim/feline.nvim'
   -- markdown
-  use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
+  use { 'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview' }
   -- lsp
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-cmp'
@@ -32,12 +33,12 @@ return require('packer').startup(function(use)
   use 'williamboman/mason-lspconfig.nvim'
   -- fuzzy finder
   use 'nvim-telescope/telescope.nvim'
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   -- git
   use 'lewis6991/gitsigns.nvim'
   use 'tpope/vim-fugitive'
   -- osc52
-  use {'ojroques/nvim-osc52', config = function() require('osc52').setup() end }
+  use { 'ojroques/nvim-osc52', config = function() require('osc52').setup() end }
   -- comment
   use { 'numToStr/Comment.nvim', config = function() require('Comment').setup() end }
 end)
