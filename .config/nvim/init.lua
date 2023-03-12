@@ -1,3 +1,4 @@
+local opts = { noremap=true, silent=true }
 -- plugin install
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
@@ -14,7 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- common utilities
   {'nvim-lua/plenary.nvim'},
-  {'windwp/nvim-autopairs', event = 'InsertEnter'},
+  {'windwp/nvim-autopairs', event = 'InsertEnter', config = function() require("nvim-autopairs").setup {} end},
   {'renerocksai/telekasten.nvim', cmd = 'Telekasten'},
   {'mvllow/modes.nvim', config = function() require('modes').setup() end},
   -- symtax highlight
@@ -26,9 +27,13 @@ require('lazy').setup({
   {'hrsh7th/nvim-cmp', event = 'InsertEnter'},
   {'hrsh7th/cmp-nvim-lsp', event = 'InsertEnter'},
   {'hrsh7th/cmp-buffer', event = 'InsertEnter'},
+  {'hrsh7th/cmp-path', event = 'InsertEnter'},
   {'hrsh7th/vim-vsnip', event = 'InsertEnter'},
+  {'hrsh7th/cmp-vsnip', event = 'InsertEnter'},
+  {'hrsh7th/cmp-cmdline', event = 'InsertEnter'},
   {'williamboman/mason.nvim', cmd = {'Mason', 'MasonInstall'}},
   {'williamboman/mason-lspconfig.nvim', event = 'LspAttach'},
+  {'jose-elias-alvarez/null-ls.nvim', event = 'LspAttach', dependencies = { "nvim-lua/plenary.nvim" }},
   -- fuzzy finder
   {'nvim-telescope/telescope.nvim', event = 'VeryLazy'},
   {'nvim-telescope/telescope-file-browser.nvim', event = 'VeryLazy', dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }},
@@ -36,9 +41,10 @@ require('lazy').setup({
   {'lewis6991/gitsigns.nvim', event = 'BufNewFile, BufRead'},
   {'tpope/vim-fugitive'},
   -- osc52
-  {'ojroques/nvim-osc52', config = function() require('osc52').setup() end},
+  {'ojroques/nvim-osc52', config = function() require('osc52').setup() end, event = 'BufNewFile, BufRead'},
   -- comment
   {'numToStr/Comment.nvim', config = function() require('Comment').setup() end},
+  -- theme
   {
     "folke/tokyonight.nvim",
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
@@ -53,12 +59,43 @@ require('lazy').setup({
 -- plugin settings
 
 --LSP
+local on_attach = function(client, bufnr)
+  -- LSPサーバーのフォーマット機能を無効にするには下の行をコメントアウト
+  -- 例えばtypescript-language-serverにはコードのフォーマット機能が付いているが代わりにprettierでフォーマットしたいときなど
+  -- client.resolved_capabilities.document_formatting = false
+
+  local set = vim.keymap.set
+  set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
+  set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
+  set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
+  set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
+  set("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
+  set("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>")
+  set("n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>")
+  set("n", "<space>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>")
+  set("n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
+  set("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
+  set("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+  set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
+  set("n", "<space>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>")
+  set("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>")
+  set("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>")
+  set("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>")
+  set("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
+end
+
+capabilities = require('cmp_nvim_lsp').default_capabilities(
+vim.lsp.protocol.make_client_capabilities()
+)
 require('mason').setup()
+require("mason-lspconfig").setup {
+    ensure_installed = { "lua_ls" },
+    automatic_installation = true
+}
 require('mason-lspconfig').setup_handlers({ function(server_name)
   local opt = {
-    capabilities = require('cmp_nvim_lsp').default_capabilities(
-      vim.lsp.protocol.make_client_capabilities()
-    )
+    on_attach = on_attach,
+    capabilities = capabilities
   }
    if server_name == "lua_ls" then
       opt.settings = {
@@ -82,18 +119,32 @@ cmp.setup({
       end,
     },
     mapping = cmp.mapping.preset.insert({
-      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-p>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-n>'] = cmp.mapping.scroll_docs(4),
+      ['<C-l>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.abort(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
       { name = 'vsnip' }, -- For vsnip users.
-    }, {
-      { name = 'buffer' },
+      { name = "buffer" },
+      { name = "path" }
     })
+})
+
+cmp.setup.cmdline('/', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
+})
+
+cmp.setup.cmdline(':', {
+  sources = {
+    { name = 'path' },
+    { name = 'cmdline' },
+  },
 })
 
 require('nvim-treesitter.configs').setup {
@@ -113,9 +164,35 @@ require('nvim-treesitter.configs').setup {
   }
 }
 
+require('null-ls').setup({
+ capabilities = capabilities,
+  sources = {
+    require('null-ls').builtins.formatting.stylua,
+    require('null-ls').builtins.diagnostics.rubocop.with({
+      prefer_local = "bundle_bin",
+      condition = function(utils)
+        return utils.root_has_file({".rubocop.yml"})
+      end
+    }),
+    require('null-ls').builtins.diagnostics.eslint,
+    -- require('null-ls').builtins.diagnostics.luacheck.with({
+    --   extra_args = {"--globals", "vim", "--globals", "awesome"},
+    -- }),
+    require('null-ls').builtins.diagnostics.yamllint,
+    require('null-ls').builtins.formatting.gofmt,
+    require('null-ls').builtins.formatting.rustfmt,
+    require('null-ls').builtins.formatting.rubocop.with({
+      prefer_local = "bundle_bin",
+      condition = function(utils)
+        return utils.root_has_file({".rubocop.yml"})
+      end
+    }),
+    require('null-ls').builtins.completion.spell,
+  },
+})
+
 -- telescope
 local telescope = require('telescope')
-
 local telescope_actions = require('telescope.actions')
 local telescope_builtin = require("telescope.builtin")
 
@@ -157,13 +234,13 @@ vim.keymap.set('n', '<C-r>',
       no_ignore = false,
       hidden = true
     })
-  end)
+  end,opts)
 vim.keymap.set('n', '<C-g>', function()
   telescope_builtin.live_grep()
-end)
+end,opts)
 vim.keymap.set("n", "<C-p>", function()
   telescope_builtin.oldfiles()
-end)
+end,opts)
 vim.keymap.set("n", "<C-n>", function()
   telescope.extensions.file_browser.file_browser({
     respect_gitignore = true,
@@ -171,7 +248,7 @@ vim.keymap.set("n", "<C-n>", function()
     initial_mode = "normal",
     layout_config = { height = 40 }
   })
-end)
+end,opts)
 
 -- telekasten
 local memo_home = vim.fn.expand("~/memo")
@@ -247,6 +324,10 @@ vim.opt.swapfile = false
 vim.opt.cursorline = false
 vim.opt.pumblend = 5
 vim.opt.termguicolors = true
+
+-- keymaps
+vim.keymap.set("n", "Y", "y$", opts)
+vim.keymap.set("v", "v", "$h", opts)
 
 vim.api.nvim_create_autocmd({ 'BufReadPost' }, {
     pattern = { '*' },
