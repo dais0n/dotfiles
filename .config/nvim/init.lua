@@ -16,7 +16,6 @@ require('lazy').setup({
   -- common utilities
   {'nvim-lua/plenary.nvim'},
   {'windwp/nvim-autopairs', event = 'InsertEnter', config = function() require("nvim-autopairs").setup {} end},
-  {'renerocksai/telekasten.nvim', cmd = 'Telekasten'},
   {'mvllow/modes.nvim', config = function() require('modes').setup() end},
   -- symtax highlight
   {'nvim-treesitter/nvim-treesitter'},
@@ -36,7 +35,6 @@ require('lazy').setup({
   {'jose-elias-alvarez/null-ls.nvim', event = 'LspAttach', dependencies = { "nvim-lua/plenary.nvim" }},
   -- fuzzy finder
   {'nvim-telescope/telescope.nvim', event = 'VeryLazy'},
-  {'nvim-telescope/telescope-file-browser.nvim', event = 'VeryLazy', dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }},
   -- git
   {'lewis6991/gitsigns.nvim', event = 'BufNewFile, BufRead'},
   {'tpope/vim-fugitive'},
@@ -46,12 +44,12 @@ require('lazy').setup({
   {'numToStr/Comment.nvim', config = function() require('Comment').setup() end},
   -- theme
   {
-    "folke/tokyonight.nvim",
+    "sainnhe/gruvbox-material",
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       -- load the colorscheme here
-      vim.cmd([[colorscheme tokyonight]])
+      vim.cmd([[colorscheme gruvbox-material]])
     end,
   },
 })
@@ -60,10 +58,6 @@ require('lazy').setup({
 
 --LSP
 local on_attach = function(client, bufnr)
-  -- LSPサーバーのフォーマット機能を無効にするには下の行をコメントアウト
-  -- 例えばtypescript-language-serverにはコードのフォーマット機能が付いているが代わりにprettierでフォーマットしたいときなど
-  -- client.resolved_capabilities.document_formatting = false
-
   local set = vim.keymap.set
   set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
   set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
@@ -84,7 +78,7 @@ local on_attach = function(client, bufnr)
   set("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
 end
 
-capabilities = require('cmp_nvim_lsp').default_capabilities(
+local capabilities = require('cmp_nvim_lsp').default_capabilities(
 vim.lsp.protocol.make_client_capabilities()
 )
 require('mason').setup()
@@ -143,7 +137,7 @@ cmp.setup.cmdline('/', {
 cmp.setup.cmdline(':', {
   sources = {
     { name = 'path' },
-    { name = 'cmdline' },
+    { name = 'cmdline' , keyword_length = 2},
   },
 })
 
@@ -198,18 +192,15 @@ local telescope_builtin = require("telescope.builtin")
 
 
 telescope.setup {
-   extensions = {
-    file_browser = {
-      -- disables netrw and use telescope-file-browser in its place
-      hijack_netrw = true,
-      mappings = {
-        ["i"] = {
-          -- your custom insert mode mappings
-        },
-        ["n"] = {
-          -- your custom normal mode mappings
-        },
-      },
+  pickers = {
+    find_files = {
+      theme = "ivy",
+    },
+    oldfiles = {
+      theme = "ivy",
+    },
+    live_grep = {
+      theme = "ivy",
     },
   },
   defaults = {
@@ -226,7 +217,6 @@ telescope.setup {
     },
   },
 }
-telescope.load_extension "file_browser"
 
 vim.keymap.set('n', '<C-r>',
   function()
@@ -250,50 +240,6 @@ vim.keymap.set("n", "<C-n>", function()
   })
 end,opts)
 
--- telekasten
-local memo_home = vim.fn.expand("~/memo")
-require('telekasten').setup({
-    home         = memo_home,
-    take_over_my_home = true,
-    auto_set_filetype = true,
-
-    dailies      = memo_home .. '/' .. 'daily',
-    weeklies     = memo_home .. '/' .. 'weekly',
-    templates    = memo_home .. '/' .. 'templates',
-
-    image_subdir = "img",
-
-    extension    = ".md",
-    new_note_filename = "title",
-    uuid_type = "%Y%m%d%H%M",
-    uuid_sep = "-",
-
-    follow_creates_nonexisting = true,
-    dailies_create_nonexisting = true,
-    weeklies_create_nonexisting = true,
-
-    journal_auto_open = false,
-    template_new_note = memo_home .. '/' .. 'templates/new_note.md',
-    template_new_daily = memo_home .. '/' .. 'templates/daily.md',
-    template_new_weekly= memo_home .. '/' .. 'templates/weekly.md',
-
-    image_link_style = "markdown",
-    sort = "filename",
-
-    close_after_yanking = false,
-    insert_after_inserting = true,
-
-    tag_notation = "#tag",
-
-    command_palette_theme = 'dropdown',
-    show_tags_theme = "ivy",
-
-    subdirs_in_links = true,
-    template_handling = "smart",
-    new_note_location = "smart",
-    rename_update_links = true,
-})
-
 -- general
 vim.opt.helplang = 'ja,en'
 vim.scriptencoding = 'utf-8'
@@ -316,7 +262,7 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.wrap = false
 vim.opt.hidden = true
-vim.opt.shell = '/bin/zsh'
+vim.opt.shell = '/usr/local/bin/zsh'
 vim.opt.laststatus = 3
 vim.opt.swapfile = false
 
