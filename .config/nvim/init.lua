@@ -34,7 +34,7 @@ require('lazy').setup({
   {'williamboman/mason-lspconfig.nvim', event = 'LspAttach'},
   {'jose-elias-alvarez/null-ls.nvim', event = 'LspAttach', dependencies = { "nvim-lua/plenary.nvim" }},
   -- fuzzy finder
-  {'nvim-telescope/telescope.nvim', event = 'VeryLazy'},
+  {'nvim-telescope/telescope.nvim', event = 'VeryLazy', dependencies = { "nvim-telescope/telescope-live-grep-args.nvim" }},
   -- git
   {'lewis6991/gitsigns.nvim', event = 'BufNewFile, BufRead'},
   {'tpope/vim-fugitive'},
@@ -187,11 +187,24 @@ require('null-ls').setup({
 
 -- telescope
 local telescope = require('telescope')
-local telescope_actions = require('telescope.actions')
 local telescope_builtin = require("telescope.builtin")
-
+local telescope_actions = require("telescope.actions")
+local lga_actions = require("telescope-live-grep-args.actions")
 
 telescope.setup {
+  extensions = {
+    live_grep_args = {
+      auto_quoting = true,
+      mappings = {
+        i = {
+          ["<C-j>"] = telescope_actions.move_selection_next,
+          ["<C-k>"] = telescope_actions.move_selection_previous,
+          ["<C-t>"] = lga_actions.quote_prompt({ postfix = ' -t' })
+        },
+      },
+      theme = "ivy"
+    },
+  },
   pickers = {
     find_files = {
       theme = "ivy",
@@ -203,20 +216,8 @@ telescope.setup {
       theme = "ivy",
     },
   },
-  defaults = {
-    mappings = {
-      i = {
-        ["<C-j>"] = telescope_actions.move_selection_next,
-        ["<C-k>"] = telescope_actions.move_selection_previous,
-      },
-      n = {
-        ["q"] = telescope_actions.close,
-        ["<C-j>"] = telescope_actions.move_selection_next,
-        ["<C-k>"] = telescope_actions.move_selection_previous,
-      },
-    },
-  },
 }
+require("telescope").load_extension("live_grep_args")
 
 vim.keymap.set('n', '<C-r>',
   function()
@@ -226,18 +227,10 @@ vim.keymap.set('n', '<C-r>',
     })
   end,opts)
 vim.keymap.set('n', '<C-g>', function()
-  telescope_builtin.live_grep()
+  telescope.extensions.live_grep_args.live_grep_args()
 end,opts)
 vim.keymap.set("n", "<C-p>", function()
   telescope_builtin.oldfiles()
-end,opts)
-vim.keymap.set("n", "<C-n>", function()
-  telescope.extensions.file_browser.file_browser({
-    respect_gitignore = true,
-    hidden = true,
-    initial_mode = "normal",
-    layout_config = { height = 40 }
-  })
 end,opts)
 
 -- general

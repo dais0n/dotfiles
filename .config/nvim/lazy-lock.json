@@ -19,6 +19,7 @@
   "nvim-osc52": { "branch": "main", "commit": "47ce7ee2396fa3ee4fb6b0e0ef14ba06f9c9bd31" },
   "nvim-treesitter": { "branch": "master", "commit": "5d59d18d3e6559e525fd933c41070303c5bae32b" },
   "plenary.nvim": { "branch": "master", "commit": "253d34830709d690f013daf2853a9d21ad7accab" },
+  "telescope-live-grep-args.nvim": { "branch": "master", "commit": "7de3baef1ec4fb77f7a8195fe87bebd513244b6a" },
   "telescope.nvim": { "branch": "master", "commit": "a3f17d3baf70df58b9d3544ea30abe52a7a832c2" },
   "vim-fugitive": { "branch": "master", "commit": "5b52a0f395065d6cb7b65a00a5e17eaf9ebd64d5" },
   "vim-vsnip": { "branch": "master", "commit": "8dde8c0ef10bb1afdbb301e2bd7eb1c153dd558e" }
