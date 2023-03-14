@@ -20,7 +20,16 @@ require('lazy').setup({
   -- symtax highlight
   {'nvim-treesitter/nvim-treesitter'},
   -- markdown
-  {'iamcco/markdown-preview.nvim', run = function() vim.fn["mkdp#util#install"]() end, cmd = 'MarkdownPreview'},
+  {
+    'previm/previm',
+    config = function()
+      vim.g.previm_open_cmd = 'open -a \"Google Chrome Beta\"';
+      vim.g.previm_enable_realtime = 0
+      -- clear cache every time we open neovim
+      vim.fn["previm#wipe_cache"]()
+    end,
+    ft = { "markdown" }
+  },
   -- lsp
   {'neovim/nvim-lspconfig', event = 'LspAttach'},
   {'hrsh7th/nvim-cmp', event = 'InsertEnter'},
