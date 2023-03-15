@@ -122,9 +122,8 @@ cmp.setup({
       end,
     },
     mapping = cmp.mapping.preset.insert({
-      ['<C-p>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-n>'] = cmp.mapping.scroll_docs(4),
-      ['<C-l>'] = cmp.mapping.complete(),
+      ['<C-f>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-b>'] = cmp.mapping.scroll_docs(4),
       ['<C-e>'] = cmp.mapping.abort(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
@@ -267,6 +266,7 @@ vim.opt.hidden = true
 vim.opt.shell = '/usr/local/bin/zsh'
 vim.opt.laststatus = 3
 vim.opt.swapfile = false
+vim.opt.helpheight=99999
 
 -- highlights
 vim.opt.cursorline = false
