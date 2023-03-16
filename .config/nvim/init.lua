@@ -15,8 +15,10 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- common utilities
   {'nvim-lua/plenary.nvim'},
-  {'windwp/nvim-autopairs', event = 'InsertEnter', config = function() require("nvim-autopairs").setup {} end},
-  {'mvllow/modes.nvim', config = function() require('modes').setup() end},
+  {'windwp/nvim-autopairs', event = 'InsertEnter', config = true},
+  {'mvllow/modes.nvim', config = true},
+  -- terminal
+  {'akinsho/toggleterm.nvim', version = "*", config = true},
   -- symtax highlight
   {'nvim-treesitter/nvim-treesitter'},
   -- markdown
@@ -42,15 +44,16 @@ require('lazy').setup({
   {'williamboman/mason.nvim', cmd = {'Mason', 'MasonInstall'}},
   {'williamboman/mason-lspconfig.nvim', event = 'LspAttach'},
   {'jose-elias-alvarez/null-ls.nvim', event = 'LspAttach', dependencies = { "nvim-lua/plenary.nvim" }},
-  -- fuzzy finder
+  -- telescope
   {'nvim-telescope/telescope.nvim', event = 'VeryLazy', dependencies = { "nvim-telescope/telescope-live-grep-args.nvim" }},
+  {"nvim-telescope/telescope-file-browser.nvim", dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }},
   -- git
   {'lewis6991/gitsigns.nvim', event = 'BufNewFile, BufRead'},
   {'tpope/vim-fugitive'},
   -- osc52
-  {'ojroques/nvim-osc52', config = function() require('osc52').setup() end, event = 'BufNewFile, BufRead'},
+  {'ojroques/nvim-osc52', config = true, event = 'BufNewFile, BufRead'},
   -- comment
-  {'numToStr/Comment.nvim', config = function() require('Comment').setup() end},
+  {'numToStr/Comment.nvim', config = true},
   -- theme
   {
     "sainnhe/gruvbox-material",
@@ -212,6 +215,20 @@ telescope.setup {
       },
       theme = "ivy"
     },
+     file_browser = {
+      theme = "ivy",
+      dir_icon = "",
+      -- disables netrw and use telescope-file-browser in its place
+      hijack_netrw = true,
+      mappings = {
+        ["i"] = {
+          -- your custom insert mode mappings
+        },
+        ["n"] = {
+          -- your custom normal mode mappings
+        },
+      },
+    },
   },
   pickers = {
     find_files = {
@@ -226,6 +243,7 @@ telescope.setup {
   },
 }
 require("telescope").load_extension("live_grep_args")
+require("telescope").load_extension("file_browser")
 
 vim.keymap.set('n', '<C-r>',
   function()
@@ -240,6 +258,16 @@ end,opts)
 vim.keymap.set("n", "<C-p>", function()
   telescope_builtin.oldfiles()
 end,opts)
+
+-- toggleterm
+local Terminal  = require('toggleterm.terminal').Terminal
+local lazygit = Terminal:new({ cmd = "lazygit", direction = "float", hidden = true })
+
+function _lazygit_toggle()
+  lazygit:toggle()
+end
+
+vim.api.nvim_set_keymap("n", "lg", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
 
 -- general
 vim.opt.helplang = 'ja,en'
