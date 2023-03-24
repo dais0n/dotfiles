@@ -1,6 +1,5 @@
 ### general
 bindkey -e
-eval "$(starship init zsh)"
 
 # include my zsh file
 ZSHHOME="${HOME}/.zsh.d"
@@ -12,13 +11,22 @@ if [ -d $ZSHHOME -a -r $ZSHHOME -a \
     done
 fi
 
+### path
 typeset -U path
-
 path=(
     "$HOME/.local/bin"(N-/)
     "$GOPATH/bin"(N-/)
     "$path[@]"
 )
+
+fpath+="$XDG_DATA_HOME/zsh/typewritten"
+
+### prompt
+export TYPEWRITTEN_SYMBOL="$"
+export TYPEWRITTEN_CURSOR="block"
+export TYPEWRITTEN_PROMPT_LAYOUT="pure_verbose"
+autoload -U promptinit; promptinit
+prompt typewritten
 
 # To enable agent forwarding when screen is reconnected.
 # See http://mokokko.hatenablog.com/entry/2013/03/14/133850
