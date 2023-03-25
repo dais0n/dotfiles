@@ -267,7 +267,24 @@ function _lazygit_toggle()
   lazygit:toggle()
 end
 
-vim.api.nvim_set_keymap("n", "lg", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
+
+-- osc52
+function copy()
+  require('osc52').copy_register('c')
+end
+
+vim.api.nvim_create_autocmd('TextYankPost', {callback = copy})
+vim.keymap.set('v', '<leader>c', require('osc52').copy_visual)
+
+vim.api.nvim_set_keymap(
+  "n",
+  "<space>fb",
+  ":Telescope file_browser path=%:p:h select_buffer=true",
+  { noremap = true }
+)
+
+vim.api.nvim_command('command! OpenCurrentDir Telescope file_browser path=%:p:h select_buffer=tru')
 
 -- general
 vim.opt.helplang = 'ja,en'
