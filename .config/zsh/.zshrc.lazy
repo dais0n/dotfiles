@@ -2,12 +2,6 @@
 zinit wait'1' lucid light-mode for \
     @'hlissner/zsh-autopair'
 
-### anyflame
-zinit light mollifier/anyframe
-zstyle ":anyframe:selector:" use fzf
-bindkey '^z' anyframe-widget-cdr
-bindkey '^r' anyframe-widget-put-history
-
 ### zsh plugins
 zinit wait lucid blockf light-mode for \
     atload'async_init' @'mafredri/zsh-async' \
@@ -36,6 +30,8 @@ alias rm='rm -i'
 alias mkdir='mkdir -p'
 alias ghd='cd $(ghq list --full-path | fzf)'
 (( ${+commands[nvim]} )) && alias vi='nvim'
+
+export FZF_DEFAULT_OPTS='--height 40% --reverse --border=sharp'
 
 ### autoloads
 autoload -Uz cdr

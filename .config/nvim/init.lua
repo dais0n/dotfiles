@@ -312,6 +312,7 @@ vim.opt.shell = '/usr/local/bin/zsh'
 vim.opt.laststatus = 3
 vim.opt.swapfile = false
 vim.opt.helpheight=99999
+vim.o.mouse = ''
 
 -- highlights
 vim.opt.cursorline = false

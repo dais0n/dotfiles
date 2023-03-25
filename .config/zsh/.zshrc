@@ -22,11 +22,15 @@ path=(
 fpath+="$XDG_DATA_HOME/zsh/typewritten"
 
 ### prompt
-export TYPEWRITTEN_SYMBOL="$"
-export TYPEWRITTEN_CURSOR="block"
-export TYPEWRITTEN_PROMPT_LAYOUT="pure_verbose"
-autoload -U promptinit; promptinit
-prompt typewritten
+setopt PROMPT_SUBST
+PS1='%F{green}%n@%m:%F{cyan}%~$(parse_git_branch)
+$ '
+parse_git_branch() {
+  if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    return 0
+  fi
+  git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
 
 # To enable agent forwarding when screen is reconnected.
 # See http://mokokko.hatenablog.com/entry/2013/03/14/133850
@@ -53,24 +57,26 @@ setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
 setopt HIST_SAVE_NO_DUPS
 setopt INTERACTIVE_COMMENTS
-setopt NO_SHARE_HISTORY
+setopt SHARE_HISTORY
 setopt MAGIC_EQUAL_SUBST
 setopt PRINT_EIGHT_BIT
-setopt NO_FLOW_CONTROL
 
 zshaddhistory() {
     local line="${1%%$'\n'}"
     [[ ! "$line" =~ "^(cd|ls|rm|kill)($| )" ]]
 }
 
-function lssh() {
-  IP=$(lsec2 $@ | fzf | awk '{print $2}')
-  if [ $? -eq 0 -a "${IP}" != "" ]
-  then
-      echo ">>> SSH to ${IP}"
-      ssh ${IP}
-  fi
+widget::history() {
+    local selected="$(history -inr 1 | fzf --exit-0 --query "$LBUFFER" | cut -d' ' -f4- | sed 's/\\n/\n/g')"
+    if [ -n "$selected" ]; then
+        BUFFER="$selected"
+        CURSOR=$#BUFFER
+    fi
+    zle reset-prompt
 }
+
+zle -N widget::history
+bindkey "^R"  widget::history
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
