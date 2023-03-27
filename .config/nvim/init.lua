@@ -283,7 +283,7 @@ vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {nor
 
 -- osc52
 function copy()
-  require('osc52').copy_register('c')
+  require('osc52').copy_register('+')
 end
 
 vim.api.nvim_create_autocmd('TextYankPost', {callback = copy})
@@ -325,6 +325,7 @@ vim.opt.laststatus = 3
 vim.opt.swapfile = false
 vim.opt.helpheight=99999
 vim.o.mouse = ''
+vim.opt.clipboard = "unnamedplus"
 
 -- highlights
 vim.opt.cursorline = false
