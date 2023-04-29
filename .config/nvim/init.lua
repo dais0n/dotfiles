@@ -32,6 +32,16 @@ require('lazy').setup({
     end,
     ft = { "markdown" }
   },
+  {
+    'github/copilot.vim', lazy=false, config = function()
+      vim.keymap.set("i", "<C-f>", 'copilot#Accept("<C-f>")', { silent = true, expr = true, script = true, replace_keycodes = false })
+      vim.keymap.set("i", "<C-j>", "<Plug>(copilot-next)")
+      vim.keymap.set("i", "<C-k>", "<Plug>(copilot-previous)")
+      vim.keymap.set("i", "<C-o>", "<Plug>(copilot-dismiss)")
+      vim.keymap.set("i", "<C-s>", "<Plug>(copilot-suggest)")
+      vim.g.copilot_no_tab_map = true
+    end
+  },
   -- lsp
   {'neovim/nvim-lspconfig', event = 'LspAttach'},
   {'hrsh7th/nvim-cmp', event = 'InsertEnter'},
@@ -44,6 +54,7 @@ require('lazy').setup({
   {'williamboman/mason.nvim', cmd = {'Mason', 'MasonInstall'}},
   {'williamboman/mason-lspconfig.nvim', event = 'LspAttach'},
   {'jose-elias-alvarez/null-ls.nvim', event = 'LspAttach', dependencies = { "nvim-lua/plenary.nvim" }},
+  {'j-hui/fidget.nvim', config = true},
   -- telescope
   {'nvim-telescope/telescope.nvim', event = 'VeryLazy', dependencies = { "nvim-telescope/telescope-live-grep-args.nvim" }},
   {"nvim-telescope/telescope-file-browser.nvim", dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }},
@@ -169,6 +180,7 @@ require('nvim-treesitter.configs').setup {
   }
 }
 
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 require('null-ls').setup({
  capabilities = capabilities,
   sources = {
@@ -180,9 +192,6 @@ require('null-ls').setup({
       end
     }),
     require('null-ls').builtins.diagnostics.eslint,
-    -- require('null-ls').builtins.diagnostics.luacheck.with({
-    --   extra_args = {"--globals", "vim", "--globals", "awesome"},
-    -- }),
     require('null-ls').builtins.diagnostics.yamllint,
     require('null-ls').builtins.formatting.gofmt,
     require('null-ls').builtins.formatting.rustfmt,
