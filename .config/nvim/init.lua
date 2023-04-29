@@ -34,12 +34,17 @@ require('lazy').setup({
   },
   {
     'github/copilot.vim', lazy=false, config = function()
-      vim.keymap.set("i", "<C-f>", 'copilot#Accept("<C-f>")', { silent = true, expr = true, script = true, replace_keycodes = false })
+      vim.g.copilot_no_tab_map = true
+      vim.keymap.set(
+        "i",
+        "<C-f>",
+        'copilot#Accept("<CR>")',
+        { silent = true, expr = true, script = true, replace_keycodes = false }
+      )
       vim.keymap.set("i", "<C-j>", "<Plug>(copilot-next)")
       vim.keymap.set("i", "<C-k>", "<Plug>(copilot-previous)")
       vim.keymap.set("i", "<C-o>", "<Plug>(copilot-dismiss)")
-      vim.keymap.set("i", "<C-s>", "<Plug>(copilot-suggest)")
-      vim.g.copilot_no_tab_map = true
+      vim.keymap.set("i", "<C-g>", "<Plug>(copilot-suggest)")
     end
   },
   -- lsp
@@ -136,8 +141,6 @@ cmp.setup({
       end,
     },
     mapping = cmp.mapping.preset.insert({
-      ['<C-f>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-b>'] = cmp.mapping.scroll_docs(4),
       ['<C-e>'] = cmp.mapping.abort(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
