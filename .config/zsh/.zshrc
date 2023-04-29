@@ -16,6 +16,7 @@ typeset -U path
 path=(
     "$HOME/.local/bin"(N-/)
     "$GOPATH/bin"(N-/)
+    "$HOME/.local/share/aquaproj-aqua/bin"
     "$path[@]"
 )
 

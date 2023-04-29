@@ -270,6 +270,9 @@ end,opts)
 vim.keymap.set("n", "<C-p>", function()
   telescope_builtin.oldfiles()
 end,opts)
+vim.keymap.set("n", "<C-u>", function()
+  telescope.extensions.file_browser.file_browser({ path = "%:p:h", respect_gitignore = false, })
+end,opts)
 
 -- toggleterm
 local Terminal  = require('toggleterm.terminal').Terminal
@@ -288,15 +291,6 @@ end
 
 vim.api.nvim_create_autocmd('TextYankPost', {callback = copy})
 vim.keymap.set('v', '<leader>c', require('osc52').copy_visual)
-
-vim.api.nvim_set_keymap(
-  "n",
-  "<space>fb",
-  ":Telescope file_browser path=%:p:h select_buffer=true",
-  { noremap = true }
-)
-
-vim.api.nvim_command('command! OpenCurrentDir Telescope file_browser path=%:p:h select_buffer=tru')
 
 -- general
 vim.opt.helplang = 'ja,en'
