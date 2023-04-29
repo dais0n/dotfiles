@@ -86,12 +86,12 @@ require("lazy").setup({
 	{
 		"f-person/git-blame.nvim",
 		cmd = {
-			"GitBlameToggle",
 			"GitBlameCopyCommitURL",
-			"GitBlameOpenFileURL",
 			"GitBlameCopyFileURL",
-			"GitBlameOpenCommitURL",
 		},
+		config = function()
+			vim.g.gitblame_display_virtual_text = 0
+		end,
 	},
 	-- osc52
 	{
@@ -336,21 +336,22 @@ end
 vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
 
 -- osc52
-local function copy()
-	require("osc52").copy_register("+")
+local function copy(lines, _)
+	require("osc52").copy(table.concat(lines, "\n"))
 end
-vim.api.nvim_create_autocmd("TextYankPost", { callback = copy })
-vim.keymap.set("v", "<leader>c", require("osc52").copy_visual)
+
+local function paste()
+	return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
+end
+
+vim.g.clipboard = {
+	name = "osc52",
+	copy = { ["+"] = copy, ["*"] = copy },
+	paste = { ["+"] = paste, ["*"] = paste },
+}
 
 -- gitsigns
 require("gitsigns").setup({
-	current_line_blame = true,
-	current_line_blame_opts = {
-		virt_text = true,
-		virt_text_pos = "eol",
-		delay = 1000,
-		ignore_whitespace = false,
-	},
 	current_line_blame_formatter = "<abbrev_sha> - <author>, <author_time:%Y-%m-%d> - <summary>",
 })
 
