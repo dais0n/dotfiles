@@ -83,7 +83,16 @@ require("lazy").setup({
 	},
 	-- git
 	{ "lewis6991/gitsigns.nvim", config = true, event = "VeryLazy" },
-	{ "tpope/vim-fugitive" },
+	{
+		"f-person/git-blame.nvim",
+		cmd = {
+			"GitBlameToggle",
+			"GitBlameCopyCommitURL",
+			"GitBlameOpenFileURL",
+			"GitBlameCopyFileURL",
+			"GitBlameOpenCommitURL",
+		},
+	},
 	-- osc52
 	{
 		"ojroques/nvim-osc52",
@@ -218,6 +227,7 @@ end
 require("null-ls").setup({
 	capabilities = capabilities,
 	sources = {
+		require("null-ls").builtins.code_actions.gitsigns,
 		require("null-ls").builtins.diagnostics.rubocop.with({
 			prefer_local = "bundle_bin",
 			condition = function(utils)
@@ -326,12 +336,23 @@ end
 vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
 
 -- osc52
-function copy()
+local function copy()
 	require("osc52").copy_register("+")
 end
-
 vim.api.nvim_create_autocmd("TextYankPost", { callback = copy })
 vim.keymap.set("v", "<leader>c", require("osc52").copy_visual)
+
+-- gitsigns
+require("gitsigns").setup({
+	current_line_blame = true,
+	current_line_blame_opts = {
+		virt_text = true,
+		virt_text_pos = "eol",
+		delay = 1000,
+		ignore_whitespace = false,
+	},
+	current_line_blame_formatter = "<abbrev_sha> - <author>, <author_time:%Y-%m-%d> - <summary>",
+})
 
 -- general
 vim.opt.helplang = "ja,en"
@@ -361,6 +382,7 @@ vim.opt.swapfile = false
 vim.opt.helpheight = 99999
 vim.o.mouse = ""
 vim.opt.clipboard = "unnamedplus"
+vim.opt.wrap = true
 
 -- highlights
 vim.opt.cursorline = false
