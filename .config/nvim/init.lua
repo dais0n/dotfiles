@@ -227,13 +227,6 @@ end
 require("null-ls").setup({
 	capabilities = capabilities,
 	sources = {
-		require("null-ls").builtins.code_actions.gitsigns,
-		require("null-ls").builtins.diagnostics.rubocop.with({
-			prefer_local = "bundle_bin",
-			condition = function(utils)
-				return utils.root_has_file({ ".rubocop.yml" })
-			end,
-		}),
 		require("null-ls").builtins.diagnostics.eslint,
 		require("null-ls").builtins.diagnostics.yamllint,
 		require("null-ls").builtins.formatting.goimports,
@@ -382,7 +375,6 @@ vim.opt.laststatus = 3
 vim.opt.swapfile = false
 vim.opt.helpheight = 99999
 vim.o.mouse = ""
-vim.opt.clipboard = "unnamedplus"
 vim.opt.wrap = true
 
 -- highlights
