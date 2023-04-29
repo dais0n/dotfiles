@@ -13,14 +13,10 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
-	-- common utilities
 	{ "windwp/nvim-autopairs", event = "InsertEnter", config = true },
 	{ "mvllow/modes.nvim", config = true },
-	-- terminal
 	{ "akinsho/toggleterm.nvim", version = "*", config = true },
-	-- symtax highlight
 	{ "nvim-treesitter/nvim-treesitter" },
-	-- markdown
 	{
 		"previm/previm",
 		config = function()
@@ -46,6 +42,21 @@ require("lazy").setup({
 			vim.keymap.set("i", "<C-k>", "<Plug>(copilot-previous)")
 			vim.keymap.set("i", "<C-o>", "<Plug>(copilot-dismiss)")
 			vim.keymap.set("i", "<C-g>", "<Plug>(copilot-suggest)")
+		end,
+	},
+	{
+		"ojroques/nvim-osc52",
+		config = true,
+		event = "BufNewFile, BufRead",
+	},
+	{ "numToStr/Comment.nvim", config = true },
+	{
+		"sainnhe/gruvbox-material",
+		lazy = false, -- make sure we load this during startup if it is your main colorscheme
+		priority = 1000, -- make sure to load this before all the other start plugins
+		config = function()
+			-- load the colorscheme here
+			vim.cmd([[colorscheme gruvbox-material]])
 		end,
 	},
 	-- lsp
@@ -91,24 +102,6 @@ require("lazy").setup({
 		},
 		config = function()
 			vim.g.gitblame_display_virtual_text = 0
-		end,
-	},
-	-- osc52
-	{
-		"ojroques/nvim-osc52",
-		config = true,
-		event = "BufNewFile, BufRead",
-	},
-	-- comment
-	{ "numToStr/Comment.nvim", config = true },
-	-- theme
-	{
-		"sainnhe/gruvbox-material",
-		lazy = false, -- make sure we load this during startup if it is your main colorscheme
-		priority = 1000, -- make sure to load this before all the other start plugins
-		config = function()
-			-- load the colorscheme here
-			vim.cmd([[colorscheme gruvbox-material]])
 		end,
 	},
 })
