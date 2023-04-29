@@ -14,7 +14,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	-- common utilities
-	{ "nvim-lua/plenary.nvim" },
 	{ "windwp/nvim-autopairs", event = "InsertEnter", config = true },
 	{ "mvllow/modes.nvim", config = true },
 	-- terminal
@@ -25,7 +24,7 @@ require("lazy").setup({
 	{
 		"previm/previm",
 		config = function()
-			vim.g.previm_open_cmd = 'open -a "Google Chrome Beta"'
+			vim.g.previm_open_cmd = 'open -a "Google Chrome"'
 			vim.g.previm_enable_realtime = 0
 			-- clear cache every time we open neovim
 			vim.fn["previm#wipe_cache"]()
@@ -67,21 +66,23 @@ require("lazy").setup({
 			"nvim-lua/plenary.nvim",
 		},
 	},
-	{ "j-hui/fidget.nvim", config = true },
+	{ "j-hui/fidget.nvim", config = true, event = "LspAttach" },
 	-- telescope
 	{
 		"nvim-telescope/telescope.nvim",
-		event = "VeryLazy",
+		cmd = "Telescope",
 		dependencies = {
 			"nvim-telescope/telescope-live-grep-args.nvim",
 		},
 	},
 	{
 		"nvim-telescope/telescope-file-browser.nvim",
+		cmd = "Telescope",
+		event = "VeryLazy",
 		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
 	},
 	-- git
-	{ "lewis6991/gitsigns.nvim", event = "BufNewFile, BufRead" },
+	{ "lewis6991/gitsigns.nvim", config = true, event = "VeryLazy" },
 	{ "tpope/vim-fugitive" },
 	-- osc52
 	{
