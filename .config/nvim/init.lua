@@ -94,16 +94,7 @@ require("lazy").setup({
 	},
 	-- git
 	{ "lewis6991/gitsigns.nvim", config = true, event = "VeryLazy" },
-	{
-		"f-person/git-blame.nvim",
-		cmd = {
-			"GitBlameCopyCommitURL",
-			"GitBlameCopyFileURL",
-		},
-		config = function()
-			vim.g.gitblame_display_virtual_text = 0
-		end,
-	},
+	{ "ruifm/gitlinker.nvim", event = "VeryLazy", dependencies = { "nvim-lua/plenary.nvim" } },
 })
 
 -- plugin settings
@@ -336,9 +327,17 @@ vim.g.clipboard = {
 	paste = { ["+"] = paste, ["*"] = paste },
 }
 
--- gitsigns
+-- git
 require("gitsigns").setup({
 	current_line_blame_formatter = "<abbrev_sha> - <author>, <author_time:%Y-%m-%d> - <summary>",
+})
+
+require("gitlinker").setup({
+	opts = {
+		remote = "upstream", -- force the use of a specific remote
+		-- print the url after performing the action
+		print_url = false,
+	},
 })
 
 -- general
