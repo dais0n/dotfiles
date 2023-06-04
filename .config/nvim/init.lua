@@ -368,6 +368,7 @@ vim.opt.swapfile = false
 vim.opt.helpheight = 99999
 vim.o.mouse = ""
 vim.opt.wrap = true
+vim.opt.clipboard = "unnamedplus"
 
 -- highlights
 vim.opt.cursorline = false
