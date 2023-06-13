@@ -44,11 +44,7 @@ require("lazy").setup({
 			vim.keymap.set("i", "<C-g>", "<Plug>(copilot-suggest)")
 		end,
 	},
-	{
-		"ojroques/nvim-osc52",
-		config = true,
-		event = "BufNewFile, BufRead",
-	},
+	{ "ojroques/nvim-osc52", config = true },
 	{ "numToStr/Comment.nvim", config = true },
 	{
 		"sainnhe/gruvbox-material",
@@ -211,7 +207,7 @@ end
 require("null-ls").setup({
 	capabilities = capabilities,
 	sources = {
-		require("null-ls").builtins.diagnostics.eslint,
+		--		require("null-ls").builtins.diagnostics.eslint,
 		require("null-ls").builtins.diagnostics.yamllint,
 		require("null-ls").builtins.formatting.goimports,
 		require("null-ls").builtins.formatting.stylua,
@@ -326,6 +322,8 @@ vim.g.clipboard = {
 	copy = { ["+"] = copy, ["*"] = copy },
 	paste = { ["+"] = paste, ["*"] = paste },
 }
+
+vim.keymap.set("v", "<leader>c", require("osc52").copy_visual)
 
 -- git
 require("gitsigns").setup({
