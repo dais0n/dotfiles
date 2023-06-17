@@ -36,3 +36,5 @@
 	insteadOf = https://github.com/
 [diff "sopsdiffer"]
 	textconv = sops -d
+[commit]
+template = ~/.commit_template

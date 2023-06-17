@@ -1,4 +1,3 @@
-local opts = { noremap = true, silent = true }
 -- plugin install
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -281,6 +280,8 @@ telescope.setup({
 })
 require("telescope").load_extension("live_grep_args")
 require("telescope").load_extension("file_browser")
+
+local opts = { noremap = true, silent = true }
 
 vim.keymap.set("n", "<C-r>", function()
 	telescope_builtin.find_files({
