@@ -95,6 +95,7 @@ require("lazy").setup({
 -- plugin settings
 
 --LSP
+local lspconfig = require("lspconfig")
 local on_attach = function(client, bufnr)
 	local set = vim.keymap.set
 	set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
@@ -119,25 +120,36 @@ end
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 require("mason").setup()
 require("mason-lspconfig").setup({
-	ensure_installed = { "lua_ls" },
-	automatic_installation = true,
+	ensure_installed = {
+		"eslint",
+		"gopls",
+		"lua_ls",
+		"tsserver",
+	},
 })
-require("mason-lspconfig").setup_handlers({
-	function(server_name)
-		local opt = {
-			on_attach = on_attach,
-			capabilities = capabilities,
-		}
-		if server_name == "lua_ls" then
-			opt.settings = {
-				Lua = {
-					diagnostics = { globals = { "vim" } },
-				},
-			}
-		end
-		require("lspconfig")[server_name].setup(opt)
-	end,
+
+lspconfig.lua_ls.setup({
+	on_attach = on_attach,
+	settings = {
+		Lua = {
+			diagnostics = {
+				globals = { "vim" },
+			},
+		},
+	},
 })
+
+lspconfig.gopls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
+
+lspconfig.sorbet.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	cmd = { "bundle", "exec", "srb", "tc", "--lsp" },
+})
+
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
 	vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false })
 
