@@ -13,8 +13,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	{ "windwp/nvim-autopairs", event = "InsertEnter", config = true },
+	{ "kylechui/nvim-surround", version = "*", event = "VeryLazy", config = true },
 	{ "mvllow/modes.nvim", config = true },
-	{ "akinsho/toggleterm.nvim", version = "*", config = true },
 	{ "nvim-treesitter/nvim-treesitter" },
 	{
 		"previm/previm",
@@ -298,16 +298,6 @@ end, opts)
 vim.keymap.set("n", "<C-u>", function()
 	telescope.extensions.file_browser.file_browser({ path = "%:p:h", respect_gitignore = false })
 end, opts)
-
--- toggleterm
-local Terminal = require("toggleterm.terminal").Terminal
-local lazygit = Terminal:new({ cmd = "lazygit", direction = "float", hidden = true })
-
-function _lazygit_toggle()
-	lazygit:toggle()
-end
-
-vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
 
 -- osc52
 local function copy(lines, _)

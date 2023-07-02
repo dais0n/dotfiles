@@ -19,12 +19,12 @@
   "nvim-cmp": { "branch": "main", "commit": "c3f7c54f6efed83b5657b1cf2e2a9bb7c121c6b4" },
   "nvim-lspconfig": { "branch": "master", "commit": "05689b96fdad33fb01d4968089760d6886a65058" },
   "nvim-osc52": { "branch": "main", "commit": "47ce7ee2396fa3ee4fb6b0e0ef14ba06f9c9bd31" },
+  "nvim-surround": { "branch": "main", "commit": "211eaad7c6d01ef4ac02cba9052b3082ec232101" },
   "nvim-treesitter": { "branch": "master", "commit": "e2cf8977fda35ad666d7b431b0254d8da710968a" },
   "plenary.nvim": { "branch": "master", "commit": "9ac3e9541bbabd9d73663d757e4fe48a675bb054" },
   "previm": { "branch": "master", "commit": "dcda34b72f6b224602b02a179d4f35e06e53d465" },
   "telescope-file-browser.nvim": { "branch": "master", "commit": "e0fcb12702ad0d2873544a31730f9aaef04fd032" },
   "telescope-live-grep-args.nvim": { "branch": "master", "commit": "0f75ea809c46af8997c64f49c52e3c641d887885" },
   "telescope.nvim": { "branch": "master", "commit": "713d26b98583b160b50fb827adb751f768238ed3" },
-  "toggleterm.nvim": { "branch": "main", "commit": "026dff5e2b504941cf172691561a67ea362596aa" },
   "vim-vsnip": { "branch": "master", "commit": "7753ba9c10429c29d25abfd11b4c60b76718c438" }
 }

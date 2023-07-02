@@ -1,0 +1,21 @@
+
+
+
+# ==== Emojis ====
+# 🎨 :art: when improving the format/structure of the code
+# ✨ :sparkles: when introducing new features
+# ♻️ :recycle: when refactoring code
+# 🐛 :bug: when fixing a bug
+# ⚡️ :zap: when improving performance
+# 💡 :bulb: add comment
+# 🔥 :fire: when removing code or files
+# 💚 :green_heart: when fixing the CI build
+# ✅ :white_check_mark: when adding tests
+# 🚨 :rotating_light: when removing linter warnings
+# 🔒 :lock: when dealing with security
+# 📝 :memo: when writing docs
+# ⬆️ :arrow_up: when upgrading dependencies
+# ⬇️ :arrow_down: when downgrading dependencies
+# 🔐 :closed_lock_with_key: add security key
+# 🚧 :construction: when doing work that is in progress
+# 💄 :lipstick: when improving UI/Cosmetic
