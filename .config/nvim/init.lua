@@ -232,12 +232,12 @@ require("null-ls").setup({
 		require("null-ls").builtins.diagnostics.yamllint,
 		require("null-ls").builtins.formatting.goimports,
 		require("null-ls").builtins.formatting.stylua,
-		require("null-ls").builtins.formatting.rubocop.with({
-			prefer_local = "bundle_bin",
-			condition = function(utils)
-				return utils.root_has_file({ ".rubocop.yml" })
-			end,
-		}),
+		-- require("null-ls").builtins.formatting.rubocop.with({
+		-- 	prefer_local = "bundle_bin",
+		-- 	condition = function(utils)
+		-- 		return utils.root_has_file({ ".rubocop.yml" })
+		-- 	end,
+		-- }),
 		require("null-ls").builtins.completion.spell,
 	},
 	on_attach = function(client, bufnr)
