@@ -21,6 +21,7 @@ require("lazy").setup({
 		config = function()
 			vim.g.previm_open_cmd = 'open -a "Google Chrome"'
 			vim.g.previm_enable_realtime = 0
+			vim.g.previm_disable_default_css = 1
 			-- clear cache every time we open neovim
 			vim.fn["previm#wipe_cache"]()
 		end,
@@ -99,6 +100,8 @@ require("lazy").setup({
 	-- git
 	{ "lewis6991/gitsigns.nvim", config = true, event = "VeryLazy" },
 	{ "ruifm/gitlinker.nvim", event = "VeryLazy", dependencies = { "nvim-lua/plenary.nvim" } },
+	-- other
+	{ "folke/zen-mode.nvim", cmd = "ZenMode" },
 })
 
 -- plugin settings
@@ -360,6 +363,11 @@ if require_obsidian then
 			folder = "dailies",
 			date_format = "%Y-%m-%d",
 		},
+		follow_url_func = function(url)
+			-- Open the URL in the default web browser.
+			vim.fn.jobstart({ "open", url }) -- Mac OS
+			-- vim.fn.jobstart({"xdg-open", url})  -- linux
+		end,
 	})
 end
 
