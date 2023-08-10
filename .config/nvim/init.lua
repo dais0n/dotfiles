@@ -12,8 +12,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
-	{ "windwp/nvim-autopairs", event = "InsertEnter", config = true },
-	{ "kylechui/nvim-surround", version = "*", event = "VeryLazy", config = true },
+	{ "echasnovski/mini.nvim", version = false },
 	{ "mvllow/modes.nvim", config = true },
 	{ "nvim-treesitter/nvim-treesitter" },
 	{
@@ -45,7 +44,6 @@ require("lazy").setup({
 		end,
 	},
 	{ "ojroques/nvim-osc52", config = true },
-	{ "numToStr/Comment.nvim", config = true },
 	{
 		"epwalsh/obsidian.nvim",
 		event = "VeryLazy",
@@ -53,16 +51,6 @@ require("lazy").setup({
 			return vim.loop.os_uname().sysname == "Darwin"
 		end,
 		dependencies = { "nvim-lua/plenary.nvim" },
-	},
-	-- theme
-	{
-		"sainnhe/gruvbox-material",
-		lazy = false, -- make sure we load this during startup if it is your main colorscheme
-		priority = 1000, -- make sure to load this before all the other start plugins
-		config = function()
-			-- load the colorscheme here
-			vim.cmd([[colorscheme gruvbox-material]])
-		end,
 	},
 	-- lsp
 	{ "neovim/nvim-lspconfig", event = "LspAttach" },
@@ -75,13 +63,6 @@ require("lazy").setup({
 	{ "hrsh7th/cmp-cmdline", event = "InsertEnter" },
 	{ "williamboman/mason.nvim", cmd = { "Mason", "MasonInstall" } },
 	{ "williamboman/mason-lspconfig.nvim", event = "LspAttach" },
-	{
-		"jose-elias-alvarez/null-ls.nvim",
-		event = "LspAttach",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-		},
-	},
 	{ "j-hui/fidget.nvim", config = true, event = "LspAttach" },
 	-- telescope
 	{
@@ -102,9 +83,26 @@ require("lazy").setup({
 	{ "ruifm/gitlinker.nvim", event = "VeryLazy", dependencies = { "nvim-lua/plenary.nvim" } },
 	-- other
 	{ "folke/zen-mode.nvim", cmd = "ZenMode" },
+	-- theme
+	{
+		"sainnhe/gruvbox-material",
+		lazy = false, -- make sure we load this during startup if it is your main colorscheme
+		priority = 1000, -- make sure to load this before all the other start plugins
+		config = function()
+			-- load the colorscheme here
+			vim.cmd([[colorscheme gruvbox-material]])
+		end,
+	},
 })
 
 -- plugin settings
+
+-- mini.nvim
+require("mini.comment").setup({})
+require("mini.surround").setup({})
+require("mini.splitjoin").setup({})
+require("mini.pairs").setup({})
+require("mini.indentscope").setup({})
 
 --LSP
 local lspconfig = require("lspconfig")
@@ -216,45 +214,6 @@ require("nvim-treesitter.configs").setup({
 	matchup = {
 		enable = true,
 	},
-})
-
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-local lsp_formatting = function(bufnr)
-	vim.lsp.buf.format({
-		async = true,
-		filter = function(client)
-			return client.name == "null-ls"
-		end,
-		bufnr = bufnr,
-	})
-end
-require("null-ls").setup({
-	capabilities = capabilities,
-	sources = {
-		--		require("null-ls").builtins.diagnostics.eslint,
-		require("null-ls").builtins.diagnostics.yamllint,
-		require("null-ls").builtins.formatting.goimports,
-		require("null-ls").builtins.formatting.stylua,
-		-- require("null-ls").builtins.formatting.rubocop.with({
-		-- 	prefer_local = "bundle_bin",
-		-- 	condition = function(utils)
-		-- 		return utils.root_has_file({ ".rubocop.yml" })
-		-- 	end,
-		-- }),
-		require("null-ls").builtins.completion.spell,
-	},
-	on_attach = function(client, bufnr)
-		if client.supports_method("textDocument/formatting") then
-			vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				group = augroup,
-				buffer = bufnr,
-				callback = function()
-					lsp_formatting(bufnr)
-				end,
-			})
-		end
-	end,
 })
 
 -- telescope
@@ -388,6 +347,7 @@ vim.opt.title = true
 vim.opt.number = true
 vim.opt.expandtab = true
 vim.opt.backup = false
+vim.opt.list = true
 vim.opt.showcmd = true
 vim.opt.cmdheight = 1
 vim.opt.autoindent = true
