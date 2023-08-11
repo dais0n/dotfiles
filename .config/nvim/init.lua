@@ -16,6 +16,7 @@ require("lazy").setup({
   { 'kevinhwang91/nvim-bqf', ft = 'qf' },
   { 'thinca/vim-qfreplace', ft = 'qf' },
   { "nvim-treesitter/nvim-treesitter" },
+  { "machakann/vim-sandwich", lazy = false },
   {
     "previm/previm",
     config = function()
@@ -63,7 +64,6 @@ require("lazy").setup({
   { "hrsh7th/cmp-vsnip", event = "InsertEnter" },
   { "hrsh7th/cmp-cmdline", event = "InsertEnter" },
   { "williamboman/mason.nvim", cmd = { "Mason", "MasonInstall" } },
-  { "williamboman/mason-lspconfig.nvim", event = "LspAttach" },
   -- telescope
   {
     "nvim-telescope/telescope.nvim",
@@ -98,7 +98,6 @@ require("lazy").setup({
 -- mini.nvim
 require('mini.statusline').setup({})
 require("mini.comment").setup({})
-require("mini.surround").setup({})
 require("mini.splitjoin").setup({})
 require("mini.pairs").setup({})
 require("mini.indentscope").setup({})
@@ -128,15 +127,6 @@ end
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 require("mason").setup()
-require("mason-lspconfig").setup({
-  ensure_installed = {
-    "eslint",
-    "gopls",
-    "lua_ls",
-    "tsserver",
-  },
-})
-
 lspconfig.lua_ls.setup({
   on_attach = on_attach,
   settings = {
