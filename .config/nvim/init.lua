@@ -14,6 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   { "echasnovski/mini.nvim", version = false },
   { 'kevinhwang91/nvim-bqf', ft = 'qf' },
+  { 'thinca/vim-qfreplace', ft = 'qf' },
   { "nvim-treesitter/nvim-treesitter" },
   {
     "previm/previm",
@@ -95,6 +96,7 @@ require("lazy").setup({
 -- plugin settings
 
 -- mini.nvim
+require('mini.statusline').setup({})
 require("mini.comment").setup({})
 require("mini.surround").setup({})
 require("mini.splitjoin").setup({})
