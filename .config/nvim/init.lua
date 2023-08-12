@@ -13,9 +13,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   { "echasnovski/mini.nvim", version = false },
-  { 'kevinhwang91/nvim-bqf', ft = 'qf' },
-  { 'thinca/vim-qfreplace', ft = 'qf' },
+  { "kevinhwang91/nvim-bqf", ft = 'qf' },
+  { "thinca/vim-qfreplace", ft = 'qf' },
   { "nvim-treesitter/nvim-treesitter" },
+  { "nvim-treesitter/nvim-treesitter-textobjects" },
   { "machakann/vim-sandwich", lazy = false },
   {
     "previm/previm",
@@ -202,6 +203,18 @@ require("nvim-treesitter.configs").setup({
   },
   matchup = {
     enable = true,
+  },
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true,
+      keymaps = {
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+      },
+    },
   },
 })
 
