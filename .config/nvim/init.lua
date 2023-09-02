@@ -106,6 +106,7 @@ require("mini.indentscope").setup({})
 --LSP
 local lspconfig = require("lspconfig")
 local on_attach = function(client, bufnr)
+  client.server_capabilities.document_formatting = true
   local set = vim.keymap.set
   set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
   set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
@@ -150,6 +151,32 @@ lspconfig.sorbet.setup({
   cmd = { "bundle", "exec", "srb", "tc", "--lsp" },
 })
 
+lspconfig.tsserver.setup {
+  on_attach = function(client, bufnr)
+    on_attach(client, bufnr)
+    client.server_capabilities.documentFormattingProvider = false
+  end,
+  filetypes = {
+    'typescript',
+    'typescriptreact',
+    'typescript.tsx',
+  },
+}
+
+lspconfig.syntax_tree.setup{
+  cmd = { "bundle", "exec", "stree", "format"},
+}
+
+lspconfig.eslint.setup {
+  -- on_attach = function(client, bufnr)
+  --   vim.api.nvim_create_autocmd("BufWritePre", {
+  --     buffer = bufnr,
+  --     command = "EslintFixAll",
+  --   })
+  -- end,
+  root_dir = lspconfig.util.root_pattern('package.json', '.git'),
+}
+
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
 vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false })
 
@@ -187,6 +214,14 @@ cmp.setup.cmdline(":", {
     { name = "cmdline", keyword_length = 2 },
   },
 })
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+  update_in_insert = false,
+  virtual_text = {
+    format = function(diagnostic)
+      return string.format("%s (%s: %s)", diagnostic.message, diagnostic.source, diagnostic.code)
+    end,
+  },
+})
 
 require("nvim-treesitter.configs").setup({
   highlight = {
@@ -204,6 +239,9 @@ require("nvim-treesitter.configs").setup({
   matchup = {
     enable = true,
   },
+  indent = {
+    enable = true,
+  },
   textobjects = {
     select = {
       enable = true,
@@ -216,6 +254,7 @@ require("nvim-treesitter.configs").setup({
       },
     },
   },
+  ensure_installed = 'all'
 })
 
 -- telescope
