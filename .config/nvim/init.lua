@@ -65,6 +65,7 @@ require("lazy").setup({
   { "hrsh7th/cmp-vsnip", event = "InsertEnter" },
   { "hrsh7th/cmp-cmdline", event = "InsertEnter" },
   { "williamboman/mason.nvim", cmd = { "Mason", "MasonInstall" } },
+  { "j-hui/fidget.nvim", config = true, event = "LspAttach", tag = 'legacy'},
   -- telescope
   {
     "nvim-telescope/telescope.nvim",
@@ -97,7 +98,6 @@ require("lazy").setup({
 -- plugin settings
 
 -- mini.nvim
-require('mini.statusline').setup({})
 require("mini.comment").setup({})
 require("mini.splitjoin").setup({})
 require("mini.pairs").setup({})
@@ -371,7 +371,7 @@ if require_obsidian then
   })
 end
 
-vim.keymap.set("n", "gf", function()
+vim.keymap.set("n", "fl", function()
   if obsidian.util.cursor_on_markdown_link() then
     return "<cmd>ObsidianFollowLink<CR>"
   else
