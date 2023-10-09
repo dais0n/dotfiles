@@ -49,7 +49,6 @@ require("lazy").setup({
   { "ojroques/nvim-osc52", config = true },
   {
     "epwalsh/obsidian.nvim",
-    event = "VeryLazy",
     cond = function()
       return vim.loop.os_uname().sysname == "Darwin"
     end,
@@ -57,13 +56,13 @@ require("lazy").setup({
   },
   -- lsp
   { "neovim/nvim-lspconfig", event = "LspAttach" },
-  { "hrsh7th/nvim-cmp", event = "InsertEnter" },
+  { "hrsh7th/nvim-cmp", event = "InsertEnter, CmdlineEnter" },
   { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
   { "hrsh7th/cmp-buffer", event = "InsertEnter" },
   { "hrsh7th/cmp-path", event = "InsertEnter" },
   { "hrsh7th/vim-vsnip", event = "InsertEnter" },
   { "hrsh7th/cmp-vsnip", event = "InsertEnter" },
-  { "hrsh7th/cmp-cmdline", event = "InsertEnter" },
+  { "hrsh7th/cmp-cmdline", event = "ModeChanged" },
   { "williamboman/mason.nvim", cmd = { "Mason", "MasonInstall" } },
   { "j-hui/fidget.nvim", config = true, event = "LspAttach", tag = 'legacy'},
   -- ruby
@@ -393,7 +392,7 @@ require("gitlinker").setup({
 local require_obsidian, obsidian = pcall(require, "obsidian")
 if require_obsidian then
   obsidian.setup({
-    dir = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/ObsidianVault",
+    dir = "~/ghq/github.com/dais0n/obsidian",
     daily_notes = {
       folder = "dailies",
       date_format = "%Y-%m-%d",
