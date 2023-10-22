@@ -392,7 +392,20 @@ require("gitlinker").setup({
 local require_obsidian, obsidian = pcall(require, "obsidian")
 if require_obsidian then
   obsidian.setup({
-    dir = "~/ghq/github.com/dais0n/obsidian",
+    workspaces = {
+    {
+      name = "personal",
+      path = "~/ghq/github.com/dais0n/obsidian",
+    },
+    {
+      name = "work",
+      path = "~/memo",
+    },
+  },
+    notes_subdir = "notes",
+    completion = {
+      new_notes_location = "notes_subdir",
+    },
     daily_notes = {
       folder = "dailies",
       date_format = "%Y-%m-%d",
@@ -400,7 +413,6 @@ if require_obsidian then
     follow_url_func = function(url)
       -- Open the URL in the default web browser.
       vim.fn.jobstart({ "open", url }) -- Mac OS
-      -- vim.fn.jobstart({"xdg-open", url})  -- linux
     end,
   })
 end
