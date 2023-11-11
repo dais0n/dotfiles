@@ -305,7 +305,7 @@ telescope.setup({
         i = {
           ["<C-j>"] = telescope_actions.move_selection_next,
           ["<C-k>"] = telescope_actions.move_selection_previous,
-          ["<C-t>"] = lga_actions.quote_prompt({ postfix = " -t" }),
+          ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
         },
       },
       theme = "ivy",
@@ -384,7 +384,7 @@ require("gitlinker").setup({
   opts = {
     remote = "upstream", -- force the use of a specific remote
     -- print the url after performing the action
-    print_url = false,
+    print_url = true,
   },
 })
 
