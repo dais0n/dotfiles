@@ -1,6 +1,6 @@
 bindkey -e
 
-### prompt
+# prompt
 setopt PROMPT_SUBST
 PS1='%F{green}%n@%m:%F{cyan}%~$(parse_git_branch)
 $ '
@@ -11,7 +11,7 @@ parse_git_branch() {
   git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
-### history
+# history
 export HISTFILE="${XDG_STATE_HOME}/zsh/.zsh_history"
 export HISTSIZE=10000
 export SAVEHIST=10000
@@ -46,7 +46,7 @@ widget::history() {
 zle -N widget::history
 bindkey "^R" widget::history
 
-### alias
+# alias
 alias k='kubectl'
 alias g='git'
 alias ls='ls --color=auto'
@@ -54,39 +54,29 @@ alias mkdir='mkdir -p'
 alias ghd='cd $(ghq list --full-path | fzf)'
 (( ${+commands[nvim]} )) && alias vi='nvim'
 
-
-### path
+# path
 typeset -U path
-
 path=(
     "$HOME/.local/bin"(N-/)
     "$GOPATH/bin"(N-/)
     "$path[@]"
 )
 
-## env
+# env
 export LANG='ja_JP.UTF-8'
 export LC_ALL='ja_JP.UTF-8'
-
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 export XDG_CACHE_HOME="$HOME/.cache"
-
 export GOPATH="$XDG_DATA_HOME/go"
 export GO111MODULE="on"
-
 export WORDCHARS="*?_.[]~-=&;!#$%^(){}<>\'"
-
 export AWS_PROFILE=saml
-
 export LS_COLORS="di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32"
-
 export ASDF_DATA_DIR="$XDG_DATA_HOME/asdf"
 export ASDF_CONFIG_FILE="$XDG_CONFIG_HOME/asdf/asdfrc"
-
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
-
 # See http://mokokko.hatenablog.com/entry/2013/03/14/133850
 AUTH_SOCK="$HOME/.ssh/.ssh-auth-sock"
 if [ -S "$AUTH_SOCK" ]; then
