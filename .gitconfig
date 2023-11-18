@@ -23,7 +23,7 @@
     l = log --graph --date=short --decorate=short --pretty=format:'%C(red)%h　%C(reset)-%C(yellow)%d %Creset%s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
     ll = log --graph --all --abbrev-commit --date=relative --pretty=format:'%C(red)%h　%C(reset)-%C(yellow)%d %Creset%s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
     o = open
-    om = open origin master
+    om = open origin main
     od = open origin develop
 [push]
     default = current
@@ -32,8 +32,6 @@
 [user]
     name = dais0n
     email = t.omura8383@gmail.com
-[url "git@github.com:"]
-	insteadOf = https://github.com/
 [diff "sopsdiffer"]
 	textconv = sops -d
 [commit]
