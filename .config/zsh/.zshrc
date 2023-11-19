@@ -11,49 +11,6 @@ parse_git_branch() {
   git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
-# history
-export HISTFILE="${XDG_STATE_HOME}/zsh/.zsh_history"
-export HISTSIZE=10000
-export SAVEHIST=10000
-setopt AUTO_PUSHD
-setopt PUSHD_IGNORE_DUPS
-setopt GLOBDOTS
-setopt APPEND_HISTORY
-setopt EXTENDED_HISTORY
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_REDUCE_BLANKS
-setopt HIST_SAVE_NO_DUPS
-setopt INTERACTIVE_COMMENTS
-setopt SHARE_HISTORY
-setopt MAGIC_EQUAL_SUBST
-setopt PRINT_EIGHT_BIT
-
-zshaddhistory() {
-    local line="${1%%$'\n'}"
-    [[ ! "$line" =~ "^(cd|ls|rm|kill)($| )" ]]
-}
-
-widget::history() {
-    local selected="$(history -inr 1 | fzf --exit-0 --query "$LBUFFER" | cut -d' ' -f4- | sed 's/\\n/\n/g')"
-    if [ -n "$selected" ]; then
-        BUFFER="$selected"
-        CURSOR=$#BUFFER
-    fi
-    zle reset-prompt
-}
-
-zle -N widget::history
-bindkey "^R" widget::history
-
-# alias
-alias k='kubectl'
-alias g='git'
-alias ls='ls --color=auto'
-alias mkdir='mkdir -p'
-alias ghd='cd $(ghq list --full-path | fzf)'
-(( ${+commands[nvim]} )) && alias vi='nvim'
-
 # path
 typeset -U path
 path=(
@@ -87,7 +44,45 @@ elif [ ! -L "$SSH_AUTH_SOCK" ]; then
     ln -snf "$SSH_AUTH_SOCK" $AUTH_SOCK && export SSH_AUTH_SOCK=$AUTH_SOCK
 fi
 
-# load sheldon
+# history
+export HISTFILE="${XDG_STATE_HOME}/zsh/.zsh_history"
+export HISTSIZE=10000
+export SAVEHIST=10000
+setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
+setopt GLOBDOTS
+setopt APPEND_HISTORY
+setopt EXTENDED_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
+setopt HIST_SAVE_NO_DUPS
+setopt INTERACTIVE_COMMENTS
+setopt SHARE_HISTORY
+setopt MAGIC_EQUAL_SUBST
+setopt PRINT_EIGHT_BIT
+
+widget::history() {
+    local selected="$(history -inr 1 | fzf --exit-0 --query "$LBUFFER" | cut -d' ' -f4- | sed 's/\\n/\n/g')"
+    if [ -n "$selected" ]; then
+        BUFFER="$selected"
+        CURSOR=$#BUFFER
+    fi
+    zle reset-prompt
+}
+
+zle -N widget::history
+bindkey "^R" widget::history
+
+# alias
+alias k='kubectl'
+alias g='git'
+alias ls='ls --color=auto'
+alias mkdir='mkdir -p'
+alias ghd='cd $(ghq list --full-path | fzf)'
+(( ${+commands[nvim]} )) && alias vi='nvim'
+
+# plugin load by sheldon
 sheldon::load() {
   local plugins_file="$XDG_CONFIG_HOME/sheldon/plugins.toml"
   local cache_file="$XDG_CACHE_HOME/sheldon/plugins.zsh"
