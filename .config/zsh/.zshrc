@@ -34,7 +34,7 @@ export LS_COLORS="di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40
 export ASDF_DATA_DIR="$XDG_DATA_HOME/asdf"
 export ASDF_CONFIG_FILE="$XDG_CONFIG_HOME/asdf/asdfrc"
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
-# load by environment variable
+# load variable by environment
 ZSHHOME="${HOME}/.zsh.d"
 if [ -d $ZSHHOME -a -r $ZSHHOME -a \
      -x $ZSHHOME ]; then
@@ -43,7 +43,6 @@ if [ -d $ZSHHOME -a -r $ZSHHOME -a \
             [ \( -f $i -o -h $i \) -a -r $i ] && . $i
     done
 fi
-
 # See http://mokokko.hatenablog.com/entry/2013/03/14/133850
 AUTH_SOCK="$HOME/.ssh/.ssh-auth-sock"
 if [ -S "$AUTH_SOCK" ]; then
@@ -88,7 +87,6 @@ bindkey "^R" widget::history
 alias k='kubectl'
 alias g='git'
 alias ls='ls --color=auto'
-alias mkdir='mkdir -p'
 alias ghd='cd $(ghq list --full-path | fzf)'
 (( ${+commands[nvim]} )) && alias vi='nvim'
 
