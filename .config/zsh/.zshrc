@@ -14,6 +14,7 @@ parse_git_branch() {
 # path
 typeset -U path
 path=(
+    "/usr/local/bin"(N-/)
     "$HOME/.local/bin"(N-/)
     "$GOPATH/bin"(N-/)
     "$path[@]"
