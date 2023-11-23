@@ -14,3 +14,7 @@ tmux-plugin-install:
 sheldon-install:
 	curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
     | bash -s -- --repo rossmacarthur/sheldon --to ~/.local/bin
+
+.PHONY: fzf-install
+fzf-install:
+	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install

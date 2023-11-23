@@ -67,6 +67,29 @@ require("lazy").setup({
   { "j-hui/fidget.nvim", config = true, event = "LspAttach", tag = 'legacy'},
   -- ruby
   { "mogulla3/rspec.nvim", config = true, ft = 'ruby'},
+  -- go
+  { "leoluz/nvim-dap-go",
+    ft = "go",
+    dependencies = {
+      "theHamsta/nvim-dap-virtual-text",
+      {
+        "mfussenegger/nvim-dap",
+      }
+    },
+    config = function()
+      require('dap-go').setup()
+      local dap = require("dap")
+      dap.configurations.go = {
+        {
+          type = "go",
+          name = "Debug the golang",
+          request = "launch",
+          program = "${workspaceFolder}",
+        }
+      }
+      require("nvim-dap-virtual-text").setup()
+    end
+  },
   -- telescope
   {
     "nvim-telescope/telescope.nvim",
@@ -257,6 +280,12 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
   },
 })
 
+vim.keymap.set("n", "<leader>c", ":lua require'dap'.continue()<CR>", { silent = true})
+vim.keymap.set("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>", { silent = true})
+vim.keymap.set("n", "<leader>r", ":lua require'dap'.repl.open()<CR>", { silent = true})
+vim.keymap.set("n", "<leader>si", ":lua require'dap'.step_into()<CR>", { silent = true})
+vim.keymap.set("n", "<leader>so", ":lua require'dap'.step_over()<CR>", { silent = true})
+
 require("nvim-treesitter.configs").setup({
   highlight = {
     enable = true,
@@ -373,7 +402,7 @@ vim.g.clipboard = {
   paste = { ["+"] = paste, ["*"] = paste },
 }
 
-vim.keymap.set("v", "<leader>c", require("osc52").copy_visual)
+-- vim.keymap.set("v", "<leader>c", require("osc52").copy_visual)
 
 -- git
 require("gitsigns").setup({
