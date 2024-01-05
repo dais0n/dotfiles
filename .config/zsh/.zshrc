@@ -89,6 +89,14 @@ alias ls='ls --color=auto'
 alias ghd='cd $(ghq list --full-path | fzf)'
 (( ${+commands[nvim]} )) && alias vi='nvim'
 
+# fzf open vim
+# ref: https://riq0h.jp/2023/11/26/204717/
+fv() {
+  IFS=$'\n' files=($(fzf --height 50% --preview 'bat  --color=always --style=plain {}' --preview-window=border-sharp,right:60% --query="$1" --multi --select-1 --exit-0))
+  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+  zsh
+}
+
 # plugin load by sheldon
 sheldon::load() {
   local plugins_file="$XDG_CONFIG_HOME/sheldon/plugins.toml"
