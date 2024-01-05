@@ -34,5 +34,7 @@
     email = t.omura8383@gmail.com
 [diff "sopsdiffer"]
 	textconv = sops -d
+[url "git@github.com:"]
+	insteadOf = https://github.com/
 [commit]
 template = ~/.commit_template

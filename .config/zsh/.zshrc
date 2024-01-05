@@ -16,7 +16,6 @@ typeset -U path
 path=(
     "/usr/local/bin"(N-/)
     "$HOME/.local/bin"(N-/)
-    "$GOPATH/bin"(N-/)
     "$path[@]"
 )
 
@@ -42,6 +41,7 @@ if [ -d $ZSHHOME -a -r $ZSHHOME -a \
             [ \( -f $i -o -h $i \) -a -r $i ] && . $i
     done
 fi
+export EDITOR='vi'
 # See http://mokokko.hatenablog.com/entry/2013/03/14/133850
 AUTH_SOCK="$HOME/.ssh/.ssh-auth-sock"
 if [ -S "$AUTH_SOCK" ]; then

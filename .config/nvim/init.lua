@@ -224,15 +224,15 @@ lspconfig.syntax_tree.setup{
   cmd = { "bundle", "exec", "stree", "format"},
 }
 
-lspconfig.eslint.setup {
-  -- on_attach = function(client, bufnr)
-  --   vim.api.nvim_create_autocmd("BufWritePre", {
-  --     buffer = bufnr,
-  --     command = "EslintFixAll",
-  --   })
-  -- end,
-  root_dir = lspconfig.util.root_pattern('package.json', '.git'),
-}
+-- lspconfig.eslint.setup {
+--   -- on_attach = function(client, bufnr)
+--   --   vim.api.nvim_create_autocmd("BufWritePre", {
+--   --     buffer = bufnr,
+--   --     command = "EslintFixAll",
+--   --   })
+--   -- end,
+--   root_dir = lspconfig.util.root_pattern('package.json', '.git'),
+-- }
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
 vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false })
