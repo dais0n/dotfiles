@@ -65,6 +65,18 @@ require("lazy").setup({
   { "hrsh7th/cmp-cmdline", event = "ModeChanged" },
   { "williamboman/mason.nvim", cmd = { "Mason", "MasonInstall" } },
   { "j-hui/fidget.nvim", config = true, event = "LspAttach", tag = 'legacy'},
+  { "ray-x/lsp_signature.nvim",
+    event = "VeryLazy",
+    config = function(_, opts) require'lsp_signature'.setup(opts) end,
+    init = function ()
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function (args)
+          local buffer = args.buf
+          require('lsp_signature').on_attach({}, buffer)
+        end
+      })
+    end
+  },
   -- ruby
   { "mogulla3/rspec.nvim", config = true, ft = 'ruby'},
   -- go
@@ -136,7 +148,6 @@ local on_attach = function(client, bufnr)
   set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
   set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
   set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
-  set("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
   set("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>")
   set("n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>")
   set("n", "<space>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>")
@@ -285,6 +296,9 @@ vim.keymap.set("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>", { 
 vim.keymap.set("n", "<leader>r", ":lua require'dap'.repl.open()<CR>", { silent = true})
 vim.keymap.set("n", "<leader>si", ":lua require'dap'.step_into()<CR>", { silent = true})
 vim.keymap.set("n", "<leader>so", ":lua require'dap'.step_over()<CR>", { silent = true})
+-- Signature help
+vim.keymap.set({ 'n' }, '<C-k>', function()       require('lsp_signature').toggle_float_win()
+end, { silent = true, noremap = true, desc = 'toggle signature' })
 
 require("nvim-treesitter.configs").setup({
   highlight = {
