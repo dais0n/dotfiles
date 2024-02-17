@@ -29,24 +29,7 @@ require("lazy").setup({
     end,
     ft = { "markdown" },
   },
-  {
-    "github/copilot.vim",
-    lazy = false,
-    config = function()
-      vim.g.copilot_no_tab_map = true
-      vim.keymap.set(
-      "i",
-      "<C-f>",
-      'copilot#Accept("<CR>")',
-      { silent = true, expr = true, script = true, replace_keycodes = false }
-      )
-      vim.keymap.set("i", "<C-j>", "<Plug>(copilot-next)")
-      vim.keymap.set("i", "<C-k>", "<Plug>(copilot-previous)")
-      vim.keymap.set("i", "<C-o>", "<Plug>(copilot-dismiss)")
-      vim.keymap.set("i", "<C-g>", "<Plug>(copilot-suggest)")
-    end,
-  },
-  { "ojroques/nvim-osc52", config = true },
+  { "ojroques/nvim-osc52", event = "LspAttach" },
   {
     "epwalsh/obsidian.nvim",
     cond = function()
@@ -56,15 +39,15 @@ require("lazy").setup({
   },
   -- lsp
   { "neovim/nvim-lspconfig", event = "LspAttach" },
-  { "hrsh7th/nvim-cmp", event = "InsertEnter, CmdlineEnter" },
+  { "hrsh7th/nvim-cmp", event = {"InsertEnter", "CmdlineEnter"} },
   { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
   { "hrsh7th/cmp-buffer", event = "InsertEnter" },
   { "hrsh7th/cmp-path", event = "InsertEnter" },
   { "hrsh7th/vim-vsnip", event = "InsertEnter" },
   { "hrsh7th/cmp-vsnip", event = "InsertEnter" },
   { "hrsh7th/cmp-cmdline", event = "ModeChanged" },
-  { "williamboman/mason.nvim", cmd = { "Mason", "MasonInstall" } },
-  { "j-hui/fidget.nvim", config = true, event = "LspAttach", tag = 'legacy'},
+  { "williamboman/mason.nvim", config = true },
+  { "j-hui/fidget.nvim", tag = "v1.0.0", config = true },
   { "ray-x/lsp_signature.nvim",
     event = "VeryLazy",
     config = function(_, opts) require'lsp_signature'.setup(opts) end,
@@ -163,9 +146,9 @@ local on_attach = function(client, bufnr)
 end
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-require("mason").setup()
 lspconfig.lua_ls.setup({
   on_attach = on_attach,
+  capabilities = capabilities,
   settings = {
     Lua = {
       diagnostics = {
@@ -186,6 +169,12 @@ lspconfig.gopls.setup({
       -- staticcheck = true,
       gofumpt = true,
     },
+  },
+})
+
+lspconfig.typos_lsp.setup({
+  init_options = {
+    config = '~/.config/nvim/spell/.typos.toml',
   },
 })
 
