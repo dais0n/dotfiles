@@ -244,10 +244,19 @@ require("lazy").setup({
       }
     end,
   },
-  { 'mogulla3/rspec.nvim', config = true },
+  { 'mogulla3/rspec.nvim',
+    ft = 'ruby',
+    config= function()
+      require('rspec').setup()
+      vim.keymap.set("n", "<leader>tn", ":RSpecNearest<CR>", { noremap = true, silent = true, desc = "[T]est [N]earest" })
+      vim.keymap.set("n", "<leader>tc", ":RSpecCurrentFile<CR>", { noremap = true, silent = true, desc = "[T]est [C]urrent" })
+      vim.keymap.set("n", "<leader>ts", ":RSpecShowLastResult<CR>", { noremap = true, silent = true , desc = "[T]est [S]how Result" })
+      vim.keymap.set("n", "<leader>tj", ":RSpecJump!<CR>", { noremap = true, silent = true , desc = "[T]est File [J]ump" })
+    end
+  },
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
-    event = 'InsertEnter',
+    event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
