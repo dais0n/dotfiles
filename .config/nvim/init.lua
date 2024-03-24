@@ -24,6 +24,7 @@ vim.opt.tabstop = 2
 vim.opt.expandtab = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
+vim.o.mouse = 'a'
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>') -- clear on pressing <Esc> in normal mode
 vim.api.nvim_create_autocmd({ "BufReadPost" }, { -- remember cursor position
   pattern = { "*" },
@@ -223,7 +224,40 @@ require("lazy").setup({
       }
     end,
   },
-    { -- Autocompletion
+  { -- Test runner
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-neotest/nvim-nio",
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter"
+    },
+    config = function()
+      -- get neotest namespace (api call creates or returns namespace)
+      local neotest_ns = vim.api.nvim_create_namespace("neotest")
+      vim.diagnostic.config({
+        virtual_text = {
+          format = function(diagnostic)
+            local message =
+            diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+            return message
+          end,
+        },
+      }, neotest_ns)
+      require("neotest").setup({
+        adapters = {
+          require("neotest-rspec"),
+          require("neotest-go")({
+            experimental = {
+              test_table = true,
+            },
+            args = { "-count=1", "-timeout=60s" }
+          })
+        },
+      })
+    end
+  },
+  { -- Autocompletion
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
     dependencies = {
@@ -280,15 +314,16 @@ require("lazy").setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
-      require("mini.comment").setup({})
-      require("mini.indentscope").setup({})
+      require("mini.comment").setup()
+      require("mini.indentscope").setup()
+      require("mini.pairs").setup()
     end,
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'go', 'ruby' },
+      ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'go', 'ruby', 'tsx', 'javascript', 'typescript'  },
       auto_install = true,
       highlight = {
         enable = true,
@@ -299,16 +334,8 @@ require("lazy").setup({
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
-    config = function(_, opts)
-      -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+    config = function(_, opts) -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
       require('nvim-treesitter.configs').setup(opts)
-
-      -- There are additional nvim-treesitter modules that you can use to interact
-      -- with nvim-treesitter. You should go explore a few and see what interests you:
-      --
-      --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-      --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-      --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
   },
   { -- Useful plugin to show you pending keybinds.
@@ -345,7 +372,6 @@ require("lazy").setup({
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {
       remote = "upstream", -- force the use of a specific remote
-      -- print the url after performing the action
       print_url = true,
     },
   },
