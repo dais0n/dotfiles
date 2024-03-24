@@ -74,10 +74,21 @@ require("lazy").setup({
     config = function()
       -- The easiest way to use Telescope, is to start by doing something like :Telescope help_tags
       require('telescope').setup {
+        pickers = {
+          find_files = {
+            theme = "ivy",
+          },
+          oldfiles = {
+            theme = "ivy",
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
           },
+          file_browser = {
+            theme = 'ivy',
+          }
         },
       }
       pcall(require('telescope').load_extension, 'ui-select')
@@ -113,7 +124,16 @@ require("lazy").setup({
    { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
-      'williamboman/mason.nvim',
+      { 'williamboman/mason.nvim',
+        cmd = {
+          "Mason",
+          "MasonInstall",
+          "MasonUninstall",
+          "MasonUninstallAll",
+          "MasonLog",
+          "MasonUpdate",
+        },
+      },
       { "j-hui/fidget.nvim", tag = "v1.0.0" }
     },
     config = function()
@@ -125,7 +145,7 @@ require("lazy").setup({
           end
           map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
           map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-          map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+          map('gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
           map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
@@ -173,7 +193,7 @@ require("lazy").setup({
 
       require("lspconfig").typos_lsp.setup({
         init_options = {
-          config = '~/.config/.typos.toml',
+          config = '~/.config/typos/.typos.toml',
         },
       })
 
@@ -224,39 +244,7 @@ require("lazy").setup({
       }
     end,
   },
-  { -- Test runner
-    "nvim-neotest/neotest",
-    dependencies = {
-      "nvim-neotest/nvim-nio",
-      "nvim-lua/plenary.nvim",
-      "antoinemadec/FixCursorHold.nvim",
-      "nvim-treesitter/nvim-treesitter"
-    },
-    config = function()
-      -- get neotest namespace (api call creates or returns namespace)
-      local neotest_ns = vim.api.nvim_create_namespace("neotest")
-      vim.diagnostic.config({
-        virtual_text = {
-          format = function(diagnostic)
-            local message =
-            diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
-            return message
-          end,
-        },
-      }, neotest_ns)
-      require("neotest").setup({
-        adapters = {
-          require("neotest-rspec"),
-          require("neotest-go")({
-            experimental = {
-              test_table = true,
-            },
-            args = { "-count=1", "-timeout=60s" }
-          })
-        },
-      })
-    end
-  },
+  { 'mogulla3/rspec.nvim', config = true },
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
@@ -353,6 +341,7 @@ require("lazy").setup({
     end,
   },
   { "ojroques/nvim-osc52",
+    event = 'VimEnter',
     config = function()
       local function copy(lines, _)
         require("osc52").copy(table.concat(lines, "\n"))
@@ -377,6 +366,7 @@ require("lazy").setup({
   },
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
+    event = 'BufRead',
     opts = {
       signs = {
         add = { text = '+' },
@@ -387,8 +377,6 @@ require("lazy").setup({
       },
     },
   },
-  { "kevinhwang91/nvim-bqf", ft = 'qf' }, -- quickfix preview
-  { "thinca/vim-qfreplace", ft = 'qf' },
   {
     "sainnhe/gruvbox-material",
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
@@ -398,5 +386,23 @@ require("lazy").setup({
       vim.cmd([[colorscheme gruvbox-material]])
     end,
   },
-  { "github/copilot.vim" },
+  {
+    "github/copilot.vim",
+    event = "VimEnter",
+    config = function()
+      vim.g.copilot_no_tab_map = true
+      vim.keymap.set(
+        "i",
+        "<C-f>",
+        'copilot#Accept("<CR>")',
+        { silent = true, expr = true, script = true, replace_keycodes = false }
+      )
+      vim.keymap.set("i", "<C-j>", "<Plug>(copilot-next)")
+      vim.keymap.set("i", "<C-k>", "<Plug>(copilot-previous)")
+      vim.keymap.set("i", "<C-o>", "<Plug>(copilot-dismiss)")
+      vim.keymap.set("i", "<C-g>", "<Plug>(copilot-suggest)")
+    end,
+  },
+  { "kevinhwang91/nvim-bqf", ft = 'qf' }, -- quickfix preview
+  { "thinca/vim-qfreplace", ft = 'qf' },
 })
