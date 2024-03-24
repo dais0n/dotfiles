@@ -103,6 +103,7 @@ require("lazy").setup({
         end
       , { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+      vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sb', function ()
@@ -134,7 +135,7 @@ require("lazy").setup({
           "MasonUpdate",
         },
       },
-      { "j-hui/fidget.nvim", tag = "v1.0.0" }
+      { "j-hui/fidget.nvim", tag = "v1.0.0", config = true }
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
