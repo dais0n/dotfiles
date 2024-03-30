@@ -3,6 +3,8 @@ XDG_CONFIG_HOME := $(HOME)/.config
 
 .PHONY: link
 link:
+	ln -s .gitconfig $(HOME)/.gitconfig
+	ln -s .gitignore $(HOME)/.gitignore
 	ln -sfv .config/zsh/.zshrc $(HOME)/.zshrc
 	ln -sfv $(HOME)/dotfiles/.config/* $(XDG_CONFIG_HOME)
 
