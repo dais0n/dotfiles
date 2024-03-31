@@ -69,7 +69,6 @@ require("lazy").setup({
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-ui-select.nvim',
-      'nvim-telescope/telescope-file-browser.nvim',
     },
     config = function()
       -- The easiest way to use Telescope, is to start by doing something like :Telescope help_tags
@@ -92,7 +91,6 @@ require("lazy").setup({
         },
       }
       pcall(require('telescope').load_extension, 'ui-select')
-      pcall(require('telescope').load_extension, 'file_browser')
       vim.keymap.set('n', '<leader>s.', require('telescope.builtin').oldfiles, { desc = '[S]earch Recent Files' })
       vim.keymap.set('n', '<leader>sf',
         function()
@@ -106,11 +104,6 @@ require("lazy").setup({
       vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-      vim.keymap.set('n', '<leader>sb', function ()
-        require('telescope').extensions.file_browser.file_browser(
-          { path = "%:p:h", respect_gitignore = false }
-        )
-      end, { desc = '[S]earch File[B]rowser' })
       vim.keymap.set('n', '<leader>sk', require('telescope.builtin').keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader><leader>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
       vim.keymap.set('n', '<leader>/', function()
@@ -244,6 +237,18 @@ require("lazy").setup({
         cmd = { "bundle", "exec", "stree", "format"},
       }
     end,
+  },
+  { -- filer
+    'stevearc/oil.nvim',
+    opts = {},
+    config = function()
+      require("oil").setup({
+        view_options = {
+          show_hidden = true,
+        }
+      })
+      vim.keymap.set("n", "<leader>o", ":Oil<CR>", { noremap = true, silent = true, desc = "[O]pen Current Dir" })
+    end
   },
   { 'mogulla3/rspec.nvim',
     ft = 'ruby',
