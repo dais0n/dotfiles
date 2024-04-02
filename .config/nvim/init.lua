@@ -238,18 +238,18 @@ require("lazy").setup({
       }
     end,
   },
-  -- { -- filer
-  --   'stevearc/oil.nvim',
-  --   opts = {},
-  --   config = function()
-  --     require("oil").setup({
-  --       view_options = {
-  --         show_hidden = true,
-  --       }
-  --     })
-  --     vim.keymap.set("n", "<leader>o", ":Oil<CR>", { noremap = true, silent = true, desc = "[O]pen Current Dir" })
-  --   end
-  -- },
+  { -- filer
+    'stevearc/oil.nvim',
+    opts = {},
+    config = function()
+      require("oil").setup({
+        view_options = {
+          show_hidden = true,
+        }
+      })
+      vim.keymap.set("n", "<leader>o", ":Oil<CR>", { noremap = true, silent = true, desc = "[O]pen Current Dir" })
+    end
+  },
   { 'mogulla3/rspec.nvim',
     ft = 'ruby',
     config= function()
