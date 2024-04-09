@@ -318,10 +318,10 @@ require("lazy").setup({
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
       require("mini.comment").setup()
-      require("mini.indentscope").setup()
       require("mini.pairs").setup()
     end,
   },
+  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} , config=true },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
