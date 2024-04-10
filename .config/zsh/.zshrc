@@ -71,6 +71,28 @@ setopt SHARE_HISTORY
 setopt MAGIC_EQUAL_SUBST
 setopt PRINT_EIGHT_BIT
 
+
+# ref: https://gist.github.com/danydev/4ca4f5c523b19b17e9053dfa9feb246d
+autoload -U add-zsh-hook
+function my_zshaddhistory() {
+  LASTHIST=$1
+  return 2
+}
+function save_last_command_in_history_if_successful() {
+  # Write the last command if successful (or closed with signal 2), using
+  # the history buffered by my_zshaddhistory().
+  if [[ ($? == 0 || $? == 130) && -n $LASTHIST && -n $HISTFILE ]] ; then
+    local cmd=${LASTHIST%%$'\n'}
+    if [[ -n $cmd && $cmd != (ls|vi|cd)* ]]; then
+      print -sr -- $cmd
+    fi
+  fi
+}
+
+add-zsh-hook precmd save_last_command_in_history_if_successful
+add-zsh-hook zshexit save_last_command_in_history_if_successful
+add-zsh-hook zshaddhistory my_zshaddhistory
+
 widget::history() {
     local selected="$(history -inr 1 | fzf --exit-0 --query "$LBUFFER" | cut -d' ' -f4- | sed 's/\\n/\n/g')"
     if [ -n "$selected" ]; then
