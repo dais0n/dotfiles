@@ -271,11 +271,15 @@ require("lazy").setup({
     'hrsh7th/nvim-cmp',
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
-      "hrsh7th/cmp-cmdline",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-vsnip",
+      { "neovim/nvim-lspconfig", event = "InsertEnter" },
+      { "hrsh7th/cmp-buffer", event = "InsertEnter" },
+      { "hrsh7th/cmp-cmdline", event = "ModeChanged" },
+      { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
+      { "hrsh7th/cmp-nvim-lsp-document-symbol", event = "InsertEnter" },
+      { "hrsh7th/cmp-nvim-lsp-signature-help", event = "InsertEnter" },
+      { "hrsh7th/cmp-nvim-lua", event = "InsertEnter" },
+      { "hrsh7th/cmp-path", event = "InsertEnter" },
+      { "ray-x/cmp-treesitter", event = "InsertEnter" },
     },
     config = function()
       -- See `:help cmp`
@@ -287,12 +291,16 @@ require("lazy").setup({
           ['<C-p>'] = require('cmp').mapping.select_prev_item(),
           ['<C-b>'] = require('cmp').mapping.scroll_docs(-4),
           ['<C-f>'] = require('cmp').mapping.scroll_docs(4),
+          ["<C-y>"] = require('cmp').mapping.confirm { select = true },
         },
         sources = {
           { name = 'nvim_lsp' },
           { name = 'path' },
           { name = "buffer" },
           { name = "path" },
+          { name = "nvim_lsp_signature_help" },
+          { name = 'treesitter' },
+          { name = "cmdline" },
         },
       }
       require('cmp').setup.cmdline("/", {
