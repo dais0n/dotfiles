@@ -24,7 +24,14 @@ vim.opt.tabstop = 2
 vim.opt.expandtab = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
-vim.o.mouse = 'a'
+vim.opt.mouse = 'a'
+vim.opt.autoread = true
+vim.opt.autowrite = true
+vim.opt.syntax = "enable"
+vim.opt.ttyfast = true
+vim.opt.synmaxcol = 2000
+vim.opt.modifiable = true
+
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>') -- clear on pressing <Esc> in normal mode
 vim.api.nvim_create_autocmd({ "BufReadPost" }, { -- remember cursor position
   pattern = { "*" },
@@ -321,7 +328,6 @@ require("lazy").setup({
       require("mini.pairs").setup()
     end,
   },
-  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} , config=true },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
@@ -418,6 +424,7 @@ require("lazy").setup({
       vim.keymap.set("i", "<C-g>", "<Plug>(copilot-suggest)")
     end,
   },
+  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} , config=true },
   { "kevinhwang91/nvim-bqf", ft = 'qf' }, -- quickfix preview
   { "thinca/vim-qfreplace", ft = 'qf' },
 })
