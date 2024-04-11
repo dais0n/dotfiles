@@ -319,20 +319,20 @@ require("lazy").setup({
     end,
   },
   {
-    "kdheepak/lazygit.nvim",
-    cmd = {
-      "LazyGit",
-      "LazyGitConfig",
-      "LazyGitCurrentFile",
-      "LazyGitFilter",
-      "LazyGitFilterCurrentFile",
-    },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    keys = {
-      { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
-    }
+    'akinsho/toggleterm.nvim',
+    lazy = true,
+    version = "*",
+    config =function()
+      local Terminal  = require('toggleterm.terminal').Terminal
+      local lazygit = Terminal:new({ cmd = "lazygit", hidden = true })
+
+      local function _lazygit_toggle()
+        lazygit:toggle()
+      end
+
+      vim.keymap.set("n", "<leader>gl", "<leader>gl", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true , desc = "[G]it [Lazy]" })
+      require('toggleterm').setup()
+    end
   },
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
