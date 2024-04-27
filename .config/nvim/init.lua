@@ -280,6 +280,7 @@ require("lazy").setup({
       { "hrsh7th/cmp-nvim-lua", event = "InsertEnter" },
       { "hrsh7th/cmp-path", event = "InsertEnter" },
       { "ray-x/cmp-treesitter", event = "InsertEnter" },
+      { "onsails/lspkind.nvim", event = "InsertEnter" }
     },
     config = function()
       -- See `:help cmp`
@@ -302,6 +303,22 @@ require("lazy").setup({
           { name = 'treesitter' },
           { name = "cmdline" },
         },
+        formatting = {
+          format = require("lspkind").cmp_format({
+            mode = 'text', -- show only symbol annotations
+            maxwidth = 50,
+            menu = {
+              copilot = "[COP]",
+              nvim_lsp = "[LSP]",
+              cmdline = "[CL]",
+              buffer = "[BUF]",
+              path = "[PH]",
+              treesitter = "[TS]",
+            },
+            ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+            show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+          })
+        }
       }
       require('cmp').setup.cmdline("/", {
         mapping = require('cmp').mapping.preset.cmdline(),
@@ -437,13 +454,13 @@ require("lazy").setup({
     },
   },
   {
-    "sainnhe/gruvbox-material",
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
+    "EdenEast/nightfox.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
     config = function()
-      -- load the colorscheme here
-      vim.cmd([[colorscheme gruvbox-material]])
-    end,
+      vim.cmd("colorscheme nightfox")
+    end
   },
   {
     "github/copilot.vim",
