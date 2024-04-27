@@ -279,12 +279,18 @@ require("lazy").setup({
       { "hrsh7th/cmp-nvim-lsp-signature-help", event = "InsertEnter" },
       { "hrsh7th/cmp-nvim-lua", event = "InsertEnter" },
       { "hrsh7th/cmp-path", event = "InsertEnter" },
+      { 'hrsh7th/vim-vsnip', event = 'InsertEnter'},
       { "ray-x/cmp-treesitter", event = "InsertEnter" },
       { "onsails/lspkind.nvim", event = "InsertEnter" }
     },
     config = function()
       -- See `:help cmp`
       require('cmp').setup {
+        snippet = {
+          expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body)
+          end,
+        },
         completion = { completeopt = 'menu,menuone,noinsert' },
         -- No, but seriously. Please read `:help ins-completion`, it is really good!
         mapping = require('cmp').mapping.preset.insert {
@@ -295,6 +301,7 @@ require("lazy").setup({
           ["<C-y>"] = require('cmp').mapping.confirm { select = true },
         },
         sources = {
+          { name = "copilot" },
           { name = 'nvim_lsp' },
           { name = 'path' },
           { name = "buffer" },
@@ -463,21 +470,21 @@ require("lazy").setup({
     end
   },
   {
-    "github/copilot.vim",
-    event = "VimEnter",
+    "zbirenbaum/copilot.lua",
+    event = "InsertEnter",
     config = function()
-      vim.g.copilot_no_tab_map = true
-      vim.keymap.set(
-        "i",
-        "<C-f>",
-        'copilot#Accept("<CR>")',
-        { silent = true, expr = true, script = true, replace_keycodes = false }
-      )
-      vim.keymap.set("i", "<C-j>", "<Plug>(copilot-next)")
-      vim.keymap.set("i", "<C-k>", "<Plug>(copilot-previous)")
-      vim.keymap.set("i", "<C-o>", "<Plug>(copilot-dismiss)")
-      vim.keymap.set("i", "<C-g>", "<Plug>(copilot-suggest)")
+      require("copilot").setup({
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      })
     end,
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    event = "InsertEnter",
+    config = function ()
+      require("copilot_cmp").setup()
+    end
   },
   { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} , config=true },
   { "kevinhwang91/nvim-bqf", ft = 'qf' }, -- quickfix preview
