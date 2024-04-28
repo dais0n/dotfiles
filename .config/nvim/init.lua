@@ -256,14 +256,15 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>o", ":Oil<CR>", { noremap = true, silent = true, desc = "[O]pen Current Dir" })
     end
   },
-  { 'mogulla3/rspec.nvim',
-    ft = 'ruby',
-    config= function()
-      require('rspec').setup()
-      vim.keymap.set("n", "<leader>tn", ":RSpecNearest<CR>", { noremap = true, silent = true, desc = "[T]est [N]earest" })
-      vim.keymap.set("n", "<leader>tc", ":RSpecCurrentFile<CR>", { noremap = true, silent = true, desc = "[T]est [C]urrent" })
-      vim.keymap.set("n", "<leader>ts", ":RSpecShowLastResult<CR>", { noremap = true, silent = true , desc = "[T]est [S]how Result" })
-      vim.keymap.set("n", "<leader>tj", ":RSpecJump!<CR>", { noremap = true, silent = true , desc = "[T]est File [J]ump" })
+  { 'vim-test/vim-test',
+    cmd={"TestNearest", "TestFile"},
+    config=function ()
+      vim.g['test#custom_strategies'] = {
+        toggleterm = function(cmd)
+          require('toggleterm').exec(cmd)
+        end,
+      }
+      vim.g['test#strategy'] = 'toggleterm'
     end
   },
   { -- Autocompletion
@@ -344,26 +345,23 @@ require("lazy").setup({
   {
     'akinsho/toggleterm.nvim',
     version = "*",
+    event = "VeryLazy",
     config = function()
       local Terminal  = require('toggleterm.terminal').Terminal
       local lazygit = Terminal:new({
         cmd = "lazygit",
         dir = "git_dir",
         direction = "float",
-        float_opts = {
-          border = "double",
-        },
         -- function to run on opening the terminal
         on_open = function(term)
           vim.cmd("startinsert!")
           vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
         end,
         -- function to run on closing the terminal
-        on_close = function(term)
+        on_close = function(_)
           vim.cmd("startinsert!")
         end,
       })
-
       function _lazygit_toggle()
         lazygit:toggle()
       end
