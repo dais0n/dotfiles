@@ -238,10 +238,6 @@ require("lazy").setup({
           'typescript.tsx',
         },
       }
-
-      require("lspconfig").syntax_tree.setup{
-        cmd = { "bundle", "exec", "stree", "format"},
-      }
     end,
   },
   { -- filer
