@@ -13,7 +13,6 @@ vim.opt.splitbelow = true
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split' -- Preview substitutions live, as you type
-vim.opt.cursorline = true
 vim.opt.scrolloff = 10 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.clipboard = "unnamedplus"
 vim.opt.swapfile = false
@@ -439,12 +438,13 @@ require("lazy").setup({
       }
     end
   },
-  { "ruifm/gitlinker.nvim",
-    event = "VeryLazy",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    opts = {
-      remote = "upstream", -- force the use of a specific remote
-      print_url = true,
+  {
+    "linrongbin16/gitlinker.nvim",
+    cmd = "GitLink",
+    opts = {},
+    keys = {
+      { "<leader>gy", "<cmd>GitLink remote=upstream<cr>", mode = { "n", "v" }, desc = "Yank git link" },
+      { "<leader>gY", "<cmd>GitLink! remote=upstream<cr>", mode = { "n", "v" }, desc = "Open git link" },
     },
   },
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
