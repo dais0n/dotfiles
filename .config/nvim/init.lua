@@ -79,6 +79,11 @@ require("lazy").setup({
     config = function()
       -- The easiest way to use Telescope, is to start by doing something like :Telescope help_tags
       require('telescope').setup {
+        defaults = {
+          file_ignore_patterns = {
+            "%.rbi"
+          }
+        },
         pickers = {
           find_files = {
             theme = "ivy",
@@ -339,6 +344,23 @@ require("lazy").setup({
     end,
   },
   {
+    "zbirenbaum/copilot.lua",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup({
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      })
+    end,
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    event = "InsertEnter",
+    config = function ()
+      require("copilot_cmp").setup()
+    end
+  },
+  {
     'akinsho/toggleterm.nvim',
     version = "*",
     event = "VeryLazy",
@@ -461,23 +483,6 @@ require("lazy").setup({
     opts = {},
     config = function()
       vim.cmd("colorscheme nightfox")
-    end
-  },
-  {
-    "zbirenbaum/copilot.lua",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup({
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-      })
-    end,
-  },
-  {
-    "zbirenbaum/copilot-cmp",
-    event = "InsertEnter",
-    config = function ()
-      require("copilot_cmp").setup()
     end
   },
   { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} , config=true },
