@@ -74,13 +74,23 @@ require("lazy").setup({
     branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope-ui-select.nvim',
       { 'nvim-telescope/telescope-live-grep-args.nvim', version = "^1.0.0" },
+      {
+        "danielfalk/smart-open.nvim",
+        branch = "0.2.x",
+        config = function()
+          require("telescope").load_extension("smart_open")
+        end,
+        dependencies = {
+          "kkharji/sqlite.lua",
+          { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+        },
+      },
     },
     config = function()
       -- The easiest way to use Telescope, is to start by doing something like :Telescope help_tags
       pcall(require("telescope").load_extension, 'live_grep_args')
-      pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require("telescope").load_extension, 'smart_open')
       require('telescope').setup {
         defaults = {
           file_ignore_patterns = {
@@ -105,12 +115,17 @@ require("lazy").setup({
               },
             },
           },
-          ['ui-select'] = {
-            require('telescope.themes').get_dropdown(),
+          extensions = {
+            smart_open = {
+              match_algorithm = "fzf",
+              disable_devicons = true,
+            },
           },
         },
       }
-      vim.keymap.set('n', '<leader>s.', require('telescope.builtin').oldfiles, { desc = '[S]earch Recent Files' })
+      vim.keymap.set('n', '<leader>s.', function ()
+        require("telescope").extensions.smart_open.smart_open(require('telescope.themes').get_ivy({}))
+      end, { desc = '[S]earch Recent Files' })
       vim.keymap.set('n', '<leader>sf',
         function()
           require('telescope.builtin').find_files({
@@ -134,7 +149,7 @@ require("lazy").setup({
       end, { desc = '[/] Fuzzily search in current buffer' })
     end,
   },
-   { -- LSP Configuration & Plugins
+  { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
       { 'williamboman/mason.nvim',
