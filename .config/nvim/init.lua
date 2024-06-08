@@ -75,9 +75,12 @@ require("lazy").setup({
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-ui-select.nvim',
+      { 'nvim-telescope/telescope-live-grep-args.nvim', version = "^1.0.0" },
     },
     config = function()
       -- The easiest way to use Telescope, is to start by doing something like :Telescope help_tags
+      pcall(require("telescope").load_extension, 'live_grep_args')
+      pcall(require('telescope').load_extension, 'ui-select')
       require('telescope').setup {
         defaults = {
           file_ignore_patterns = {
@@ -93,15 +96,20 @@ require("lazy").setup({
           },
         },
         extensions = {
+          live_grep_args = {
+            auto_quoting = true,
+            mappings = { -- extend mappings
+              i = {
+                ["<C-k>"] = require("telescope-live-grep-args.actions").quote_prompt(),
+                ["<C-i>"] = require("telescope-live-grep-args.actions").quote_prompt({ postfix = " --iglob " }),
+              },
+            },
+          },
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
           },
-          file_browser = {
-            theme = 'ivy',
-          }
         },
       }
-      pcall(require('telescope').load_extension, 'ui-select')
       vim.keymap.set('n', '<leader>s.', require('telescope.builtin').oldfiles, { desc = '[S]earch Recent Files' })
       vim.keymap.set('n', '<leader>sf',
         function()
@@ -259,6 +267,7 @@ require("lazy").setup({
   },
   { 'vim-test/vim-test',
     cmd={"TestNearest", "TestFile"},
+    dependencies = { {'akinsho/toggleterm.nvim'} },
     config=function ()
       vim.g['test#custom_strategies'] = {
         toggleterm = function(cmd)
@@ -302,7 +311,6 @@ require("lazy").setup({
           ["<C-y>"] = require('cmp').mapping.confirm { select = true },
         },
         sources = {
-          { name = "copilot" },
           { name = 'nvim_lsp' },
           { name = 'path' },
           { name = "buffer" },
@@ -316,7 +324,6 @@ require("lazy").setup({
             mode = 'text', -- show only symbol annotations
             maxwidth = 50,
             menu = {
-              copilot = "[COP]",
               nvim_lsp = "[LSP]",
               cmdline = "[CL]",
               buffer = "[BUF]",
@@ -343,50 +350,6 @@ require("lazy").setup({
       })
     end,
   },
-  {
-    "zbirenbaum/copilot.lua",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup({
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-      })
-    end,
-  },
-  {
-    "zbirenbaum/copilot-cmp",
-    event = "InsertEnter",
-    config = function ()
-      require("copilot_cmp").setup()
-    end
-  },
-  {
-    'akinsho/toggleterm.nvim',
-    version = "*",
-    event = "VeryLazy",
-    config = function()
-      local Terminal  = require('toggleterm.terminal').Terminal
-      local lazygit = Terminal:new({
-        cmd = "lazygit",
-        dir = "git_dir",
-        direction = "float",
-        -- function to run on opening the terminal
-        on_open = function(term)
-          vim.cmd("startinsert!")
-          vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
-        end,
-        -- function to run on closing the terminal
-        on_close = function(_)
-          vim.cmd("startinsert!")
-        end,
-      })
-      function _lazygit_toggle()
-        lazygit:toggle()
-      end
-
-      vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
-    end
-  },
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
@@ -401,7 +364,6 @@ require("lazy").setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
-      require("mini.comment").setup()
       require("mini.pairs").setup()
     end,
   },
@@ -485,7 +447,31 @@ require("lazy").setup({
       vim.cmd("colorscheme nightfox")
     end
   },
-  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} , config=true },
+  {
+    "previm/previm",
+    ft = { "markdown", "asciidoc" },
+    dependencies = {
+      "tyru/open-browser.vim",
+    },
+  },
+  {
+    "github/copilot.vim",
+    event = "VimEnter",
+    config = function()
+      vim.g.copilot_no_tab_map = true
+      vim.keymap.set(
+        "i",
+        "<C-f>",
+        'copilot#Accept("<CR>")',
+        { silent = true, expr = true, script = true, replace_keycodes = false }
+      )
+      vim.keymap.set("i", "<C-j>", "<Plug>(copilot-next)")
+      vim.keymap.set("i", "<C-k>", "<Plug>(copilot-previous)")
+      vim.keymap.set("i", "<C-o>", "<Plug>(copilot-dismiss)")
+      vim.keymap.set("i", "<C-g>", "<Plug>(copilot-suggest)")
+    end,
+  },
+  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
   { "kevinhwang91/nvim-bqf", ft = 'qf' }, -- quickfix preview
   { "thinca/vim-qfreplace", ft = 'qf' },
 })

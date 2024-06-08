@@ -110,6 +110,8 @@ alias k='kubectl'
 alias g='git'
 alias ls='ls --color=auto'
 alias ghd='cd $(ghq list --full-path | fzf)'
+alias clip.exe='iconv -t sjis | clip.exe'
+alias pbcopy='clip.exe'
 (( ${+commands[nvim]} )) && alias vi='nvim'
 
 # plugin load by sheldon
