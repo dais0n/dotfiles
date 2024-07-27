@@ -75,26 +75,20 @@ require("lazy").setup({
     dependencies = {
       'nvim-lua/plenary.nvim',
       { 'nvim-telescope/telescope-live-grep-args.nvim', version = "^1.0.0" },
-      {
-        "danielfalk/smart-open.nvim",
-        branch = "0.2.x",
-        config = function()
-          require("telescope").load_extension("smart_open")
-        end,
-        dependencies = {
-          "kkharji/sqlite.lua",
-          { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-        },
-      },
     },
     config = function()
       -- The easiest way to use Telescope, is to start by doing something like :Telescope help_tags
       pcall(require("telescope").load_extension, 'live_grep_args')
-      pcall(require("telescope").load_extension, 'smart_open')
+      -- pcall(require("telescope").load_extension, 'smart_open')
       require('telescope').setup {
         defaults = {
           file_ignore_patterns = {
             "%.rbi"
+          },
+          mappings = {
+            i = {
+              ["<C-s>"] = "file_vsplit"
+            }
           }
         },
         pickers = {
@@ -115,17 +109,9 @@ require("lazy").setup({
               },
             },
           },
-          extensions = {
-            smart_open = {
-              match_algorithm = "fzf",
-              disable_devicons = true,
-            },
-          },
         },
       }
-      vim.keymap.set('n', '<leader>s.', function ()
-        require("telescope").extensions.smart_open.smart_open(require('telescope.themes').get_ivy({}))
-      end, { desc = '[S]earch Recent Files' })
+      vim.keymap.set('n', '<leader>s.', require('telescope.builtin').oldfiles, { desc = '[S]earch Recent Files' })
       vim.keymap.set('n', '<leader>sf',
         function()
           require('telescope.builtin').find_files({
@@ -322,7 +308,6 @@ require("lazy").setup({
           ['<C-n>'] = require('cmp').mapping.select_next_item(),
           ['<C-p>'] = require('cmp').mapping.select_prev_item(),
           ['<C-b>'] = require('cmp').mapping.scroll_docs(-4),
-          ['<C-f>'] = require('cmp').mapping.scroll_docs(4),
           ["<C-y>"] = require('cmp').mapping.confirm { select = true },
         },
         sources = {
@@ -360,7 +345,7 @@ require("lazy").setup({
         mapping = require('cmp').mapping.preset.cmdline(),
         sources = {
           { name = "path" },
-          { name = "cmdline", keyword_length = 2 },
+          { name = "cmdline" },
         },
       })
     end,
@@ -407,12 +392,12 @@ require("lazy").setup({
     config = function()
       require('which-key').setup()
       -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-      }
+      require('which-key').add({
+        {'<leader>c' , group = '[C]ode' },
+        {'<leader>d', group = '[D]ocument'},
+        {'<leader>r', group = '[R]ename'},
+        {'<leader>s', group = '[S]earch'},
+      })
     end,
   },
   { "ojroques/nvim-osc52",
