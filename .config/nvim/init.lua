@@ -79,7 +79,6 @@ require("lazy").setup({
     config = function()
       -- The easiest way to use Telescope, is to start by doing something like :Telescope help_tags
       pcall(require("telescope").load_extension, 'live_grep_args')
-      -- pcall(require("telescope").load_extension, 'smart_open')
       require('telescope').setup {
         defaults = {
           file_ignore_patterns = {
@@ -268,14 +267,10 @@ require("lazy").setup({
   },
   { 'vim-test/vim-test',
     cmd={"TestNearest", "TestFile"},
-    dependencies = { {'akinsho/toggleterm.nvim'} },
     config=function ()
-      vim.g['test#custom_strategies'] = {
-        toggleterm = function(cmd)
-          require('toggleterm').exec(cmd)
-        end,
-      }
-      vim.g['test#strategy'] = 'toggleterm'
+      vim.g['test#strategy'] = 'neovim'
+      vim.g['test#neovim#start_normal'] = '1'
+      vim.g['test#neovim#term_position'] = 'vert'
     end
   },
   { -- Autocompletion
@@ -365,6 +360,7 @@ require("lazy").setup({
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
       require("mini.pairs").setup()
+      require("mini.icons").setup()
     end,
   },
   { -- Highlight, edit, and navigate code
@@ -474,4 +470,14 @@ require("lazy").setup({
   { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
   { "kevinhwang91/nvim-bqf", ft = 'qf' }, -- quickfix preview
   { "thinca/vim-qfreplace", ft = 'qf' },
+  { "sebdah/vim-delve", ft = 'go', config = function()
+    vim.api.nvim_create_user_command(
+      'DlvDebugWorkspace',
+      function()
+        vim.cmd(string.format('DlvDebug --build-flags="-gcflags=\'all=-N -l\'" %s', vim.fn.getcwd()))
+      end,
+      { nargs = 0 }
+    )
+  end
+  },
 })
