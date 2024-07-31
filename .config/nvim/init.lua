@@ -193,6 +193,7 @@ require("lazy").setup({
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
+      -- lua
       require("lspconfig").lua_ls.setup({
         capabilities = capabilities,
         settings = {
@@ -204,12 +205,14 @@ require("lazy").setup({
         },
       })
 
+      -- typos
       require("lspconfig").typos_lsp.setup({
         init_options = {
           config = '~/.config/typos/.typos.toml',
         },
       })
 
+      -- go
       require('lspconfig').gopls.setup({
         capabilities = capabilities,
         settings = {
@@ -221,7 +224,6 @@ require("lazy").setup({
           },
         },
       })
-
       -- ref: https://github.com/golang/tools/blob/master/gopls/doc/vim.md#imports-and-formatting
       vim.api.nvim_create_autocmd("BufWritePre", { -- goimports on save
         pattern = "*.go",
@@ -241,6 +243,7 @@ require("lazy").setup({
         end
       })
 
+      -- typescript
       require("lspconfig").tsserver.setup {
         on_attach = function(client,_)
           client.server_capabilities.documentFormattingProvider = false
@@ -316,7 +319,8 @@ require("lazy").setup({
         },
         formatting = {
           format = require("lspkind").cmp_format({
-            mode = 'text', -- show only symbol annotations
+            mode = 'symbol_text', -- show only symbol annotations
+            preset = 'codicons',
             maxwidth = 50,
             menu = {
               nvim_lsp = "[LSP]",
@@ -337,6 +341,9 @@ require("lazy").setup({
         },
       })
       require('cmp').setup.cmdline(":", {
+        completion = {
+          completeopt = "menu,menuone,noinsert,noselect",
+        },
         mapping = require('cmp').mapping.preset.cmdline(),
         sources = {
           { name = "path" },
@@ -367,7 +374,7 @@ require("lazy").setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'go', 'ruby', 'tsx', 'javascript', 'typescript'  },
+      ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'go', 'ruby', 'tsx', 'javascript', 'typescript', 'proto'  },
       auto_install = true,
       highlight = {
         enable = true,
