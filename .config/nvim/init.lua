@@ -78,7 +78,6 @@ require("lazy").setup({
     },
     config = function()
       -- The easiest way to use Telescope, is to start by doing something like :Telescope help_tags
-      pcall(require("telescope").load_extension, 'live_grep_args')
       require('telescope').setup {
         defaults = {
           file_ignore_patterns = {
@@ -110,6 +109,7 @@ require("lazy").setup({
           },
         },
       }
+      pcall(require("telescope").load_extension, 'live_grep_args')
       vim.keymap.set('n', '<leader>s.', require('telescope.builtin').oldfiles, { desc = '[S]earch Recent Files' })
       vim.keymap.set('n', '<leader>sf',
         function()
@@ -119,7 +119,7 @@ require("lazy").setup({
           })
         end
       , { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+      vim.keymap.set('n', '<leader>sg', ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
