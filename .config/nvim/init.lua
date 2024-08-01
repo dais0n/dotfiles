@@ -341,9 +341,6 @@ require("lazy").setup({
         },
       })
       require('cmp').setup.cmdline(":", {
-        completion = {
-          completeopt = "menu,menuone,noinsert,noselect",
-        },
         mapping = require('cmp').mapping.preset.cmdline(),
         sources = {
           { name = "path" },
@@ -487,4 +484,20 @@ require("lazy").setup({
     )
   end
   },
+  {
+    "kdheepak/lazygit.nvim",
+    cmd = {
+      "LazyGit",
+      "LazyGitConfig",
+      "LazyGitCurrentFile",
+      "LazyGitFilter",
+      "LazyGitFilterCurrentFile",
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    keys = {
+      { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
+    }
+  }
 })
