@@ -147,7 +147,8 @@ require("lazy").setup({
           "MasonUpdate",
         },
       },
-      { "j-hui/fidget.nvim", tag = "v1.0.0", config = true }
+      { "j-hui/fidget.nvim", tag = "v1.0.0", config = true },
+      { "towolf/vim-helm" }
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -253,6 +254,16 @@ require("lazy").setup({
           'typescriptreact',
           'typescript.tsx',
         },
+      }
+      -- helm
+      require("lspconfig").helm_ls.setup {
+        settings = {
+          ['helm-ls'] = {
+            yamlls = {
+              path = "yaml-language-server",
+            }
+          }
+        }
       }
     end,
   },
@@ -365,6 +376,7 @@ require("lazy").setup({
       require('mini.surround').setup()
       require("mini.pairs").setup()
       require("mini.icons").setup()
+      require("mini.statusline").setup()
     end,
   },
   { -- Highlight, edit, and navigate code
@@ -422,7 +434,7 @@ require("lazy").setup({
     opts = {},
     keys = {
       { "<leader>gy", "<cmd>GitLink remote=upstream<cr>", mode = { "n", "v" }, desc = "Yank git link" },
-      { "<leader>gY", "<cmd>GitLink! remote=upstream<cr>", mode = { "n", "v" }, desc = "Open git link" },
+      { "<leader>go", "<cmd>GitLink<cr>", mode = { "n", "v" }, desc = "Yank git link" },
     },
   },
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
