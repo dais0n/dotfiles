@@ -128,3 +128,4 @@ sheldon::load() {
   builtin source "$cache_file"
 }
 sheldon::load
+eval "$(direnv hook zsh)"

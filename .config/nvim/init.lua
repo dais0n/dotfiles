@@ -148,7 +148,8 @@ require("lazy").setup({
         },
       },
       { "j-hui/fidget.nvim", tag = "v1.0.0", config = true },
-      { "towolf/vim-helm" }
+      { "aznhe21/actions-preview.nvim", event="LspAttach" },
+      { "towolf/vim-helm" },
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -170,7 +171,7 @@ require("lazy").setup({
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
-          map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+          map('<leader>ca', require("actions-preview").code_actions, '[C]ode [A]ction')
           -- Opens a popup that displays documentation about the word under your cursor
           map('K', vim.lsp.buf.hover, 'Hover Documentation')
           local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -511,5 +512,5 @@ require("lazy").setup({
     keys = {
       { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
     }
-  }
+  },
 })
