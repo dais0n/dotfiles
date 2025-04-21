@@ -246,7 +246,7 @@ require("lazy").setup({
       })
 
       -- typescript
-      require("lspconfig").tsserver.setup {
+      require("lspconfig").ts_ls.setup {
         on_attach = function(client,_)
           client.server_capabilities.documentFormattingProvider = false
         end,
@@ -434,8 +434,7 @@ require("lazy").setup({
     cmd = "GitLink",
     opts = {},
     keys = {
-      { "<leader>gy", "<cmd>GitLink remote=upstream<cr>", mode = { "n", "v" }, desc = "Yank git link" },
-      { "<leader>go", "<cmd>GitLink<cr>", mode = { "n", "v" }, desc = "Yank git link" },
+      { "<leader>gy", "<cmd>GitLink<cr>", mode = { "n", "v" }, desc = "Yank git link" },
     },
   },
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
