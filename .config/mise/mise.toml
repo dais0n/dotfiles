@@ -5,3 +5,5 @@ ghq     = "latest"
 tmux    = "latest"
 direnv  = "latest"
 github-cli = "latest"
+
+"ubi:rossmacarthur/sheldon" = { version = "latest", matching = "musl" }
