@@ -118,8 +118,9 @@ alias pbcopy='clip.exe'
 sheldon::load() {
   local plugins_file="$XDG_CONFIG_HOME/sheldon/plugins.toml"
   local cache_file="$XDG_CACHE_HOME/sheldon/plugins.zsh"
-  # コンパイルキャッシュ (plugins.zsh) が存在しないか
-  # mtimeがplugins.tomlより古い場合は出力をキャッシュする
+  # If the compile cache (plugins.zsh) does not exist,
+  # or its mtime is older than plugins.toml, store the output in the cache.
+  # If plugin installation fails, just delete the cache_file.
   if [[ ! -f "$cache_file" || "$plugins_file" -nt "$cache_file" ]]; then
     mkdir -p "$XDG_CACHE_HOME/sheldon"
     sheldon source >"$cache_file"
