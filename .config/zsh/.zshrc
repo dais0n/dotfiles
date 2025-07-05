@@ -130,10 +130,11 @@ sheldon::load() {
 }
 sheldon::load
 
-if command -v direnv >/dev/null 2>&1; then
+if type direnv &>/dev/null; then
   eval "$(direnv hook zsh)"
 fi
 
-if command -v mise >/dev/null 2>&1; then
+if type mise &>/dev/null; then
   eval "$(mise activate zsh)"
+  eval "$(mise activate --shims)"
 fi
