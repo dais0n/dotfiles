@@ -54,6 +54,18 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+vim.g.clipboard = {
+  name = 'OSC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+  },
+  paste = {
+    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+  },
+}
+
 -- plugin install
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -412,22 +424,6 @@ require("lazy").setup({
         {'<leader>s', group = '[S]earch'},
       })
     end,
-  },
-  { "ojroques/nvim-osc52",
-    event = 'VimEnter',
-    config = function()
-      local function copy(lines, _)
-        require("osc52").copy(table.concat(lines, "\n"))
-      end
-      local function paste()
-        return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
-      end
-      vim.g.clipboard = {
-        name = "osc52",
-        copy = { ["+"] = copy, ["*"] = copy },
-        paste = { ["+"] = paste, ["*"] = paste },
-      }
-    end
   },
   {
     "linrongbin16/gitlinker.nvim",

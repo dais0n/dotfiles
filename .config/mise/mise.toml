@@ -1,0 +1,8 @@
+[tools]
+neovim  = "latest"
+fzf     = "latest"
+ghq     = "latest"
+tmux    = "latest"
+direnv  = "latest"
+sheldon = "latest"
+mise    = "latest"
