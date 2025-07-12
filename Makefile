@@ -2,6 +2,7 @@ DOTFILES_DIR    := $(CURDIR)
 XDG_CONFIG_HOME := $(HOME)/.config
 BIN_DIR         := $(HOME)/.local/bin
 SHARE_DIR       := $(HOME)/.local/share
+STATE_DIR       := $(HOME)/.local/state
 
 .PHONY: all
 all: link
@@ -32,5 +33,5 @@ link: tools | mkdir
 .PHONY: mkdir
 mkdir:
 	@echo "▶ Creating directories ..."
-	@mkdir -p $(BIN_DIR) $(SHARE_DIR) $(XDG_CONFIG_HOME)
+	@mkdir -p $(BIN_DIR) $(SHARE_DIR) $(STATE_DIR) $(XDG_CONFIG_HOME)
 	@echo "✔ Directories ready"

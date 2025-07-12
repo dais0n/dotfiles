@@ -340,6 +340,7 @@ require("lazy").setup({
           { name = "nvim_lsp_signature_help" },
           { name = 'treesitter' },
           { name = "cmdline" },
+          { name = 'render-markdown' },
         },
         formatting = {
           format = require("lspkind").cmp_format({
@@ -461,6 +462,25 @@ require("lazy").setup({
     dependencies = {
       "tyru/open-browser.vim",
     },
+  },
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' },
+    ft = { "markdown" },
+    keys = {
+      { "<Space>sm", ":RenderMarkdown toggle<CR>" },
+    },
+    opts = {
+      heading = {
+        width = "block",
+        left_pad = 0,
+        right_pad = 4,
+        icons = {},
+      },
+      code = {
+        width = "block",
+      },
+    }
   },
   {
     "github/copilot.vim",
