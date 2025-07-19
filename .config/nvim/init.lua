@@ -81,70 +81,39 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   { -- Fuzzy finder
-    'nvim-telescope/telescope.nvim',
-    event = 'VimEnter',
-    branch = '0.1.x',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      { 'nvim-telescope/telescope-live-grep-args.nvim', version = "^1.0.0" },
+    "folke/snacks.nvim",
+    lazy = false,
+    priority = 1000,
+    ---@type snacks.Config
+    opts = {
+      indent    = { enabled = true },  -- indent‑blankline 代替
+      lazygit   = { enabled = true },  -- lazygit.nvim 代替
+      gitbrowse = { enabled = true },  -- gitlinker.nvim 代替
+
+      picker = {
+        grep = { live = true },
+        files = { hidden = true },
+        layout = { preset = "bottom" },
+      },
     },
-    config = function()
-      -- The easiest way to use Telescope, is to start by doing something like :Telescope help_tags
-      require('telescope').setup {
-        defaults = {
-          file_ignore_patterns = {
-            "%.rbi"
-          },
-          mappings = {
-            i = {
-              ["<C-s>"] = "file_vsplit"
-            }
-          }
-        },
-        pickers = {
-          find_files = {
-            theme = "ivy",
-          },
-          oldfiles = {
-            theme = "ivy",
-          },
-        },
-        extensions = {
-          live_grep_args = {
-            auto_quoting = true,
-            mappings = { -- extend mappings
-              i = {
-                ["<C-k>"] = require("telescope-live-grep-args.actions").quote_prompt(),
-                ["<C-i>"] = require("telescope-live-grep-args.actions").quote_prompt({ postfix = " --iglob " }),
-              },
-            },
-          },
-        },
-      }
-      pcall(require("telescope").load_extension, 'live_grep_args')
-      vim.keymap.set('n', '<leader>s.', require('telescope.builtin').oldfiles, { desc = '[S]earch Recent Files' })
-      vim.keymap.set('n', '<leader>sf',
-        function()
-          require('telescope.builtin').find_files({
-            no_ignore = false,
-            hidden = true
-          })
+
+    keys = {
+      { "<leader>gy", function() Snacks.gitbrowse() end },
+      { "<leader>lg", function() Snacks.lazygit()  end },
+      { "<leader>s.", function() Snacks.picker.recent() end },
+      { "<leader>sf", function() Snacks.picker.files() end },
+      { "<leader>sg", function() Snacks.picker.grep() end },
+      { "<leader>sw", function()
+          local word = vim.fn.expand("<cword>")
+          Snacks.picker.grep({ search = word })
         end
-      , { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader>sg', ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", { desc = '[S]earch by [G]rep' })
-      vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-      vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
-      vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-      vim.keymap.set('n', '<leader>sk', require('telescope.builtin').keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader><leader>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
-      vim.keymap.set('n', '<leader>/', function()
-        -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-        require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
-          previewer = false,
-        })
-      end, { desc = '[/] Fuzzily search in current buffer' })
-    end,
+      },
+      { "<leader>sd", function() Snacks.picker.diagnostics() end },
+      { "<leader>sh", function() Snacks.picker.help()        end },
+      { "<leader>sk", function() Snacks.picker.keymaps()     end },
+      { "<leader><leader>", function() Snacks.picker.buffers() end },
+      { "<leader>b", function() Snacks.picker.lines({ cwd = false }) end},
+    },
   },
   { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
@@ -161,28 +130,21 @@ require("lazy").setup({
       },
       { "j-hui/fidget.nvim", tag = "v1.0.0", config = true },
       { "aznhe21/actions-preview.nvim", event="LspAttach" },
-      { "towolf/vim-helm" },
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
           local map = function(keys, func, desc)
-            vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+            vim.keymap.set('n', keys, func, { buffer = event.buf })
           end
-          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-          map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-          map('gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-          map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-          -- Fuzzy find all the symbols in your current document.
-          --  Symbols are things like variables, functions, types, etc.
-          map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-          -- Fuzzy find all the symbols in your current workspace.
-          --  Similar to document symbols, except searches over your entire project.
-          map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-          map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-          -- Execute a code action, usually your cursor needs to be on top of an error
-          -- or a suggestion from your LSP for this to activate.
+          local p = Snacks.picker
+          map('gd',          p.lsp_definitions)
+          map('gr',          p.lsp_references)
+          map('gi',          p.lsp_implementations)
+          map('<leader>ld',   p.lsp_type_definitions)
+          map('<leader>ls',  p.lsp_symbols)
+          map('<leader>ws',  p.lsp_workspace_symbols)
           map('<leader>ca', require("actions-preview").code_actions, '[C]ode [A]ction')
           -- Opens a popup that displays documentation about the word under your cursor
           map('K', vim.lsp.buf.hover, 'Hover Documentation')
@@ -267,16 +229,6 @@ require("lazy").setup({
           'typescriptreact',
           'typescript.tsx',
         },
-      }
-      -- helm
-      require("lspconfig").helm_ls.setup {
-        settings = {
-          ['helm-ls'] = {
-            yamlls = {
-              path = "yaml-language-server",
-            }
-          }
-        }
       }
     end,
   },
@@ -412,29 +364,7 @@ require("lazy").setup({
       require('nvim-treesitter.configs').setup(opts)
     end,
   },
-  { -- Useful plugin to show you pending keybinds.
-    'folke/which-key.nvim',
-    event = 'VimEnter',
-    config = function()
-      require('which-key').setup()
-      -- Document existing key chains
-      require('which-key').add({
-        {'<leader>c' , group = '[C]ode' },
-        {'<leader>d', group = '[D]ocument'},
-        {'<leader>r', group = '[R]ename'},
-        {'<leader>s', group = '[S]earch'},
-      })
-    end,
-  },
-  {
-    "linrongbin16/gitlinker.nvim",
-    cmd = "GitLink",
-    opts = {},
-    keys = {
-      { "<leader>gy", "<cmd>GitLink<cr>", mode = { "n", "v" }, desc = "Yank git link" },
-    },
-  },
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
+    { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     event = 'BufRead',
     opts = {
@@ -499,7 +429,6 @@ require("lazy").setup({
       vim.keymap.set("i", "<C-g>", "<Plug>(copilot-suggest)")
     end,
   },
-  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
   { "kevinhwang91/nvim-bqf", ft = 'qf' }, -- quickfix preview
   { "thinca/vim-qfreplace", ft = 'qf' },
   { "sebdah/vim-delve", ft = 'go', config = function()
@@ -511,21 +440,5 @@ require("lazy").setup({
       { nargs = 0 }
     )
   end
-  },
-  {
-    "kdheepak/lazygit.nvim",
-    cmd = {
-      "LazyGit",
-      "LazyGitConfig",
-      "LazyGitCurrentFile",
-      "LazyGitFilter",
-      "LazyGitFilterCurrentFile",
-    },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    keys = {
-      { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
-    }
   },
 })
