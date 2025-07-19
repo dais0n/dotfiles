@@ -40,10 +40,10 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, { -- remember cursor position
 })
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -86,9 +86,9 @@ require("lazy").setup({
     priority = 1000,
     ---@type snacks.Config
     opts = {
-      indent    = { enabled = true },  -- indent‑blankline 代替
-      lazygit   = { enabled = true },  -- lazygit.nvim 代替
-      gitbrowse = { enabled = true },  -- gitlinker.nvim 代替
+      indent    = { enabled = true },
+      lazygit   = { enabled = true },
+      gitbrowse = { enabled = true },
 
       picker = {
         grep = { live = true },
