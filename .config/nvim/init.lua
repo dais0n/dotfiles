@@ -28,6 +28,7 @@ vim.opt.mouse = 'a'
 vim.opt.autoread = true
 vim.opt.autowrite = true
 vim.opt.ttyfast = true
+vim.env.PATH = vim.env.HOME .. "/.local/share/mise/shims:" .. vim.env.PATH
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>') -- clear on pressing <Esc> in normal mode
 vim.api.nvim_create_autocmd('BufReadPost', {
@@ -106,11 +107,6 @@ require("lazy").setup({
       { "<leader><leader>", function() require("snacks").picker.buffers() end },
       { "<leader>b", function() require("snacks").picker.lines({ cwd = false }) end},
     },
-  },
-  {
-    'williamboman/mason.nvim',
-    cmd = { 'Mason', 'MasonInstall', 'MasonUninstall', 'MasonLog', 'MasonUpdate' },
-    config = true,
   },
   { 'j-hui/fidget.nvim', tag = 'v1.0.0', event = 'LspAttach', config = true },
   { -- filer
@@ -322,8 +318,6 @@ require("lazy").setup({
   },
 })
 
-require('mason').setup()
-
 local capabilities = vim.tbl_deep_extend('force',
   vim.lsp.protocol.make_client_capabilities(),
   require('cmp_nvim_lsp').default_capabilities()
@@ -360,6 +354,7 @@ vim.lsp.config('lua_ls', {
 
 vim.lsp.config('gopls', {
   cmd = { 'gopls' },
+  filetypes = { 'go' },
   root_markers = { 'go.work', 'go.mod', '.git' },
   settings = {
     gopls = {
@@ -380,6 +375,7 @@ vim.lsp.config('tsserver', {
 })
 
 vim.lsp.config('typos_lsp', {
+  cmd = { 'typos'},
   init_options = { config = vim.fn.expand('~/.config/typos/.typos.toml') },
 })
 
