@@ -9,3 +9,8 @@ typos= "latest"
 lua-language-server= "latest"
 "aqua:docker/cli" = "latest"
 "ubi:rossmacarthur/sheldon" = { version = "latest", matching = "musl" }
+ruby = "3.2"
+node = "22"
+python = "3.12"
+uv = "latest"
+"ubi:tekumara/typos-lsp" = "latest"

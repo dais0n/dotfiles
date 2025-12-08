@@ -217,7 +217,6 @@ require("lazy").setup({
       require('mini.surround').setup()
       require("mini.pairs").setup()
       require("mini.icons").setup()
-      require("mini.statusline").setup()
     end,
   },
   { -- Highlight, edit, and navigate code
@@ -375,7 +374,7 @@ vim.lsp.config('tsserver', {
 })
 
 vim.lsp.config('typos_lsp', {
-  cmd = { 'typos'},
+  cmd = { 'typos-lsp'},
   init_options = { config = vim.fn.expand('~/.config/typos/.typos.toml') },
 })
 

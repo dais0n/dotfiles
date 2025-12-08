@@ -71,9 +71,13 @@ setopt SHARE_HISTORY
 setopt MAGIC_EQUAL_SUBST
 setopt PRINT_EIGHT_BIT
 
+zstyle ':chpwd:*' recent-dirs-max 200
+zstyle ':chpwd:*' recent-dirs-default yes
 
 # ref: https://gist.github.com/danydev/4ca4f5c523b19b17e9053dfa9feb246d
+autoload -Uz chpwd_recent_dirs cdr
 autoload -U add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
 function my_zshaddhistory() {
   LASTHIST=$1
   return 2
@@ -105,6 +109,10 @@ widget::history() {
 zle -N widget::history
 bindkey "^R" widget::history
 
+function texc() {
+  platex "$1" && platex "$1" && dvipdfmx "${1%.tex}.dvi" && rm -f ${1%.tex}.{aux,log,dvi}
+}
+
 # alias
 alias k='kubectl'
 alias g='git'
@@ -113,6 +121,18 @@ alias ghd='cd $(ghq list --full-path | fzf)'
 alias clip.exe='iconv -t sjis | clip.exe'
 alias pbcopy='clip.exe'
 (( ${+commands[nvim]} )) && alias vi='nvim'
+
+function fzf-cdr() {
+    local selected_dir=$(cdr -l | awk '{ print $2 }' | fzf --reverse)
+    if [ -n "$selected_dir" ]; then
+        BUFFER="cd ${selected_dir}"
+        zle accept-line
+    fi
+    zle clear-screen
+}
+zle -N fzf-cdr
+setopt noflowcontrol
+bindkey '^q' fzf-cdr
 
 # plugin load by sheldon
 sheldon::load() {
