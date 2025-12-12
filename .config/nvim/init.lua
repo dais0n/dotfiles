@@ -221,21 +221,22 @@ require("lazy").setup({
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    branch = 'main',
+    lazy = false,
     build = ':TSUpdate',
-    opts = {
-      ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'go', 'ruby', 'tsx', 'javascript', 'typescript', 'proto'  },
-      auto_install = true,
-      highlight = {
-        enable = true,
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby', 'markdown' },
-      },
-      indent = { enable = true, disable = { 'ruby' } },
-    },
-    config = function(_, opts) -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-      require('nvim-treesitter.configs').setup(opts)
+    config = function()
+      require('nvim-treesitter').setup {}
+      -- Install parsers
+      local parsers = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'go', 'ruby', 'tsx', 'javascript', 'typescript', 'proto', 'latex' }
+      require('nvim-treesitter').install(parsers)
+      -- Enable treesitter highlighting
+      vim.api.nvim_create_autocmd('FileType', {
+        callback = function()
+          if vim.treesitter.get_parser(0, vim.bo.filetype, { error = false }) then
+            vim.treesitter.start()
+          end
+        end,
+      })
     end,
   },
     { -- Adds git related signs to the gutter, as well as utilities for managing changes
