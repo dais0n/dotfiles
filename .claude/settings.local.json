@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(mise trust:*)"
-    ],
-    "deny": [],
-    "ask": []
-  }
-}

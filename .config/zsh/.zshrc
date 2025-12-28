@@ -52,6 +52,7 @@ elif [ ! -S "$SSH_AUTH_SOCK" ]; then
 elif [ ! -L "$SSH_AUTH_SOCK" ]; then
     ln -snf "$SSH_AUTH_SOCK" $AUTH_SOCK && export SSH_AUTH_SOCK=$AUTH_SOCK
 fi
+export VISUAL="vi"
 
 # history
 export HISTFILE="${XDG_STATE_HOME}/zsh/.zsh_history"

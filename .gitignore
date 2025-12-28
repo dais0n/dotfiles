@@ -12,3 +12,4 @@ node_modules
 *.zwc
 .zcomp*
 .chpwd-recent-dirs
+.claude

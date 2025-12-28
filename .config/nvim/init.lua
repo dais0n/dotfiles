@@ -232,7 +232,8 @@ require("lazy").setup({
       -- Enable treesitter highlighting
       vim.api.nvim_create_autocmd('FileType', {
         callback = function()
-          if vim.treesitter.get_parser(0, vim.bo.filetype, { error = false }) then
+          local ok, parser = pcall(vim.treesitter.get_parser, 0, vim.bo.filetype)
+          if ok and parser then
             vim.treesitter.start()
           end
         end,
@@ -379,7 +380,13 @@ vim.lsp.config('typos_lsp', {
   init_options = { config = vim.fn.expand('~/.config/typos/.typos.toml') },
 })
 
-vim.lsp.enable({ 'lua_ls', 'gopls', 'tsserver', 'typos_lsp' })
+vim.lsp.config('clangd', {
+  cmd = { 'clangd', '--background-index', '--clang-tidy' },
+  filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
+  root_markers = { 'compile_commands.json', '.clangd', '.git' },
+})
+
+vim.lsp.enable({ 'lua_ls', 'gopls', 'tsserver', 'typos_lsp', 'clangd' })
 
 vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = '*.go',
