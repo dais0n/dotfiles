@@ -38,6 +38,12 @@ vim.keymap.set('n', ']d', function() vim.diagnostic.jump({ count = 1 }) end)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
+vim.diagnostic.config({
+  virtual_text = { spacing = 2, prefix = '●' },
+  float = { border = 'rounded', source = true },
+  severity_sort = true,
+})
+
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
@@ -78,6 +84,11 @@ require("lazy").setup({
       indent    = { enabled = true },
       lazygit   = { enabled = true },
       gitbrowse = { enabled = true },
+      notifier  = { enabled = true },
+      quickfile = { enabled = true },
+      bigfile   = { enabled = true },
+      words     = { enabled = true },
+      input     = { enabled = true },
 
       picker = {
         grep = { live = true },
@@ -103,12 +114,11 @@ require("lazy").setup({
       { "<leader>b", function() require("snacks").picker.lines({ cwd = false }) end},
     },
   },
-  { 'j-hui/fidget.nvim', tag = 'v1.0.0', event = 'LspAttach', config = true },
   { -- filer
     'stevearc/oil.nvim',
     cmd = 'Oil',
     keys = {
-      { "<leader>o", "<cmd>Oil<CR>", desc = "Oil" },
+      { "<leader>o", function() require("oil").open(nil, { preview = {} }) end, desc = "Oil" },
     },
     opts = {
       view_options = {
@@ -124,9 +134,9 @@ require("lazy").setup({
       { "hrsh7th/cmp-cmdline", event = "CmdlineEnter" },
       { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
       { "hrsh7th/cmp-nvim-lsp-signature-help", event = "InsertEnter" },
-      { "hrsh7th/cmp-nvim-lua", event = "InsertEnter" },
       { "hrsh7th/cmp-path", event = "InsertEnter" },
-      { "onsails/lspkind.nvim", event = "InsertEnter" }
+      { "onsails/lspkind.nvim", event = "InsertEnter" },
+      { "zbirenbaum/copilot-cmp", event = "InsertEnter", config = true }
     },
     config = function()
       -- See `:help cmp`
@@ -145,11 +155,11 @@ require("lazy").setup({
           ["<C-y>"] = require('cmp').mapping.confirm { select = true },
         },
         sources = {
+          { name = 'copilot' },
           { name = 'nvim_lsp' },
           { name = 'path' },
           { name = "buffer" },
           { name = "nvim_lsp_signature_help" },
-          { name = 'nvim_lua' },
           { name = "cmdline" },
         },
         formatting = {
@@ -158,11 +168,11 @@ require("lazy").setup({
             preset = 'codicons',
             maxwidth = 50,
             menu = {
+              copilot = "[AI]",
               nvim_lsp = "[LSP]",
               cmdline = "[CL]",
               buffer = "[BUF]",
               path = "[PH]",
-              treesitter = "[TS]",
             },
             ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
             show_labelDetails = true, -- show labelDetails in menu. Disabled by default
@@ -246,11 +256,10 @@ require("lazy").setup({
     end
   },
   {
-    "previm/previm",
-    ft = { "markdown", "asciidoc" },
-    dependencies = {
-      "tyru/open-browser.vim",
-    },
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = "cd app && npm install",
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",
@@ -272,21 +281,13 @@ require("lazy").setup({
     }
   },
   {
-    "github/copilot.vim",
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
     event = "InsertEnter",
-    config = function()
-      vim.g.copilot_no_tab_map = true
-      vim.keymap.set(
-        "i",
-        "<C-f>",
-        'copilot#Accept("<CR>")',
-        { silent = true, expr = true, script = true, replace_keycodes = false }
-      )
-      vim.keymap.set("i", "<C-j>", "<Plug>(copilot-next)")
-      vim.keymap.set("i", "<C-k>", "<Plug>(copilot-previous)")
-      vim.keymap.set("i", "<C-o>", "<Plug>(copilot-dismiss)")
-      vim.keymap.set("i", "<C-g>", "<Plug>(copilot-suggest)")
-    end,
+    opts = {
+      suggestion = { enabled = false },
+      panel = { enabled = false },
+    },
   },
   { "kevinhwang91/nvim-bqf", ft = 'qf' }, -- quickfix preview
   { "thinca/vim-qfreplace", ft = 'qf' },
@@ -336,22 +337,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local map = function(keys, func, desc)
       vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
     end
-    map('gd', vim.lsp.buf.definition,     'Go to Definition')
-    map('gr', vim.lsp.buf.references,     'References')
-    map('gi', vim.lsp.buf.implementation, 'Implementations')
+    map('gd', function() require('snacks').picker.lsp_definitions() end,      'Go to Definition')
+    map('gr', function() require('snacks').picker.lsp_references() end,      'References')
+    map('gi', function() require('snacks').picker.lsp_implementations() end, 'Implementations')
+    map('gt', function() require('snacks').picker.lsp_type_definitions() end, 'Type Definition')
     map('K',  vim.lsp.buf.hover,          'Hover')
     map('<leader>ca', vim.lsp.buf.code_action, 'Code Action')
     map('<leader>rn', vim.lsp.buf.rename,      'Rename')
+    map('<leader>f',  function() vim.lsp.buf.format({ async = true }) end, 'Format')
+    map('<leader>ss', function() require('snacks').picker.lsp_symbols() end, 'LSP Symbols')
 
-    if client.server_capabilities.documentHighlightProvider then
-      vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-        buffer = bufnr,
-        callback = vim.lsp.buf.document_highlight,
-      })
-      vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-        buffer = bufnr,
-        callback = vim.lsp.buf.clear_references,
-      })
+    if client.server_capabilities.inlayHintProvider then
+      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
 
     if client.name == 'tsserver' then
@@ -396,26 +393,6 @@ vim.lsp.config('clangd', {
 })
 
 vim.lsp.enable({ 'lua_ls', 'gopls', 'tsserver', 'typos_lsp', 'clangd' })
-
--- .claude filetype: @ key opens file picker and inserts path
-vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-  pattern = '*.claude',
-  callback = function(ev)
-    vim.keymap.set('i', '@', function()
-      require('snacks').picker.files({
-        cwd = vim.env.HOME,
-        confirm = function(picker, item)
-          picker:close()
-          if item then
-            vim.schedule(function()
-              vim.api.nvim_put({ item.file .. ' ' }, 'c', true, true)
-            end)
-          end
-        end,
-      })
-    end, { buffer = ev.buf })
-  end,
-})
 
 vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = '*.go',
