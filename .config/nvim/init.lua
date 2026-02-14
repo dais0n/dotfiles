@@ -18,28 +18,23 @@ vim.opt.inccommand = 'split' -- Preview substitutions live, as you type
 vim.opt.scrolloff = 10 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.clipboard = "unnamedplus"
 vim.opt.swapfile = false
-vim.opt.termguicolors = true -- popup window color
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.expandtab = true
-vim.opt.autoindent = true
-vim.opt.smartindent = true
-vim.opt.mouse = 'a'
 vim.opt.autoread = true
 vim.opt.autowrite = true
-vim.opt.ttyfast = true
 vim.env.PATH = vim.env.HOME .. "/.local/share/mise/shims:" .. vim.env.PATH
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>') -- clear on pressing <Esc> in normal mode
 vim.api.nvim_create_autocmd('BufReadPost', {
   callback = function()
-    pcall(function() vim.api.nvim_exec('silent! normal! g`"zv', false) end)
+    pcall(function() vim.cmd('silent! normal! g`"zv') end)
   end,
 })
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+vim.keymap.set('n', '[d', function() vim.diagnostic.jump({ count = -1 }) end)
+vim.keymap.set('n', ']d', function() vim.diagnostic.jump({ count = 1 }) end)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
@@ -63,7 +58,7 @@ vim.g.clipboard = {
 
 -- plugin install
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -111,38 +106,26 @@ require("lazy").setup({
   { 'j-hui/fidget.nvim', tag = 'v1.0.0', event = 'LspAttach', config = true },
   { -- filer
     'stevearc/oil.nvim',
-    opts = {},
-    config = function()
-      require("oil").setup({
-        view_options = {
-          show_hidden = true,
-        }
-      })
-      vim.keymap.set("n", "<leader>o", ":Oil<CR>", { noremap = true, silent = true})
-    end
-  },
-  { 'vim-test/vim-test',
-    cmd={"TestNearest", "TestFile"},
-    config=function ()
-      vim.g['test#strategy'] = 'neovim'
-      vim.g['test#neovim#start_normal'] = '1'
-      vim.g['test#neovim#term_position'] = 'vert'
-    end
+    cmd = 'Oil',
+    keys = {
+      { "<leader>o", "<cmd>Oil<CR>", desc = "Oil" },
+    },
+    opts = {
+      view_options = {
+        show_hidden = true,
+      },
+    },
   },
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
-      { "neovim/nvim-lspconfig", event = "InsertEnter" },
       { "hrsh7th/cmp-buffer", event = "InsertEnter" },
       { "hrsh7th/cmp-cmdline", event = "CmdlineEnter" },
       { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
-      { "hrsh7th/cmp-nvim-lsp-document-symbol", event = "InsertEnter" },
       { "hrsh7th/cmp-nvim-lsp-signature-help", event = "InsertEnter" },
       { "hrsh7th/cmp-nvim-lua", event = "InsertEnter" },
       { "hrsh7th/cmp-path", event = "InsertEnter" },
-      { 'hrsh7th/vim-vsnip', event = 'InsertEnter'},
-      { "ray-x/cmp-treesitter", event = "InsertEnter" },
       { "onsails/lspkind.nvim", event = "InsertEnter" }
     },
     config = function()
@@ -150,7 +133,7 @@ require("lazy").setup({
       require('cmp').setup {
         snippet = {
           expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body)
+            vim.snippet.expand(args.body)
           end,
         },
         completion = { completeopt = 'menu,menuone,noinsert' },
@@ -166,7 +149,7 @@ require("lazy").setup({
           { name = 'path' },
           { name = "buffer" },
           { name = "nvim_lsp_signature_help" },
-          { name = 'treesitter' },
+          { name = 'nvim_lua' },
           { name = "cmdline" },
         },
         formatting = {
@@ -222,7 +205,7 @@ require("lazy").setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     branch = 'main',
-    lazy = false,
+    event = 'BufRead',
     build = ':TSUpdate',
     config = function()
       require('nvim-treesitter').setup {}
@@ -254,12 +237,12 @@ require("lazy").setup({
     },
   },
   {
-    "EdenEast/nightfox.nvim",
+    "catppuccin/nvim",
+    name = "catppuccin",
     lazy = false,
     priority = 1000,
-    opts = {},
     config = function()
-      vim.cmd("colorscheme nightfox")
+      vim.cmd("colorscheme catppuccin")
     end
   },
   {
@@ -290,7 +273,7 @@ require("lazy").setup({
   },
   {
     "github/copilot.vim",
-    event = "VimEnter",
+    event = "InsertEnter",
     config = function()
       vim.g.copilot_no_tab_map = true
       vim.keymap.set(
@@ -317,35 +300,65 @@ require("lazy").setup({
     )
   end
   },
+}, {
+  change_detection = { notify = false },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "matchparen",
+        "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
 })
 
-local capabilities = vim.tbl_deep_extend('force',
-  vim.lsp.protocol.make_client_capabilities(),
-  require('cmp_nvim_lsp').default_capabilities()
-)
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(ev)
+    local client = vim.lsp.get_clients({ id = ev.data.client_id })[1]
+    if not client then return end
 
-local function on_attach(client, bufnr)
-  local map = function(keys, func, desc)
-    vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
-  end
-  map('gd', vim.lsp.buf.definition,        'Go to Definition')
-  map('gr', vim.lsp.buf.references,        'References')
-  map('gi', vim.lsp.buf.implementation,    'Implementations')
-  map('K',  vim.lsp.buf.hover,             'Hover')
+    -- lazy load cmp_nvim_lsp capabilities on first attach
+    if not vim.g._lsp_capabilities_set then
+      vim.g._lsp_capabilities_set = true
+      local capabilities = vim.tbl_deep_extend('force',
+        vim.lsp.protocol.make_client_capabilities(),
+        require('cmp_nvim_lsp').default_capabilities()
+      )
+      vim.lsp.config('*', { capabilities = capabilities })
+    end
+    local bufnr = ev.buf
+    local map = function(keys, func, desc)
+      vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+    end
+    map('gd', vim.lsp.buf.definition,     'Go to Definition')
+    map('gr', vim.lsp.buf.references,     'References')
+    map('gi', vim.lsp.buf.implementation, 'Implementations')
+    map('K',  vim.lsp.buf.hover,          'Hover')
+    map('<leader>ca', vim.lsp.buf.code_action, 'Code Action')
+    map('<leader>rn', vim.lsp.buf.rename,      'Rename')
 
-  if client.server_capabilities.documentHighlightProvider then
-    vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-      buffer = bufnr,
-      callback = vim.lsp.buf.document_highlight,
-    })
-    vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-      buffer = bufnr,
-      callback = vim.lsp.buf.clear_references,
-    })
-  end
-end
+    if client.server_capabilities.documentHighlightProvider then
+      vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+        buffer = bufnr,
+        callback = vim.lsp.buf.document_highlight,
+      })
+      vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+        buffer = bufnr,
+        callback = vim.lsp.buf.clear_references,
+      })
+    end
 
-vim.lsp.config('*', { capabilities = capabilities, on_attach = on_attach })
+    if client.name == 'tsserver' then
+      client.server_capabilities.documentFormattingProvider = false
+    end
+  end,
+})
 
 vim.lsp.config('lua_ls', {
   cmd = { 'lua-language-server' },
@@ -369,10 +382,6 @@ vim.lsp.config('tsserver', {
   cmd = { 'typescript-language-server', '--stdio' },
   filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx' },
   root_markers = { 'package.json', 'tsconfig.json', '.git' },
-  on_attach = function(client, bufnr)
-    client.server_capabilities.documentFormattingProvider = false
-    on_attach(client, bufnr)
-  end,
 })
 
 vim.lsp.config('typos_lsp', {
@@ -388,6 +397,26 @@ vim.lsp.config('clangd', {
 
 vim.lsp.enable({ 'lua_ls', 'gopls', 'tsserver', 'typos_lsp', 'clangd' })
 
+-- .claude filetype: @ key opens file picker and inserts path
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = '*.claude',
+  callback = function(ev)
+    vim.keymap.set('i', '@', function()
+      require('snacks').picker.files({
+        cwd = vim.env.HOME,
+        confirm = function(picker, item)
+          picker:close()
+          if item then
+            vim.schedule(function()
+              vim.api.nvim_put({ item.file .. ' ' }, 'c', true, true)
+            end)
+          end
+        end,
+      })
+    end, { buffer = ev.buf })
+  end,
+})
+
 vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = '*.go',
   callback = function()
@@ -397,7 +426,8 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     for cid, res in pairs(result or {}) do
       for _, r in pairs(res.result or {}) do
         if r.edit then
-          local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or 'utf-16'
+          local client = vim.lsp.get_clients({ id = cid })[1]
+          local enc = client and client.offset_encoding or 'utf-16'
           vim.lsp.util.apply_workspace_edit(r.edit, enc)
         end
       end
