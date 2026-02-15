@@ -209,6 +209,7 @@ require("lazy").setup({
       require('mini.surround').setup()
       require("mini.pairs").setup()
       require("mini.icons").setup()
+      require("mini.statusline").setup()
     end,
   },
   { -- Highlight, edit, and navigate code
