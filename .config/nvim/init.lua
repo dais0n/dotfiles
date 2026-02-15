@@ -21,7 +21,6 @@ vim.opt.swapfile = false
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.expandtab = true
-vim.opt.autoread = true
 vim.opt.autowrite = true
 vim.env.PATH = vim.env.HOME .. "/.local/share/mise/shims:" .. vim.env.PATH
 

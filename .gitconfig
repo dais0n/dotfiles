@@ -1,6 +1,5 @@
 [color]
     ui = auto
-    status = always
 [include]
     path = ~/.gitconfig.local
 [core]
@@ -17,16 +16,26 @@
     cma = commit -a -v
     d = diff -C --stat -p
     dc = diff --cached
-    br = branch
-    s = status --short --branch
-    rv = remote --verbose
     l = log --graph --date=short --decorate=short --pretty=format:'%C(red)%h　%C(reset)-%C(yellow)%d %Creset%s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
     ll = log --graph --all --abbrev-commit --date=relative --pretty=format:'%C(red)%h　%C(reset)-%C(yellow)%d %Creset%s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
     o = open
     om = open origin main
     od = open origin develop
+[fetch]
+    prune = true
 [push]
     default = current
+    autoSetupRemote = true
+[rebase]
+    autoStash = true
+[merge]
+    conflictstyle = zdiff3
+[rerere]
+    enabled = true
+[diff]
+    algorithm = histogram
+[branch]
+    sort = -committerdate
 [credential]
     helper = store
 [user]
