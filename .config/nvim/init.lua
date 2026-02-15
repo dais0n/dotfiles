@@ -289,6 +289,11 @@ require("lazy").setup({
       panel = { enabled = false },
     },
   },
+  {
+    "pmizio/typescript-tools.nvim",
+    ft = { "typescript", "typescriptreact", "typescript.tsx" },
+    opts = {},
+  },
   { "kevinhwang91/nvim-bqf", ft = 'qf' }, -- quickfix preview
   { "thinca/vim-qfreplace", ft = 'qf' },
   { "sebdah/vim-delve", ft = 'go', config = function()
@@ -323,6 +328,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
     local client = vim.lsp.get_clients({ id = ev.data.client_id })[1]
     if not client then return end
+    vim.notify(client.name .. " attached", vim.log.levels.INFO)
 
     -- lazy load cmp_nvim_lsp capabilities on first attach
     if not vim.g._lsp_capabilities_set then
@@ -351,7 +357,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
 
-    if client.name == 'tsserver' then
+    if client.name == 'typescript-tools' then
       client.server_capabilities.documentFormattingProvider = false
     end
   end,
@@ -375,15 +381,16 @@ vim.lsp.config('gopls', {
   },
 })
 
-vim.lsp.config('tsserver', {
-  cmd = { 'typescript-language-server', '--stdio' },
-  filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx' },
-  root_markers = { 'package.json', 'tsconfig.json', '.git' },
-})
-
 vim.lsp.config('typos_lsp', {
   cmd = { 'typos-lsp'},
   init_options = { config = vim.fn.expand('~/.config/typos/.typos.toml') },
+})
+
+vim.lsp.config('ruby_lsp', {
+  cmd = { 'ruby-lsp' },
+  filetypes = { 'ruby', 'eruby' },
+  root_markers = { 'Gemfile', '.git' },
+  single_file_support = true,
 })
 
 vim.lsp.config('clangd', {
@@ -392,7 +399,7 @@ vim.lsp.config('clangd', {
   root_markers = { 'compile_commands.json', '.clangd', '.git' },
 })
 
-vim.lsp.enable({ 'lua_ls', 'gopls', 'tsserver', 'typos_lsp', 'clangd' })
+vim.lsp.enable({ 'lua_ls', 'gopls', 'ruby_lsp', 'typos_lsp', 'clangd' })
 
 vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = '*.go',
