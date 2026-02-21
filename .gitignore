@@ -12,4 +12,9 @@ node_modules
 *.zwc
 .zcomp*
 .chpwd-recent-dirs
+### for LLMs ###
 .claude
+settings.local.json
+lefthook.yml
+### Neovim ###
+.nvim.lua

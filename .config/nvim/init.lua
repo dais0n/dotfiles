@@ -2,6 +2,7 @@
 vim.loader.enable()
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.opt.exrc = true
 vim.opt.number = true
 vim.opt.breakindent = true
 vim.opt.undofile = true
@@ -16,8 +17,10 @@ vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split' -- Preview substitutions live, as you type
 vim.opt.scrolloff = 10 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.clipboard = "unnamedplus"
 vim.opt.swapfile = false
+vim.opt.signcolumn = 'yes'
+vim.opt.cursorline = true
+vim.opt.smoothscroll = true
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.expandtab = true
@@ -31,11 +34,11 @@ vim.api.nvim_create_autocmd('BufReadPost', {
   end,
 })
 
--- Diagnostic keymaps
 vim.keymap.set('n', '[d', function() vim.diagnostic.jump({ count = -1 }) end)
 vim.keymap.set('n', ']d', function() vim.diagnostic.jump({ count = 1 }) end)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+vim.keymap.set('n', '<Space>v', '<C-v>', { desc = '矩形選択' })
 
 vim.diagnostic.config({
   virtual_text = { spacing = 2, prefix = '●' },
@@ -74,11 +77,11 @@ if not vim.uv.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
+vim.lsp.config('*', {})
 require("lazy").setup({
   { -- Fuzzy finder
     "folke/snacks.nvim",
     event = 'VeryLazy',
-    priority = 1000,
     opts = {
       indent    = { enabled = true },
       lazygit   = { enabled = true },
@@ -117,7 +120,7 @@ require("lazy").setup({
     'stevearc/oil.nvim',
     cmd = 'Oil',
     keys = {
-      { "<leader>o", function() require("oil").open(nil, { preview = {} }) end, desc = "Oil" },
+      { "<leader>o", function() require("oil").open() end, desc = "Oil" },
     },
     opts = {
       view_options = {
@@ -126,72 +129,19 @@ require("lazy").setup({
     },
   },
   { -- Autocompletion
-    'hrsh7th/nvim-cmp',
-    event = { 'InsertEnter', 'CmdlineEnter' },
-    dependencies = {
-      { "hrsh7th/cmp-buffer", event = "InsertEnter" },
-      { "hrsh7th/cmp-cmdline", event = "CmdlineEnter" },
-      { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
-      { "hrsh7th/cmp-nvim-lsp-signature-help", event = "InsertEnter" },
-      { "hrsh7th/cmp-path", event = "InsertEnter" },
-      { "onsails/lspkind.nvim", event = "InsertEnter" },
-      { "zbirenbaum/copilot-cmp", event = "InsertEnter", config = true }
+    'saghen/blink.cmp',
+    version = '*',
+    opts = {
+      keymap = { preset = 'default' },
+      sources = {
+        default = { 'lsp', 'path', 'buffer' },
+      },
+      cmdline = { enabled = true },
+      completion = {
+        documentation = { auto_show = true },
+      },
+      signature = { enabled = true },
     },
-    config = function()
-      -- See `:help cmp`
-      require('cmp').setup {
-        snippet = {
-          expand = function(args)
-            vim.snippet.expand(args.body)
-          end,
-        },
-        completion = { completeopt = 'menu,menuone,noinsert' },
-        -- No, but seriously. Please read `:help ins-completion`, it is really good!
-        mapping = require('cmp').mapping.preset.insert {
-          ['<C-n>'] = require('cmp').mapping.select_next_item(),
-          ['<C-p>'] = require('cmp').mapping.select_prev_item(),
-          ['<C-b>'] = require('cmp').mapping.scroll_docs(-4),
-          ["<C-y>"] = require('cmp').mapping.confirm { select = true },
-        },
-        sources = {
-          { name = 'copilot' },
-          { name = 'nvim_lsp' },
-          { name = 'path' },
-          { name = "buffer" },
-          { name = "nvim_lsp_signature_help" },
-          { name = "cmdline" },
-        },
-        formatting = {
-          format = require("lspkind").cmp_format({
-            mode = 'symbol_text', -- show only symbol annotations
-            preset = 'codicons',
-            maxwidth = 50,
-            menu = {
-              copilot = "[AI]",
-              nvim_lsp = "[LSP]",
-              cmdline = "[CL]",
-              buffer = "[BUF]",
-              path = "[PH]",
-            },
-            ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-            show_labelDetails = true, -- show labelDetails in menu. Disabled by default
-          })
-        }
-      }
-      require('cmp').setup.cmdline("/", {
-        mapping = require('cmp').mapping.preset.cmdline(),
-        sources = {
-          { name = "buffer" },
-        },
-      })
-      require('cmp').setup.cmdline(":", {
-        mapping = require('cmp').mapping.preset.cmdline(),
-        sources = {
-          { name = "path" },
-          { name = "cmdline" },
-        },
-      })
-    end,
   },
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
@@ -214,23 +164,12 @@ require("lazy").setup({
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
-    branch = 'main',
-    event = 'BufRead',
     build = ':TSUpdate',
     config = function()
-      require('nvim-treesitter').setup {}
-      -- Install parsers
-      local parsers = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'go', 'ruby', 'tsx', 'javascript', 'typescript', 'proto', 'latex' }
-      require('nvim-treesitter').install(parsers)
-      -- Enable treesitter highlighting
-      vim.api.nvim_create_autocmd('FileType', {
-        callback = function()
-          local ok, parser = pcall(vim.treesitter.get_parser, 0, vim.bo.filetype)
-          if ok and parser then
-            vim.treesitter.start()
-          end
-        end,
-      })
+      require('nvim-treesitter.configs').setup {
+        ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'go', 'ruby', 'tsx', 'javascript', 'typescript', 'proto' },
+        highlight = { enable = true },
+      }
     end,
   },
     { -- Adds git related signs to the gutter, as well as utilities for managing changes
@@ -256,12 +195,6 @@ require("lazy").setup({
     end
   },
   {
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    ft = { "markdown" },
-    build = "cd app && npm install",
-  },
-  {
     "MeanderingProgrammer/render-markdown.nvim",
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' },
     ft = { "markdown" },
@@ -280,22 +213,7 @@ require("lazy").setup({
       },
     }
   },
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    opts = {
-      suggestion = { enabled = false },
-      panel = { enabled = false },
-    },
-  },
-  {
-    "pmizio/typescript-tools.nvim",
-    ft = { "typescript", "typescriptreact", "typescript.tsx" },
-    opts = {},
-  },
   { "kevinhwang91/nvim-bqf", ft = 'qf' }, -- quickfix preview
-  { "thinca/vim-qfreplace", ft = 'qf' },
   { "sebdah/vim-delve", ft = 'go', config = function()
     vim.api.nvim_create_user_command(
       'DlvDebugWorkspace',
@@ -328,17 +246,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
     local client = vim.lsp.get_clients({ id = ev.data.client_id })[1]
     if not client then return end
-    vim.notify(client.name .. " attached", vim.log.levels.INFO)
 
-    -- lazy load cmp_nvim_lsp capabilities on first attach
-    if not vim.g._lsp_capabilities_set then
-      vim.g._lsp_capabilities_set = true
-      local capabilities = vim.tbl_deep_extend('force',
-        vim.lsp.protocol.make_client_capabilities(),
-        require('cmp_nvim_lsp').default_capabilities()
-      )
-      vim.lsp.config('*', { capabilities = capabilities })
-    end
     local bufnr = ev.buf
     local map = function(keys, func, desc)
       vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
@@ -360,6 +268,21 @@ vim.api.nvim_create_autocmd('LspAttach', {
     if client.name == 'typescript-tools' then
       client.server_capabilities.documentFormattingProvider = false
     end
+
+  end,
+})
+
+vim.api.nvim_create_autocmd('LspProgress', {
+  callback = function(ev)
+    if ev.data and ev.data.params then
+      local val = ev.data.params.value
+      if val and val.kind == 'end' then
+        local client = vim.lsp.get_clients({ id = ev.data.client_id })[1]
+        if client then
+          vim.notify(client.name .. ': indexing complete', vim.log.levels.INFO)
+        end
+      end
+    end
   end,
 })
 
@@ -375,7 +298,7 @@ vim.lsp.config('gopls', {
   root_markers = { 'go.work', 'go.mod', '.git' },
   settings = {
     gopls = {
-      analyses = { unusedparams = true },
+      analyses = { unusedparams = true, nilness = true, unusedwrite = true, shadow = true },
       gofumpt   = true,
     },
   },
@@ -391,6 +314,21 @@ vim.lsp.config('ruby_lsp', {
   filetypes = { 'ruby', 'eruby' },
   root_markers = { 'Gemfile', '.git' },
   single_file_support = true,
+  init_options = {
+    indexing = {
+      excludedPatterns = {
+        '**/vendor/**',
+        '**/tmp/**',
+        '**/log/**',
+        '**/node_modules/**',
+        '**/public/**',
+        '**/spec/**',
+      },
+    },
+    enabledFeatures = {
+      diagnostics = false,
+    },
+  },
 })
 
 vim.lsp.config('clangd', {

@@ -1,10 +1,9 @@
-[color]
-    ui = auto
 [include]
     path = ~/.gitconfig.local
 [core]
     excludesfile = ~/.gitignore
     editor = nvim
+    pager = delta
 [pull]
     rebase = true
 [alias]
@@ -12,8 +11,8 @@
     s = status --short --branch
     st = stash
     b = branch -a
-    cm = commit -v
-    cma = commit -a -v
+    cm = commit
+    cma = commit -a
     d = diff -C --stat -p
     dc = diff --cached
     l = log --graph --date=short --decorate=short --pretty=format:'%C(red)%h　%C(reset)-%C(yellow)%d %Creset%s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
@@ -29,26 +28,21 @@
 [rebase]
     autoStash = true
 [merge]
-    conflictstyle = zdiff3
+	conflictstyle = diff3
 [rerere]
     enabled = true
 [diff]
     algorithm = histogram
+    colorMoved = default
 [branch]
     sort = -committerdate
-[credential]
-    helper = store
-[user]
-    name = dais0n
-    email = t.omura8383@gmail.com
-[diff "sopsdiffer"]
-    textconv = sops -d
-[secrets]
-	providers = git secrets --aws-provider
-	patterns = (A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}
-	patterns = (\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)(\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?
-	patterns = (\"|')?(AWS|aws|Aws)?_?(ACCOUNT|account|Account)_?(ID|id|Id)?(\"|')?\\s*(:|=>|=)\\s*(\"|')?[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}(\"|')?
-	allowed = AKIAIOSFODNN7EXAMPLE
-	allowed = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-[init]
-	templatedir = ~/.git-templates/git-secrets
+[column]
+    ui = auto
+[delta]
+    navigate = true
+    dark = true
+    side-by-side = true
+[commit]
+    verbose = true
+[url "git@github.com:"]
+    insteadOf = https://github.com/

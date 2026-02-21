@@ -5,7 +5,8 @@ setopt PROMPT_SUBST
 PS1='%F{green}%n@%m:%F{cyan}%~$(parse_git_branch)
 $ '
 parse_git_branch() {
-  local branch=$(git branch --show-current 2>/dev/null)
+  local branch
+  branch=${(%):-"$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"}
   [[ -n $branch ]] && echo " ($branch)"
 }
 
@@ -13,8 +14,10 @@ parse_git_branch() {
 typeset -U path
 path=(
     "/usr/local/bin"(N-/)
+    "/usr/local/go/bin"(N-/)
     "$HOME/.local/bin"(N-/)
     "$HOME/go/bin"(N-/)
+    "$HOME/.cargo/bin"(N-/)
     "$path[@]"
 )
 
@@ -30,7 +33,9 @@ export LS_COLORS="di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 for f in ~/.zsh.d/*.zsh(N); do source "$f"; done
 export EDITOR='nvim'
-AUTH_SOCK="$HOME/.ssh/.ssh-auth-sock"
+export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
+
+AUTH_SOCK="$HOME/.ssh/ssh-auth-sock"
 if [ -S "$AUTH_SOCK" ]; then
     export SSH_AUTH_SOCK=$AUTH_SOCK
 elif [ ! -S "$SSH_AUTH_SOCK" ]; then
@@ -54,14 +59,16 @@ setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
 setopt HIST_SAVE_NO_DUPS
 setopt INTERACTIVE_COMMENTS
-setopt SHARE_HISTORY
+setopt INC_APPEND_HISTORY
 setopt MAGIC_EQUAL_SUBST
 setopt PRINT_EIGHT_BIT
-setopt noflowcontrol
+setopt NO_FLOW_CONTROL
 setopt HIST_VERIFY
 
 zstyle ':chpwd:*' recent-dirs-max 200
 zstyle ':chpwd:*' recent-dirs-default yes
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/zcompcache"
 
 # ref: https://gist.github.com/danydev/4ca4f5c523b19b17e9053dfa9feb246d
 autoload -Uz chpwd_recent_dirs cdr
@@ -124,6 +131,23 @@ function fzf-cdr() {
 zle -N fzf-cdr
 bindkey '^q' fzf-cdr
 
+function extract() {
+  case $1 in
+    *.tar.gz|*.tgz) tar xzvf $1;;
+    *.tar.xz) tar Jxvf $1;;
+    *.zip) unzip $1;;
+    *.lzh) lha e $1;;
+    *.tar.bz2|*.tbz) tar xjvf $1;;
+    *.tar.Z) tar zxvf $1;;
+    *.gz) gzip -d $1;;
+    *.bz2) bzip2 -dc $1;;
+    *.Z) uncompress $1;;
+    *.tar) tar xvf $1;;
+    *.arj) unarj $1;;
+  esac
+}
+alias -s {gz,tgz,zip,lzh,bz2,tbz,Z,tar,arj,xz}=extract
+
 # plugin load by sheldon
 sheldon::load() {
   local plugins_file="$XDG_CONFIG_HOME/sheldon/plugins.toml"
@@ -141,19 +165,18 @@ sheldon::load() {
 sheldon::load
 
 autoload -Uz compinit
-if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
-  compinit
+if [[ -n ${XDG_CACHE_HOME}/zsh/zcompdump(#qN.mh+24) ]]; then
+  compinit -d "${XDG_CACHE_HOME}/zsh/zcompdump"
 else
-  compinit -C
+  compinit -C -d "${XDG_CACHE_HOME}/zsh/zcompdump"
 fi
 
-if type direnv &>/dev/null; then
+if (( ${+commands[direnv]} )); then
   eval "$(direnv hook zsh)"
 fi
 
-if type mise &>/dev/null; then
-  eval "$(mise activate zsh)"
-  eval "$(mise activate --shims)"
+if (( ${+commands[mise]} )); then
+  eval "$(mise activate zsh --shims)"
 fi
 
 # Claude Code prompt editing with tmux popup
