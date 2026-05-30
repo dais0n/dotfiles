@@ -14,12 +14,17 @@ shell = "zsh"
 
 [templates]
 defer = "{{ hooks | get: \"pre\" | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks | get: \"post\" | nl }}"
+fpath = "fpath+=( \"{{ dir }}\" )"
 
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"
 
-[plugins.zsh-syntax-highlighting]
-github = "zsh-users/zsh-syntax-highlighting"
+[plugins.pure]
+github = "sindresorhus/pure"
+apply = ["fpath"]
+
+[plugins.fast-syntax-highlighting]
+github = "zdharma-continuum/fast-syntax-highlighting"
 apply = ["defer"]
 
 [plugins.zsh-autosuggestions]
@@ -29,4 +34,4 @@ apply = ["defer"]
 
 [plugins.zsh-completions]
 github = "zsh-users/zsh-completions"
-apply = ["defer"]
+apply = ["fpath"]

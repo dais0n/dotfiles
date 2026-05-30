@@ -27,7 +27,14 @@ link: tools | mkdir
 	@ln -sfnv $(DOTFILES_DIR)/.gitconfig         $(HOME)/.gitconfig
 	@ln -sfnv $(DOTFILES_DIR)/.gitignore         $(HOME)/.gitignore
 	@ln -sfnv $(DOTFILES_DIR)/.config/zsh/.zshrc $(HOME)/.zshrc
-	@ln -sfnv $(DOTFILES_DIR)/.config/*          $(XDG_CONFIG_HOME)/
+	@for src in $(DOTFILES_DIR)/.config/*; do \
+		dst="$(XDG_CONFIG_HOME)/$$(basename "$$src")"; \
+		if [ -d "$$dst" ] && [ ! -L "$$dst" ]; then \
+			echo "⚠ skip $$dst (real dir; remove it then re-run)"; \
+		else \
+			ln -sfnv "$$src" "$$dst"; \
+		fi; \
+	done
 	@echo "✔ Dotfiles linked"
 
 .PHONY: mkdir

@@ -3,7 +3,12 @@
 [core]
     excludesfile = ~/.gitignore
     editor = nvim
-    pager = delta
+    fsmonitor = true
+    untrackedCache = true
+[init]
+    defaultBranch = main
+[help]
+    autocorrect = prompt
 [pull]
     rebase = true
 [alias]
@@ -27,8 +32,9 @@
     autoSetupRemote = true
 [rebase]
     autoStash = true
+    updateRefs = true
 [merge]
-	conflictstyle = diff3
+    conflictstyle = zdiff3
 [rerere]
     enabled = true
 [diff]
@@ -38,11 +44,9 @@
     sort = -committerdate
 [column]
     ui = auto
-[delta]
-    navigate = true
-    dark = true
-    side-by-side = true
 [commit]
     verbose = true
 [url "git@github.com:"]
-    insteadOf = https://github.com/
+    pushInsteadOf = https://github.com/
+[user]
+	name = dais0n

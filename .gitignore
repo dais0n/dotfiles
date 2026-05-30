@@ -1,13 +1,6 @@
-tags
-.tags
-.Gemfile.lock.tags
 vendor/bundle
 .DS_Store
-.solargraph.yml
-.ruby-version
-.tool-versions
 node_modules
-.claude
 ### Zsh cache ###
 *.zwc
 .zcomp*
@@ -15,6 +8,5 @@ node_modules
 ### for LLMs ###
 .claude
 settings.local.json
-lefthook.yml
 ### Neovim ###
 .nvim.lua

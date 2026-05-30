@@ -1,15 +1,5 @@
 bindkey -e
 
-# prompt
-setopt PROMPT_SUBST
-PS1='%F{green}%n@%m:%F{cyan}%~$(parse_git_branch)
-$ '
-parse_git_branch() {
-  local branch
-  branch=${(%):-"$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"}
-  [[ -n $branch ]] && echo " ($branch)"
-}
-
 # path
 typeset -U path
 path=(
@@ -28,21 +18,17 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 export XDG_CACHE_HOME="$HOME/.cache"
 export WORDCHARS="*?_.[]~-=&;!#$%^(){}<>\'"
-export AWS_PROFILE=saml
+# AWS_PROFILE はリポジトリの .envrc で指定する
 export LS_COLORS="di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32"
+# 拡張子別の色
+LS_COLORS+=":*.7z=01;31:*.arj=01;31:*.bz2=01;31:*.cpio=01;31:*.deb=01;31:*.gz=01;31:*.jar=01;31:*.lz=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.rar=01;31:*.rpm=01;31:*.tar=01;31:*.taz=01;31:*.tbz=01;31:*.tgz=01;31:*.txz=01;31:*.tz=01;31:*.war=01;31:*.xz=01;31:*.z=01;31:*.zip=01;31:*.zst=01;31"
+LS_COLORS+=":*.avif=01;35:*.bmp=01;35:*.gif=01;35:*.heic=01;35:*.ico=01;35:*.jpeg=01;35:*.jpg=01;35:*.png=01;35:*.svg=01;35:*.tif=01;35:*.tiff=01;35:*.webp=01;35:*.avi=01;35:*.flv=01;35:*.m4v=01;35:*.mkv=01;35:*.mov=01;35:*.mp4=01;35:*.mpeg=01;35:*.mpg=01;35:*.webm=01;35:*.wmv=01;35"
+LS_COLORS+=":*.aac=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.mka=00;36:*.mp3=00;36:*.oga=00;36:*.ogg=00;36:*.opus=00;36:*.ra=00;36:*.wav=00;36"
+export LS_COLORS
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 for f in ~/.zsh.d/*.zsh(N); do source "$f"; done
 export EDITOR='nvim'
 export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
-
-AUTH_SOCK="$HOME/.ssh/ssh-auth-sock"
-if [ -S "$AUTH_SOCK" ]; then
-    export SSH_AUTH_SOCK=$AUTH_SOCK
-elif [ ! -S "$SSH_AUTH_SOCK" ]; then
-    export SSH_AUTH_SOCK=$AUTH_SOCK
-elif [ ! -L "$SSH_AUTH_SOCK" ]; then
-    ln -snf "$SSH_AUTH_SOCK" $AUTH_SOCK && export SSH_AUTH_SOCK=$AUTH_SOCK
-fi
 export VISUAL='nvim'
 
 # history
@@ -59,7 +45,6 @@ setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
 setopt HIST_SAVE_NO_DUPS
 setopt INTERACTIVE_COMMENTS
-setopt INC_APPEND_HISTORY
 setopt MAGIC_EQUAL_SUBST
 setopt PRINT_EIGHT_BIT
 setopt NO_FLOW_CONTROL
@@ -106,10 +91,6 @@ zle -N widget::history
 bindkey "^R" widget::history
 bindkey '^[[1;3C' forward-word
 bindkey '^[[1;3D' backward-word
-
-function texc() {
-  platex "$1" && platex "$1" && dvipdfmx "${1%.tex}.dvi" && rm -f ${1%.tex}.{aux,log,dvi}
-}
 
 # alias
 alias k='kubectl'
@@ -178,6 +159,15 @@ fi
 if (( ${+commands[mise]} )); then
   eval "$(mise activate zsh --shims)"
 fi
+
+# prompt
+PURE_PROMPT_SYMBOL='$'
+PURE_CMD_MAX_EXEC_TIME=3
+PURE_GIT_UNTRACKED_DIRTY=0
+PURE_GIT_PULL=0
+zstyle ':prompt:pure:git:stash' show yes
+autoload -U promptinit && promptinit
+prompt pure
 
 # Claude Code prompt editing with tmux popup
 claude-prompt-edit() {

@@ -25,6 +25,7 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.expandtab = true
 vim.opt.autowrite = true
+vim.opt.clipboard = 'unnamedplus'
 vim.env.PATH = vim.env.HOME .. "/.local/share/mise/shims:" .. vim.env.PATH
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>') -- clear on pressing <Esc> in normal mode
@@ -77,7 +78,6 @@ if not vim.uv.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-vim.lsp.config('*', {})
 require("lazy").setup({
   { -- Fuzzy finder
     "folke/snacks.nvim",
@@ -93,9 +93,11 @@ require("lazy").setup({
       input     = { enabled = true },
 
       picker = {
-        grep = { live = true },
-        files = { hidden = true },
         layout = { preset = "bottom" },
+        sources = {
+          grep = { live = true, hidden = true },
+          files = { hidden = true },
+        },
       },
     },
     keys = {
@@ -104,14 +106,15 @@ require("lazy").setup({
       { "<leader>s.", function() require("snacks").picker.recent() end },
       { "<leader>sf", function() require("snacks").picker.files() end },
       { "<leader>sg", function() require("snacks").picker.grep() end },
-      { "<leader>sw", function()
-          local word = vim.fn.expand("<cword>")
-          require("snacks").picker.grep({ search = word })
-        end
-      },
+      { "<leader>sw", function() require("snacks").picker.grep_word() end },
       { "<leader>sd", function() require("snacks").picker.diagnostics() end },
       { "<leader>sh", function() require("snacks").picker.help()        end },
       { "<leader>sk", function() require("snacks").picker.keymaps()     end },
+      { "<leader>ss", function() require("snacks").picker.treesitter()  end },
+      { "<leader>sr", function() require("snacks").picker.resume()      end },
+      { "<leader>gs", function() require("snacks").picker.git_status()   end },
+      { "<leader>gl", function() require("snacks").picker.git_log_file() end },
+      { "<leader>gb", function() require("snacks").picker.git_branches() end },
       { "<leader><leader>", function() require("snacks").picker.buffers() end },
       { "<leader>b", function() require("snacks").picker.lines({ cwd = false }) end},
     },
@@ -134,7 +137,7 @@ require("lazy").setup({
     opts = {
       keymap = { preset = 'default' },
       sources = {
-        default = { 'lsp', 'path', 'buffer' },
+        default = { 'path', 'buffer' },
       },
       cmdline = { enabled = true },
       completion = {
@@ -170,12 +173,22 @@ require("lazy").setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    config = function()
-      require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'go', 'ruby', 'tsx', 'javascript', 'typescript', 'proto' },
-        highlight = { enable = true },
-      }
-    end,
+    opts = {
+      ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'go', 'ruby', 'tsx', 'javascript', 'typescript', 'proto' },
+      highlight = { enable = true },
+    },
+  },
+  { -- sticky context (関数/クラスを上部に固定)
+    'nvim-treesitter/nvim-treesitter-context',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    event = 'BufRead',
+    opts = {
+      max_lines = 3,
+      multiline_threshold = 1,
+    },
+    keys = {
+      { "<leader>tc", "<cmd>TSContextToggle<CR>", desc = "Toggle treesitter context" },
+    },
   },
     { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -247,118 +260,3 @@ require("lazy").setup({
   },
 })
 
-vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(ev)
-    local client = vim.lsp.get_clients({ id = ev.data.client_id })[1]
-    if not client then return end
-
-    local bufnr = ev.buf
-    local map = function(keys, func, desc)
-      vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
-    end
-    map('gd', function() require('snacks').picker.lsp_definitions() end,      'Go to Definition')
-    map('gr', function() require('snacks').picker.lsp_references() end,      'References')
-    map('gi', function() require('snacks').picker.lsp_implementations() end, 'Implementations')
-    map('gt', function() require('snacks').picker.lsp_type_definitions() end, 'Type Definition')
-    map('K',  vim.lsp.buf.hover,          'Hover')
-    map('<leader>ca', vim.lsp.buf.code_action, 'Code Action')
-    map('<leader>rn', vim.lsp.buf.rename,      'Rename')
-    map('<leader>f',  function() vim.lsp.buf.format({ async = true }) end, 'Format')
-    map('<leader>ss', function() require('snacks').picker.lsp_symbols() end, 'LSP Symbols')
-
-    if client.server_capabilities.inlayHintProvider then
-      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-    end
-
-    if client.name == 'typescript-tools' then
-      client.server_capabilities.documentFormattingProvider = false
-    end
-
-  end,
-})
-
-vim.api.nvim_create_autocmd('LspProgress', {
-  callback = function(ev)
-    if ev.data and ev.data.params then
-      local val = ev.data.params.value
-      if val and val.kind == 'end' then
-        local client = vim.lsp.get_clients({ id = ev.data.client_id })[1]
-        if client then
-          vim.notify(client.name .. ': indexing complete', vim.log.levels.INFO)
-        end
-      end
-    end
-  end,
-})
-
-vim.lsp.config('lua_ls', {
-  cmd = { 'lua-language-server' },
-  filetypes = { 'lua' },
-  settings = { Lua = { diagnostics = { globals = { 'vim' } } } },
-})
-
-vim.lsp.config('gopls', {
-  cmd = { 'gopls' },
-  filetypes = { 'go' },
-  root_markers = { 'go.work', 'go.mod', '.git' },
-  settings = {
-    gopls = {
-      analyses = { unusedparams = true, nilness = true, unusedwrite = true, shadow = true },
-      gofumpt   = true,
-    },
-  },
-})
-
-vim.lsp.config('typos_lsp', {
-  cmd = { 'typos-lsp'},
-  init_options = { config = vim.fn.expand('~/.config/typos/.typos.toml') },
-})
-
-vim.lsp.config('ruby_lsp', {
-  cmd = { 'ruby-lsp' },
-  filetypes = { 'ruby', 'eruby' },
-  root_markers = { 'Gemfile', '.git' },
-  single_file_support = true,
-  init_options = {
-    indexing = {
-      excludedPatterns = {
-        '**/vendor/**',
-        '**/tmp/**',
-        '**/log/**',
-        '**/node_modules/**',
-        '**/public/**',
-        '**/spec/**',
-      },
-    },
-    enabledFeatures = {
-      diagnostics = false,
-    },
-  },
-})
-
-vim.lsp.config('clangd', {
-  cmd = { 'clangd', '--background-index', '--clang-tidy' },
-  filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
-  root_markers = { 'compile_commands.json', '.clangd', '.git' },
-})
-
-vim.lsp.enable({ 'lua_ls', 'gopls', 'ruby_lsp', 'typos_lsp', 'clangd' })
-
-vim.api.nvim_create_autocmd('BufWritePre', {
-  pattern = '*.go',
-  callback = function()
-    local params = vim.lsp.util.make_range_params()
-    params.context = { only = { 'source.organizeImports' } }
-    local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params)
-    for cid, res in pairs(result or {}) do
-      for _, r in pairs(res.result or {}) do
-        if r.edit then
-          local client = vim.lsp.get_clients({ id = cid })[1]
-          local enc = client and client.offset_encoding or 'utf-16'
-          vim.lsp.util.apply_workspace_edit(r.edit, enc)
-        end
-      end
-    end
-    vim.lsp.buf.format({ async = false })
-  end,
-})
